@@ -21,6 +21,6 @@ public class SingleChoiceFilter : FilterBase
     {
         if (Value == null) return true;
         var propValue = component.GetType().GetProperty(Name)?.GetValue(component);
-        return propValue?.Equals(Value) == true;
+        return MatchStrategy.IsMatch(propValue, Value);
     }
 }

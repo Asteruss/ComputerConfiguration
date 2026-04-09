@@ -26,14 +26,11 @@ public class RangeFilter : FilterBase
         get => _currentMax;
         set { _currentMax = value; OnPropertyChanged(); OnPropertyChanged(nameof(Value)); }
     }
-    
+
     public override bool Matches(IComponent component)
     {
-        var prop = component.GetType().GetProperty(Name)?.GetValue(component);
-        if (prop is double d)
-            return d >= CurrentMin && d <= CurrentMax;
-        if (prop is int i)
-            return i >= CurrentMin && i <= CurrentMax;
-        return true;
+        var propValue = component.GetType().GetProperty(Name)?.GetValue(component);
+        var range = (CurrentMin, CurrentMax);
+        return MatchStrategy.IsMatch(propValue, range);
     }
 }

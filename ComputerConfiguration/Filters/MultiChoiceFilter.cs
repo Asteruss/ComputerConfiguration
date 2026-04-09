@@ -1,4 +1,5 @@
-﻿using ComputerConfiguration.Models;
+﻿using ComputerConfiguration.Filters.Strategies;
+using ComputerConfiguration.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,9 @@ namespace ComputerConfiguration.Filters;
 
 public class MultiChoiceFilter : FilterBase
 {
+    // Добавлено свойство для стратегии (если его нет в базовом классе)
+    public IMatchStrategy MatchStrategy { get; set; } = new ExactMatchStrategy();
+
     public ObservableCollection<object> Options { get; set; } = new();
     private ObservableCollection<object> _selectedItems;
     public ObservableCollection<object> SelectedItems
@@ -46,6 +50,6 @@ public class MultiChoiceFilter : FilterBase
         var propValue = component.GetType().GetProperty(Name)?.GetValue(component);
         if (propValue == null) return false;
 
-        return SelectedItems.Contains(propValue);
+        return SelectedItems.Any(filterValue => MatchStrategy.IsMatch(propValue, filterValue));
     }
 }

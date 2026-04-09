@@ -1,5 +1,7 @@
-﻿using ComputerConfiguration.Models.Components;
+﻿using ComputerConfiguration.Converters;
+using ComputerConfiguration.Filters.Strategies;
 using ComputerConfiguration.Models;
+using ComputerConfiguration.Models.Components;
 using ComputerConfiguration.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ComputerConfiguration.Converters;
 
 namespace ComputerConfiguration.Filters;
 
@@ -16,14 +17,17 @@ public class ComponentFilterProvider : IComponentFilterProvider
     public IEnumerable<FilterBase> GetFilters(ComponentCategory type, IEnumerable<IComponent> allComponents)
     {
         yield return new SingleChoiceFilter { Name = "Manufacturer", DisplayName = "Производитель",
+            MatchStrategy = new ExactMatchStrategy(),
             Options = allComponents.Select(c => c.Manufacturer).Distinct().ToObservableCollectionObject() };
         yield return new RangeFilter { Name = "BasePrice", DisplayName = "Цена",
+            MatchStrategy = new RangeMatchStrategy(),
             Min = allComponents.Min(c => c.BasePrice), Max = allComponents.Max(c => c.BasePrice)};
 
         switch (type)
         {
             case ComponentCategory.CPU:
                 yield return new MultiChoiceFilter { Name = "CoreCount", DisplayName = "Количество ядер",
+                    MatchStrategy = new ExactMatchStrategy(),
                     Options = allComponents
         .OfType<Cpu>()
         .Select(c => (object)c.CoreCount) 

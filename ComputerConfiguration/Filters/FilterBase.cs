@@ -1,18 +1,15 @@
-﻿using ComputerConfiguration.ViewModels;
+﻿using ComputerConfiguration.Commands;
+using ComputerConfiguration.Filters.Strategies;
 using ComputerConfiguration.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComputerConfiguration.Filters;
 
-public abstract class FilterBase : ViewModelBase
+public abstract class FilterBase : NotifyPropertyChanged
 {
     private object _value;
     public string Name { get; set; }         
-    public string DisplayName { get; set; }   
+    public string DisplayName { get; set; }
+    public IMatchStrategy MatchStrategy { get; set; }
     public object Value
     {
         get => _value;
