@@ -23,7 +23,7 @@ namespace ComputerConfiguration.Models.Build
         public Motherboard? Motherboard { get; set; }
         public List<Ram>? Rams { get; set; }
         public Case? Case { get; set; }
-        public Cooler? Coolor { get; set; }
+        public Cooler? Cooler { get; set; }
         public Psu? Psu { get; set; }
         public List<Storage>? Storages { get; set; }
         public List<AdditionalService>? AdditionalServices { get; set; }
