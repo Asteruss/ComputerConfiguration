@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="ComputerConfiguration.Views.CatalogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ComputerConfiguration.Views"
+             xmlns:converters="clr-namespace:ComputerConfiguration.Converters"  
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:VisibilityConverter x:Key="visibilityConverter"/>
+        <converters:NotVisibilityConverter x:Key="notVisibilityConverter"/>
+
+        <Style x:Key="WrapPanelListBoxStyle" TargetType="ListBox">
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Margin" Value="5"/>
+            <!--<Setter Property="Background" Value="LightBlue"/>-->
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border BorderBrush="Black" CornerRadius="1.5" BorderThickness="1" Padding="2" Margin="2">
+                            <StackPanel
+                             Width="150"   
+                             >
+
+                                <TextBlock Text="{Binding Name}"/>
+
+                                <TextBlock>
+                                 <Run Text="{Binding Rating}"/>
+                                 <Run Text="★" Foreground="Gold"/>
+                                </TextBlock>
+
+                                <DockPanel Height="20">
+                                    <Button DockPanel.Dock="Right" 
+                                         Background="Orange" 
+                                         Width="20" 
+                                         Content="+" 
+                                         Margin="1" 
+                                         Command="{Binding DataContext.SelectComponentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                         CommandParameter="{Binding}"
+                                         BorderBrush="#e38e00"
+                                         />
+
+                                    <TextBlock 
+                                     VerticalAlignment="Center" 
+                                     Margin="1">
+                                     <Run Text="{Binding BasePrice}"/>
+                                     <Run Text=" руб"/>
+                                    </TextBlock>
+                                </DockPanel>
+
+                                <TextBlock Text="Есть в наличие" 
+                                        Foreground="Green"
+                                        Visibility="{Binding InStock, Converter={StaticResource visibilityConverter}}"/>
+
+                                <TextBlock Text="Нет в наличие" 
+                                        Foreground="Gray"
+                                        Visibility="{Binding InStock, Converter={StaticResource notVisibilityConverter}}"/>
+                            </StackPanel>
+                        </Border>
+
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="Focusable" Value="False"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Процессоры:" Margin="2"/>
+            <ListBox Style="{StaticResource WrapPanelListBoxStyle}" ItemsSource="{Binding Cpus}"/>
+            <TextBlock Text="Видеокарты:" Margin="2"/>
+            <ListBox Style="{StaticResource WrapPanelListBoxStyle}" ItemsSource="{Binding Gpus}"/>
+            <TextBlock Text="Материнские платы:" Margin="2"/>
+            <ListBox Style="{StaticResource WrapPanelListBoxStyle}" ItemsSource="{Binding Motherboards}"/>
+            <TextBlock Text="Оперативная память:" Margin="2"/>
+            <ListBox Style="{StaticResource WrapPanelListBoxStyle}" ItemsSource="{Binding Rams}"/>
+            <Button Command="{Binding ToCartCommand}" Height="30" Width="200" Content="Купить"/>
+        </StackPanel>
+        
+    </Grid>
+</UserControl>

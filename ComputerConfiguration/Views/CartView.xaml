@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="ComputerConfiguration.Views.CartView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ComputerConfiguration.Views"
+             xmlns:converters="clr-namespace:ComputerConfiguration.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:IntToBoolConverter x:Key="IntToBoolConverter"/>
+        <converters:StringToBoolConverter x:Key="StringToBoolConverter"/>
+    </UserControl.Resources>
+    <ScrollViewer>
+        <StackPanel>
+            <StackPanel>
+                <GroupBox Header="Дополнительные услуги">
+                    <StackPanel>
+                        <CheckBox IsChecked="{Binding IsWarrantySelected}" Content="Гарантия"/>
+                        <StackPanel Orientation="Horizontal" Margin="20,0,0,0" 
+                    IsEnabled="{Binding IsWarrantySelected}" 
+                    Visibility="{Binding IsWarrantySelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="Срок (лет):" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                            <RadioButton Content="1" GroupName="WarrantyYears" 
+                         IsChecked="{Binding WarrantyYears, Converter={StaticResource IntToBoolConverter}, ConverterParameter=1}"/>
+                            <RadioButton Content="2" GroupName="WarrantyYears" Margin="5,0"
+                         IsChecked="{Binding WarrantyYears, Converter={StaticResource IntToBoolConverter}, ConverterParameter=2}"/>
+                            <RadioButton Content="3" GroupName="WarrantyYears" Margin="5,0"
+                         IsChecked="{Binding WarrantyYears, Converter={StaticResource IntToBoolConverter}, ConverterParameter=3}"/>
+                        </StackPanel>
+                        <CheckBox IsChecked="{Binding IsCableManagementSelected}" 
+          Content="Кабель-менеджмент" Margin="0,5,0,0"/>
+                        <StackPanel Orientation="Horizontal" Margin="20,0,0,0" 
+            IsEnabled="{Binding IsCableManagementSelected}" 
+            Visibility="{Binding IsCableManagementSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="Уровень:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                            <RadioButton Content="Стандартная" GroupName="CableMgmt" 
+                 IsChecked="{Binding CableManagementLevel, Converter={StaticResource StringToBoolConverter}, ConverterParameter=Стандартная}"/>
+                            <RadioButton Content="Черные кабели" GroupName="CableMgmt" Margin="5,0"
+                 IsChecked="{Binding CableManagementLevel, Converter={StaticResource StringToBoolConverter}, ConverterParameter=Черные кабели}"/>
+                            <RadioButton Content="Полная кастомизация" GroupName="CableMgmt" Margin="5,0"
+                 IsChecked="{Binding CableManagementLevel, Converter={StaticResource StringToBoolConverter}, ConverterParameter=Полная кастомизация}"/>
+                        </StackPanel>
+                        <CheckBox IsChecked="{Binding IsOsInstallerSelected}" 
+                  Content="Установка ОС"/>
+                        <StackPanel Orientation="Horizontal" Margin="20,0,0,0" 
+                    IsEnabled="{Binding IsOsInstallerSelected}"
+                    Visibility="{Binding IsOsInstallerSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="Версия ОС:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                            <ComboBox ItemsSource="{Binding OsServiceSelected.AdditionalServiceOptions}"
+                      SelectedItem="{Binding OsOptionSelected}"
+                      DisplayMemberPath="Option"
+                      MinWidth="150"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                </GroupBox>
+
+                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,10"/>
+                <TextBlock Text="{Binding TotalPrice, StringFormat=Итого: {0:C}}" FontWeight="Bold"/>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

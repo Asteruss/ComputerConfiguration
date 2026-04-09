@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="ComputerConfiguration.Views.ComponentSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ComputerConfiguration.Views"
+             xmlns:filters="clr-namespace:ComputerConfiguration.Filters"
+             xmlns:behaviors="clr-namespace:ComputerConfiguration.Behaviors"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" >
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type filters:SingleChoiceFilter}">
+            <StackPanel Orientation="Vertical">
+                <DockPanel>
+                    <TextBlock Text="{Binding DisplayName}" DockPanel.Dock="Left" Width="100" VerticalAlignment="Center"/>
+                    <Button Content="✖" DockPanel.Dock="Right" Command="{Binding ResetCommand}" Width="20" Margin="5,0,0,0"/>
+                </DockPanel>
+
+                <ListBox ItemsSource="{Binding Options}"
+                    SelectionMode="Single"
+                    MaxHeight="120"
+                    Width="200"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    SelectedItem="{Binding Value}"/>        
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type filters:MultiChoiceFilter}">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding DisplayName}" Width="100"/>
+                <ListBox ItemsSource="{Binding Options}"
+                    SelectionMode="Multiple"
+                    MaxHeight="120"
+                    Width="200"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    behaviors:ListBoxBehavior.SelectedItems="{Binding SelectedItems}"/>    
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type filters:RangeFilter}">
+            <StackPanel Orientation="Vertical" Margin="0,2">
+                <TextBlock Text="{Binding DisplayName}" FontWeight="Bold"/>
+
+                <mah:RangeSlider Minimum="{Binding Min}"
+                         Maximum="{Binding Max}"
+                         LowerValue="{Binding CurrentMin, Mode=TwoWay}"
+                         UpperValue="{Binding CurrentMax, Mode=TwoWay}"
+                         IsSnapToTickEnabled="True"
+                         TickFrequency="1"
+                         Width="200"/>
+
+                <TextBlock Margin="0,2">
+            <Run Text="от "/><Run Text="{Binding CurrentMin, StringFormat={}{0:F0}}"/>
+            <Run Text=" до "/><Run Text="{Binding CurrentMax, StringFormat={}{0:F0}}"/>
+                </TextBlock>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+            <Button Content="Сортировать по имени" Command="{Binding SortBy}" CommandParameter="Name"/>
+            <Button Content="Сортировать по цене" Command="{Binding SortBy}" CommandParameter="Price"/>
+            <Button Content="Сортировать по рейтингу" Command="{Binding SortBy}" CommandParameter="Rating"/>
+        </StackPanel>
+        <Border Grid.Column="0" Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Filters}" Margin="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ContentPresenter Content="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="1" BorderBrush="Gray" Background="LightGray" BorderThickness="1" CornerRadius="4" Margin="5">
+            <ListBox ItemsSource="{Binding FilteredComponents}"
+             Background="Transparent"
+             BorderThickness="0"
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="5" Margin="0,2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                        <TextBlock Text="Производитель: " Foreground="Gray"/>
+                                        <TextBlock Text="{Binding Manufacturer}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Цена: " Foreground="Gray"/>
+                                        <TextBlock Text="{Binding BasePrice, StringFormat={}{0:C}}"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <Button Grid.Column="1" 
+                                Content="Выбрать"
+                                Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                CommandParameter="{Binding}"
+                                Padding="8,3"
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+    </Grid>
+</UserControl>

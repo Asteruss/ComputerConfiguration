@@ -1,0 +1,48 @@
+﻿using ComputerConfiguration.Models.Authentication;
+using ComputerConfiguration.Models.Build;
+using ComputerConfiguration.Models.Components;
+using ComputerConfiguration.Models.Orders;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ComputerConfiguration.DB
+{
+    public class ComputerConfigurationDBContext : DbContext
+    {
+        public DbSet<Cpu> Cpus { get; set; }
+        public DbSet<Gpu> Gpus { get; set; }
+        public DbSet<Case> Cases { get; set; }
+        public DbSet<Motherboard> Motherboards { get; set; }
+        public DbSet<Psu> Psus { get; set; }
+        public DbSet<Ram> Rams { get; set; }
+        public DbSet<Storage> Storages { get; set; }
+        public DbSet<Cooler> Coolers { get; set; }
+        public DbSet<ComputerBuild> ComputerBuilds { get; set; }
+        public DbSet<AdditionalService> AdditionalServices { get; set; }
+        public DbSet<AdditionalServiceOption> AdditionalServiceOptions { get; set; }
+        public DbSet<ServiceType> ServiceTypes { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Order> Orders { get;set; }
+        public ComputerConfigurationDBContext()
+        {
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=ComputerConfigurationDB;Trusted_Connection=True;\r\n");
+            base.OnConfiguring(optionsBuilder);
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
+    }
+}
