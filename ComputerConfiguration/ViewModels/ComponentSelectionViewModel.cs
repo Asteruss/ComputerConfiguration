@@ -75,7 +75,7 @@ public class ComponentSelectionViewModel : ViewModelBase
         get => _selectCommand ?? (_selectCommand = new((component) =>
         {
             if (component is Cpu cpu)
-                _builder.SetCpu(cpu);
+               _builder.SetCpu(cpu);
             if (component is Gpu gpu)
                 _builder.SetGpu(gpu);
             if (component is Motherboard mot)

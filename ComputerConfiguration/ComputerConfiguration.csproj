@@ -6,12 +6,20 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <StartupObject>ComputerConfiguration.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Icons\comp.png" />
+    <Compile Remove="Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Icons\account-icon.png" />
+    <None Remove="Icons\basket-icon.png" />
+    <None Remove="Icons\favourite-icon.png" />
     <None Remove="Icons\processor.png" />
   </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
@@ -21,8 +29,15 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
   </ItemGroup>
 
+  
   <ItemGroup>
-    <Resource Include="Icons\comp.png">
+    <Resource Include="Icons\account-icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\basket-icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\favourite-icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\processor.png">

@@ -1,60 +1,75 @@
-﻿using ComputerConfiguration.Builder;
-using ComputerConfiguration.DB;
-using ComputerConfiguration.DTO;
-using ComputerConfiguration.Filters;
-using ComputerConfiguration.Models;
-using ComputerConfiguration.Models.Catalog;
-using ComputerConfiguration.Repositories;
-using ComputerConfiguration.Services.Authentication;
-using ComputerConfiguration.Services.Navigation;
-using ComputerConfiguration.ViewModels;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
+﻿//using ComputerConfiguration.Builder;
+//using ComputerConfiguration.DB;
+//using ComputerConfiguration.DTO;
+//using ComputerConfiguration.Filters;
+//using ComputerConfiguration.Models;
+//using ComputerConfiguration.Models.Catalog;
+//using ComputerConfiguration.Repositories;
+//using ComputerConfiguration.Services.Authentication;
+//using ComputerConfiguration.Services.Navigation;
+//using ComputerConfiguration.ViewModels;
+//using Microsoft.EntityFrameworkCore;
+//using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.Extensions.Hosting;
+//using System;
+//using System.Windows;
 
-namespace ComputerConfiguration
-{
-    public class Program
-    {
-        [STAThread]
-        public static void Main()
-        {
-            var host = Host.CreateDefaultBuilder()
-                .ConfigureServices(services =>
-                {
-                    services.AddSingleton<App>();
+//namespace ComputerConfiguration;
 
-                    //бд
-                    services.AddDbContext<ComputerConfigurationDBContext>();
+//public class Program
+//{
+//    [STAThread]
+//    public static void Main()
+//    {
+//        var host = Host.CreateDefaultBuilder()
+//            .ConfigureServices(services =>
+//            {
+//                services.AddSingleton<App>();
 
-                    //навигация
-                    services.AddSingleton<NavigationStore>();
-                    services.AddSingleton<INavigationTarget>(sp => sp.GetRequiredService<NavigationStore>());
-                    services.AddSingleton<INavigationService, NavigationService>();
-                    services.AddSingleton<IAuthService, AuthService>();
+//                //бд
+//                services.AddDbContext<ComputerConfigurationDBContext>();
 
-                    //
-                    services.AddSingleton<IComputerBuildDtoBuilder, ComputerBuildDtoBuilder>();
-                    services.AddSingleton<ComponentCatalog>();
+//                //навигация
+//                services.AddSingleton<NavigationStore>();
+//                services.AddSingleton<INavigationTarget>(sp => sp.GetRequiredService<NavigationStore>());
+//                services.AddSingleton<INavigationService, NavigationService>();
+//                services.AddSingleton<IAuthService, AuthService>();
 
-                    services.AddSingleton<IServiceRepository, InMemoryServiceRepository>();
+//                //
+//                services.AddSingleton<IComputerBuildDtoBuilder, ComputerBuildDtoBuilder>();
+//                services.AddSingleton<ComponentCatalog>();
 
-                    services.AddSingleton<IComponentFilterProvider, ComponentFilterProvider>();
+//                services.AddSingleton<IServiceRepository, InMemoryServiceRepository>();
 
-                    //view и vm
-                    services.AddSingleton<MainWindow>();
-                    services.AddSingleton<MainViewModel>();
-                    services.AddTransient<HomeViewModel>();
-                    services.AddTransient<CatalogViewModel>();
-                    services.AddTransient<CartViewModel>();
-                    services.AddTransient<ComponentSelectionViewModel>();
+//                services.AddSingleton<IComponentFilterProvider, ComponentFilterProvider>();
 
-                })
-                .Build();
+//                //view и vm
+//                services.AddSingleton<MainWindow>();
+//                services.AddSingleton<MainViewModel>();
+//                services.AddTransient<HomeViewModel>();
+//                services.AddTransient<CatalogViewModel>();
+//                services.AddTransient<CartViewModel>();
+//                services.AddTransient<ComponentSelectionViewModel>();
 
-            var app = host.Services.GetService<App>();
-            app?.Run();
-        }
-    }
-}
+//            })
+//            .Build();
+
+//        var app = host.Services.GetService<App>();
+//        app.Resources = _mergeStyles();
+//        app?.Run();
+//    }
+
+//    private static ResourceDictionary _mergeStyles()
+//    {
+//        var mergedDictionaries = new ResourceDictionary();
+//        mergedDictionaries.MergedDictionaries.Add(new ResourceDictionary()
+//        {
+//            Source = new Uri("IconTextButtonStyle.xaml", UriKind.RelativeOrAbsolute)
+//        });
+//        mergedDictionaries.MergedDictionaries.Add(new ResourceDictionary()
+//        {
+//            Source = new Uri("ButtonStyle.xaml", UriKind.RelativeOrAbsolute)
+//        });
+//        return mergedDictionaries;
+//    }
+//}

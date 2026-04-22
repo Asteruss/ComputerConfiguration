@@ -22,7 +22,7 @@ namespace ComputerConfiguration.ViewModels
     {
         
         public RelayCommand GoToCatalogCommand { get; set; }
-        public HomeViewModel(INavigationService navigationService, ComputerBuildDTO build, ComponentCatalog catalog)
+        public HomeViewModel(INavigationService navigationService)
         {
             GoToCatalogCommand = new((component) =>
             {

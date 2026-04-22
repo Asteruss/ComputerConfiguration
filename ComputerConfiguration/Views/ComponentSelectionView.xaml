@@ -21,7 +21,7 @@
                     MaxHeight="120"
                     Width="200"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                    SelectedItem="{Binding Value}"/>        
+                    SelectedItem="{Binding Value}"/>
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="{x:Type filters:MultiChoiceFilter}">

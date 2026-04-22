@@ -35,7 +35,7 @@ namespace ComputerConfiguration.ViewModels
         }
         public MainViewModel(INavigationService navigationService, NavigationStore navigationStore, IComputerBuildDtoBuilder builder, ComponentCatalog catalog)
         {
-            navigationService.NavigateTo<CatalogViewModel>();
+            navigationService.NavigateTo<HomeViewModel>();
             NavigationStore = navigationStore;
             _navigationService = navigationService;
             _builder = builder;

@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:ComputerConfiguration.Views"
              xmlns:converters="clr-namespace:ComputerConfiguration.Converters"  
              mc:Ignorable="d">
-    
+    <StackPanel>
+        <Label Content="Приветсвенная страница" FontSize="40"/>
+    </StackPanel>
    
 </UserControl>
