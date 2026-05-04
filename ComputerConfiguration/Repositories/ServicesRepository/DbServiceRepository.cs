@@ -7,16 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComputerConfiguration.Repositories
+namespace ComputerConfiguration.Repositories.ServicesRepository
 {
-    public class ServiceRepository : IServiceRepository
+    public class DbServiceRepository : IServiceRepository
     {
         private readonly ComputerConfigurationDBContext _db;
-        public ServiceRepository(ComputerConfigurationDBContext db)
+        public DbServiceRepository(ComputerConfigurationDBContext db)
         {
             _db = db;
         }
-        public IEnumerable<ServiceType> GetServiceTypes() => _db.ServiceTypes;
         public IEnumerable<AdditionalService> GetAdditionalServices() => 
             _db.AdditionalServices.Include(a => a.AdditionalServiceOptions).ToList();
     }

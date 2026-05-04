@@ -25,7 +25,6 @@ namespace ComputerConfiguration.DB
         public DbSet<ComputerBuild> ComputerBuilds { get; set; }
         public DbSet<AdditionalService> AdditionalServices { get; set; }
         public DbSet<AdditionalServiceOption> AdditionalServiceOptions { get; set; }
-        public DbSet<ServiceType> ServiceTypes { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Address> Addresses { get; set; }

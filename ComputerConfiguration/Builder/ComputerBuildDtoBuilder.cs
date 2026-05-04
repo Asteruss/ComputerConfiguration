@@ -38,14 +38,15 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
     public void RemoveStorage(Storage storage) => _dto.Storages.Remove(storage);
     public void ClearStorages() => _dto.Storages.Clear();
 
-    public void AddAdditionalService(AdditionalService service) => _dto.SelectedAdditionalServices.Add(service);
-    public void RemoveAdditionalService(AdditionalService service) => _dto.SelectedAdditionalServices.Remove(service);
+    public void AddAdditionalService(AdditionalServiceOption service) => _dto.SelectedAdditionalServices.Add(service);
+    public void RemoveAdditionalService(AdditionalServiceOption service)
+    {
+        if (_dto.SelectedAdditionalServices.Contains(service))
+            _dto.SelectedAdditionalServices.Remove(service);
+    }
     public void ClearAdditionalServices() => _dto.SelectedAdditionalServices.Clear();
 
-    public ComputerBuildDTO BuildDto()
-    {
-        return _dto;
-    }
+    public ComputerBuildDTO BuildDto() => _dto;
 
     public ComputerBuild BuildFinal()
     {
@@ -57,8 +58,8 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
             Case = _dto.Case,
             Cooler = _dto.Cooler,
             Psu = _dto.Psu,
-            Rams = _dto.Rams?.ToList() ?? new List<Ram>(),
-            Storages = _dto.Storages?.ToList() ?? new List<Storage>(),
+            Rams = _dto.Rams?.ToList() ?? [],
+            Storages = _dto.Storages?.ToList() ?? [],
             AdditionalServices = _dto.SelectedAdditionalServices?.ToList() ?? []
         };
         return build;

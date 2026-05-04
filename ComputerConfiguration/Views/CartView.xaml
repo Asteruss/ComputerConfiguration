@@ -4,62 +4,113 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ComputerConfiguration.Views"
+             xmlns:model="clr-namespace:ComputerConfiguration.Models.Build"
              xmlns:converters="clr-namespace:ComputerConfiguration.Converters"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:IntToBoolConverter x:Key="IntToBoolConverter"/>
         <converters:StringToBoolConverter x:Key="StringToBoolConverter"/>
+        <DataTemplate x:Key="SingleOptionTemplate"
+                      DataType="{x:Type model:AdditionalService}">
+            <StackPanel>
+                <CheckBox Content="{Binding Name}"/>
+            </StackPanel>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="MultiOptionTemplate"
+                      DataType="{x:Type model:AdditionalService}">
+            <StackPanel>
+                <CheckBox Content="{Binding Name}" x:Name="cb"/>
+                <ItemsControl ItemsSource="{Binding AdditionalServiceOptions}"
+                              Visibility="{Binding ElementName=cb, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton Content="{Binding Option}" 
+                                         GroupName="{Binding AdditionalService.Name}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.RebuildOnCheckCommand, 
+                                            RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                               CommandParameter="{Binding}"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="Unchecked">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.RebuildOnUncheckCommand, 
+                                            RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                               CommandParameter="{Binding}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </RadioButton>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ListOptionTemplate"
+              DataType="{x:Type model:AdditionalService}">
+            <StackPanel>
+                <CheckBox Content="{Binding Name}" x:Name="cb"/>
+                <ComboBox x:Name="cbList"
+                          ItemsSource="{Binding AdditionalServiceOptions}"
+                          DisplayMemberPath="Option"
+                          Visibility="{Binding ElementName=cb, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                          SelectedIndex="0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding DataContext.RebuildOnCheckCommand, 
+                                RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                   CommandParameter="{Binding SelectedItem, ElementName=cbList}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </StackPanel>
+        </DataTemplate>
+
     </UserControl.Resources>
     <ScrollViewer>
         <StackPanel>
             <StackPanel>
-                <GroupBox Header="Дополнительные услуги">
-                    <StackPanel>
-                        <CheckBox IsChecked="{Binding IsWarrantySelected}" Content="Гарантия"/>
-                        <StackPanel Orientation="Horizontal" Margin="20,0,0,0" 
-                    IsEnabled="{Binding IsWarrantySelected}" 
-                    Visibility="{Binding IsWarrantySelected, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Text="Срок (лет):" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                            <RadioButton Content="1" GroupName="WarrantyYears" 
-                         IsChecked="{Binding WarrantyYears, Converter={StaticResource IntToBoolConverter}, ConverterParameter=1}"/>
-                            <RadioButton Content="2" GroupName="WarrantyYears" Margin="5,0"
-                         IsChecked="{Binding WarrantyYears, Converter={StaticResource IntToBoolConverter}, ConverterParameter=2}"/>
-                            <RadioButton Content="3" GroupName="WarrantyYears" Margin="5,0"
-                         IsChecked="{Binding WarrantyYears, Converter={StaticResource IntToBoolConverter}, ConverterParameter=3}"/>
-                        </StackPanel>
-                        <CheckBox IsChecked="{Binding IsCableManagementSelected}" 
-          Content="Кабель-менеджмент" Margin="0,5,0,0"/>
-                        <StackPanel Orientation="Horizontal" Margin="20,0,0,0" 
-            IsEnabled="{Binding IsCableManagementSelected}" 
-            Visibility="{Binding IsCableManagementSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Text="Уровень:" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                            <RadioButton Content="Стандартная" GroupName="CableMgmt" 
-                 IsChecked="{Binding CableManagementLevel, Converter={StaticResource StringToBoolConverter}, ConverterParameter=Стандартная}"/>
-                            <RadioButton Content="Черные кабели" GroupName="CableMgmt" Margin="5,0"
-                 IsChecked="{Binding CableManagementLevel, Converter={StaticResource StringToBoolConverter}, ConverterParameter=Черные кабели}"/>
-                            <RadioButton Content="Полная кастомизация" GroupName="CableMgmt" Margin="5,0"
-                 IsChecked="{Binding CableManagementLevel, Converter={StaticResource StringToBoolConverter}, ConverterParameter=Полная кастомизация}"/>
-                        </StackPanel>
-                        <CheckBox IsChecked="{Binding IsOsInstallerSelected}" 
-                  Content="Установка ОС"/>
-                        <StackPanel Orientation="Horizontal" Margin="20,0,0,0" 
-                    IsEnabled="{Binding IsOsInstallerSelected}"
-                    Visibility="{Binding IsOsInstallerSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Text="Версия ОС:" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                            <ComboBox ItemsSource="{Binding OsServiceSelected.AdditionalServiceOptions}"
-                      SelectedItem="{Binding OsOptionSelected}"
-                      DisplayMemberPath="Option"
-                      MinWidth="150"/>
-                        </StackPanel>
+                <TextBlock Text="Выбранные компоненты">
 
-                    </StackPanel>
-                </GroupBox>
+                </TextBlock>
 
-                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,10"/>
-                <TextBlock Text="{Binding TotalPrice, StringFormat=Итого: {0:C}}" FontWeight="Bold"/>
             </StackPanel>
+            <GroupBox Header="Дополнительные услуги">
+                <ItemsControl ItemsSource="{Binding AllServices}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ContentControl Content="{Binding}">
+                                <ContentControl.Style>
+                                    <Style TargetType="{x:Type ContentControl}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding OptionType}" Value="0">
+                                                <Setter Property="ContentTemplate" Value="{StaticResource SingleOptionTemplate}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding OptionType}" Value="1">
+                                                <Setter Property="ContentTemplate" Value="{StaticResource MultiOptionTemplate}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding OptionType}" Value="2">
+                                                <Setter Property="ContentTemplate" Value="{StaticResource ListOptionTemplate}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ContentControl.Style>
+                            </ContentControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                   
+                </ItemsControl>
+            </GroupBox>
+
+            <TextBlock Text="{Binding Description}" 
+                       TextWrapping="Wrap" 
+                       Margin="0,10"/>
+            <TextBlock Text="{Binding TotalPrice, StringFormat=Итого: {0:C}}" 
+                       FontWeight="Bold"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

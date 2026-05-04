@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ComputerConfiguration.Models.Build
 {
-    public class ComputerBuild : IBuild
+    public class ComputerBuild
     {
         public int Id { get; set; }
         public int CaseId { get; set; }
@@ -21,33 +21,15 @@ namespace ComputerConfiguration.Models.Build
         public Cpu? Cpu { get; set; }
         public Gpu? Gpu { get; set; }
         public Motherboard? Motherboard { get; set; }
-        public List<Ram>? Rams { get; set; }
+        public List<Ram>? Rams { get; set; } = new();
         public Case? Case { get; set; }
         public Cooler? Cooler { get; set; }
         public Psu? Psu { get; set; }
-        public List<Storage>? Storages { get; set; }
-        public List<AdditionalService>? AdditionalServices { get; set; }
+        public List<Storage>? Storages { get; set; } = new();
+        public List<AdditionalServiceOption>? AdditionalServices { get; set; } = new();
         public int? OrderId { get; set; }
         public Order? Order { get; set; }
-        public double GetTotalPrice()
-        {
-            double total = 0;
-            if (Cpu != null) total += Cpu.BasePrice;
-            if (Gpu != null) total += Gpu.BasePrice;
-            if (Motherboard != null) total += Motherboard.BasePrice;
-            if (Rams != null) 
-                total += Rams.Sum(r => r.BasePrice);
-            return total;
-        }
 
-        public string GetDescription()
-        {
-            var parts = new List<string>();
-            if (Cpu != null) parts.Add($"CPU: {Cpu.Name}");
-            if (Gpu != null) parts.Add($"GPU: {Gpu.Name}");
-            if (Motherboard != null) parts.Add($"Motherboard: {Motherboard.Name}");
-            return parts.Any() ? string.Join(", ", parts) + "\n" : "Пустая сборка";
-        }
 
     }
 }

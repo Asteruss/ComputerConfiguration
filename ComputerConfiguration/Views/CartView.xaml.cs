@@ -24,5 +24,6 @@ namespace ComputerConfiguration.Views
         {
             InitializeComponent();
         }
+
     }
 }

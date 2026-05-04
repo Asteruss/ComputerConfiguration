@@ -33,6 +33,12 @@ namespace ComputerConfiguration.ViewModels
             get => _goToGpuCatalogCommand ?? (_goToGpuCatalogCommand = new((obj) =>
             _navigationService.NavigateTo<ComponentSelectionViewModel>(_catalog.Gpus, ComponentCategory.GPU)));
         }
+        private RelayCommand _goToCartCommand;
+        public RelayCommand GoToCartCommand
+        {
+            get => _goToCartCommand ?? (_goToCartCommand = new((obj) =>
+            _navigationService.NavigateTo<CartViewModel>()));
+        }
         public MainViewModel(INavigationService navigationService, NavigationStore navigationStore, IComputerBuildDtoBuilder builder, ComponentCatalog catalog)
         {
             navigationService.NavigateTo<HomeViewModel>();

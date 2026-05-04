@@ -63,4 +63,15 @@ namespace ComputerConfiguration.Models.Enums
         Case,
         Cooler
     }
+    public enum OptionType
+    {
+        SingleOption,
+        MultiOption,
+        ListOption
+    }
+    public enum ChoiceType
+    {
+        SingleChoice,
+        MultiChoice
+    }
 }

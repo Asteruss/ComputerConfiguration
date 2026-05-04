@@ -53,9 +53,14 @@
                 <TextBlock Text="Конфигуратор компьютера 3000" Grid.Column="0" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                 <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
-                    <controls:IconTextButton Text="Избранное" Icon="/Icons/favourite-icon.png"/>
-                    <controls:IconTextButton Text="Корзина" Icon="/Icons/basket-icon.png"/>
-                    <controls:IconTextButton Text="Аккаунт" Icon="/Icons/account-icon.png"/>
+                    <controls:IconTextButton Text="Избранное" 
+                                             Icon="/Icons/favourite-icon.png"
+                                             />
+                    <controls:IconTextButton Text="Корзина" 
+                                             Icon="/Icons/basket-icon.png"
+                                             Command="{Binding GoToCartCommand}"/>
+                    <controls:IconTextButton Text="Аккаунт" 
+                                             Icon="/Icons/account-icon.png"/>
                 </StackPanel>
                 
 

@@ -107,15 +107,14 @@ public class ComputerBuildDTO : NotifyPropertyChanged
         }
     }
 
-    private List<AdditionalService> _selectedAdditionalServices = new();
-    public List<AdditionalService> SelectedAdditionalServices
+    private List<AdditionalServiceOption> _selectedAdditionalServices = new();
+    public List<AdditionalServiceOption> SelectedAdditionalServices
     {
         get => _selectedAdditionalServices; set
         {
             _selectedAdditionalServices = value;
             OnPropertyChanged();
             OnPropertyChanged(nameof(IsSelectedAdditionalService));
-            OnPropertyChanged(nameof(IsSelectedAnything));
         }
     }
 
@@ -132,6 +131,5 @@ public class ComputerBuildDTO : NotifyPropertyChanged
 
     // Общий флаг
     public bool IsSelectedAnything => IsSelectedCpu || IsSelectedGpu || IsSelectedMotherboard || IsSelectedRam ||
-                                      IsSelectedCase || IsSelectedCooler || IsSelectedPsu || IsSelectedStorage ||
-                                      IsSelectedAdditionalService;
+                                      IsSelectedCase || IsSelectedCooler || IsSelectedPsu || IsSelectedStorage;
 }

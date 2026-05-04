@@ -2,7 +2,7 @@
 using ComputerConfiguration.DB;
 using ComputerConfiguration.Filters;
 using ComputerConfiguration.Models.Catalog;
-using ComputerConfiguration.Repositories;
+using ComputerConfiguration.Repositories.ServicesRepository;
 using ComputerConfiguration.Services.Authentication;
 using ComputerConfiguration.Services.Navigation;
 using ComputerConfiguration.ViewModels;

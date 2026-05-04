@@ -24,7 +24,6 @@ public static class ListBoxBehavior
     private static void OnSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is ListBox listBox)
-        {
             listBox.SelectionChanged += (sender, args) =>
             {
                 var items = GetSelectedItems(listBox);
@@ -32,6 +31,6 @@ public static class ListBoxBehavior
                 foreach (var item in listBox.SelectedItems)
                     items?.Add(item);
             };
-        }
+
     }
 }
