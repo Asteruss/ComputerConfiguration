@@ -74,4 +74,9 @@ namespace ComputerConfiguration.Models.Enums
         SingleChoice,
         MultiChoice
     }
+    public enum OperationType
+    {
+        Earn,
+        Spent
+    }
 }
