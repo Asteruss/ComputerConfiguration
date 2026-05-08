@@ -1,6 +1,7 @@
 ﻿using ComputerConfiguration.DTO;
 using ComputerConfiguration.Models.Build;
 using ComputerConfiguration.Models.Components;
+using System.Collections.ObjectModel;
 namespace ComputerConfiguration.Builder;
 
 
@@ -22,9 +23,12 @@ public interface IComputerBuildDtoBuilder
     void RemoveStorage(Storage storage);
     void ClearStorages();
 
-    void AddAdditionalService(AdditionalServiceOption service);
-    void RemoveAdditionalService(AdditionalServiceOption service);
+    event Action? SelectedServicesChanged;
+    void AddAdditionalOption(AdditionalServiceOption option);
+    void RemoveAdditionalOption(AdditionalServiceOption option);
+    void RemoveAdditionalOptions(AdditionalService service);
     void ClearAdditionalServices();
+    public ObservableCollection<AdditionalServiceOption> GetSelectedAdditionalServices();
 
     ComputerBuildDTO BuildDto();
     ComputerBuild BuildFinal();

@@ -6,46 +6,40 @@ using ComputerConfiguration.Repositories.ServicesRepository;
 using ComputerConfiguration.Services.Navigation;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 
-namespace ComputerConfiguration.ViewModels
+namespace ComputerConfiguration.ViewModels;
+
+public class CartViewModel : ViewModelBase
 {
-    public class CartViewModel : ViewModelBase
+    private readonly INavigationService _navigationService;
+    public IComputerBuildDtoBuilder ComputerBuilder;
+    public ObservableCollection<ServiceSelectionViewModel> ServiceItems { get; } = new();
+
+    private double _totalPrice;
+    public double TotalPrice
     {
-        private readonly INavigationService _navigationService;
-        public IComputerBuildDtoBuilder ComputerBuild;
-        public ObservableCollection<AdditionalService> AllServices { get; set; }
-        //private RelayCommand _buyCommand;
-        //public RelayCommand BuyCommand
-        //{
-        //    get => _buyCommand ?? new RelayCommand((obj) =>
-        //    {
+        get => _totalPrice;
+        set
+        {
+            _totalPrice = value;
+            OnPropertyChanged();
+        }
+    }
 
-        //    });
-        //}
+    public void RecalculateTotalPrice()
+    {
+        var comp = ComputerBuilder.BuildFinal();
+        TotalPrice = comp.AdditionalServices.Sum(a => a.AdditionalPrice);
+    }
 
-        private RelayCommand _rebuildOnCheckCommand;
-        public RelayCommand RebuildOnCheckCommand
-        {
-            get => _rebuildOnCheckCommand ?? (_rebuildOnCheckCommand = new RelayCommand(option =>
-            {
-                if (option is AdditionalServiceOption opt)
-                    ComputerBuild.AddAdditionalService(opt);
-            }));
-        }
-        private RelayCommand _rebuildOnUncheckCommand;
-        public RelayCommand RebuildOnUncheckCommand
-        {
-            get => _rebuildOnUncheckCommand ?? (_rebuildOnUncheckCommand = new RelayCommand(option =>
-            {
-                if (option is AdditionalServiceOption opt)
-                    ComputerBuild.RemoveAdditionalService(opt);
-            }));
-        }
-        public CartViewModel(INavigationService navigationService, IComputerBuildDtoBuilder builder, IServiceRepository services)
-        {
-            _navigationService = navigationService;
-            ComputerBuild = builder;
-            AllServices = services.GetAdditionalServices().ToObservableCollection();
-        }
+    public CartViewModel(INavigationService navigationService, IComputerBuildDtoBuilder builder, IServiceRepository services)
+    {
+        _navigationService = navigationService;
+        ComputerBuilder = builder;
+        var allServices = services.GetAdditionalServices();
+        foreach (var service in allServices)
+            ServiceItems.Add(new ServiceSelectionViewModel(service, builder));
+        ComputerBuilder.SelectedServicesChanged += () => RecalculateTotalPrice();
     }
 }

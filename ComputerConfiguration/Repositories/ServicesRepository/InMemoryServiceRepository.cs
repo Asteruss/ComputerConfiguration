@@ -15,9 +15,28 @@ namespace ComputerConfiguration.Repositories.ServicesRepository
             var osService = _getOsService();
             var warranyService = _getWarrantyYearsService();
             var cableService = _getCableManagementService();
+            var testService = new AdditionalService()
+            {
+                Id = 4,
+                Description = "Проверка",
+                OptionType = OptionType.SingleOption,
+                Name = "Проверка",
+
+            };
+            testService.AdditionalServiceOptions = new List<AdditionalServiceOption>()
+                {
+                    new AdditionalServiceOption()
+                    {
+                        AdditionalPrice = 1000,
+                        Option = "Проверка",
+                        Id = 100,
+                        AdditionalService = testService,
+                        AdditionalServiceId = 4
+                    }
+                };
 
 
-            return [osService, warranyService, cableService];
+            return [osService, warranyService, cableService, testService];
         }
 
         private AdditionalService _getWarrantyYearsService()

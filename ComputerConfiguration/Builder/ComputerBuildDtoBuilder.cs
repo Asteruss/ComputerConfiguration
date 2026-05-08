@@ -1,8 +1,10 @@
-﻿using ComputerConfiguration.DTO;
+﻿using ComputerConfiguration.Converters;
+using ComputerConfiguration.DTO;
 using ComputerConfiguration.Models.Build;
 using ComputerConfiguration.Models.Components;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,13 +40,37 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
     public void RemoveStorage(Storage storage) => _dto.Storages.Remove(storage);
     public void ClearStorages() => _dto.Storages.Clear();
 
-    public void AddAdditionalService(AdditionalServiceOption service) => _dto.SelectedAdditionalServices.Add(service);
-    public void RemoveAdditionalService(AdditionalServiceOption service)
+    public event Action? SelectedServicesChanged;
+    private void OnSelectedServicesChanged() => SelectedServicesChanged?.Invoke();
+    public void AddAdditionalOption(AdditionalServiceOption option)
     {
-        if (_dto.SelectedAdditionalServices.Contains(service))
-            _dto.SelectedAdditionalServices.Remove(service);
+        _dto.SelectedAdditionalServices.Add(option);
+        OnSelectedServicesChanged();
     }
+
+    public void RemoveAdditionalOption(AdditionalServiceOption option)
+    {
+        if (_dto.SelectedAdditionalServices.Contains(option))
+        {
+            _dto.SelectedAdditionalServices.Remove(option);
+            OnSelectedServicesChanged();
+        }
+    }
+
+    public void RemoveAdditionalOptions(AdditionalService service)
+    {
+        var toRemove = _dto.SelectedAdditionalServices
+            .Where(o => o.AdditionalServiceId == service.Id)
+            .ToList();
+        foreach (var opt in toRemove)
+            _dto.SelectedAdditionalServices.Remove(opt);
+        
+        if (toRemove.Any())
+            OnSelectedServicesChanged();
+    }
+
     public void ClearAdditionalServices() => _dto.SelectedAdditionalServices.Clear();
+    public ObservableCollection<AdditionalServiceOption> GetSelectedAdditionalServices() => _dto.SelectedAdditionalServices.ToObservableCollection();
 
     public ComputerBuildDTO BuildDto() => _dto;
 
