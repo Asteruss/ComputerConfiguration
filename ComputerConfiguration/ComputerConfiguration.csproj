@@ -10,7 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Catalog\**" />
+    <EmbeddedResource Remove="Models\Catalog\**" />
+    <None Remove="Models\Catalog\**" />
+    <Page Remove="Models\Catalog\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Program.cs" />
+    <Compile Remove="ViewModels\CatalogViewModel.cs" />
+    <Compile Remove="Views\CatalogView.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +27,10 @@
     <None Remove="Icons\basket-icon.png" />
     <None Remove="Icons\favourite-icon.png" />
     <None Remove="Icons\processor.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Views\CatalogView.xaml" />
   </ItemGroup>
 
 

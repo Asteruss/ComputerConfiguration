@@ -48,15 +48,15 @@
                          Width="200"/>
 
                 <TextBlock Margin="0,2">
-            <Run Text="от "/><Run Text="{Binding CurrentMin, StringFormat={}{0:F0}}"/>
-            <Run Text=" до "/><Run Text="{Binding CurrentMax, StringFormat={}{0:F0}}"/>
+                    <Run Text="от "/><Run Text="{Binding CurrentMin, StringFormat={}{0:F0}}"/>
+                    <Run Text=" до "/><Run Text="{Binding CurrentMax, StringFormat={}{0:F0}}"/>
                 </TextBlock>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="8*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -69,7 +69,7 @@
             <Button Content="Сортировать по рейтингу" Command="{Binding SortBy}" CommandParameter="Rating"/>
         </StackPanel>
         <Border Grid.Column="0" Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding Filters}" Margin="5">
+            <ItemsControl ItemsSource="{Binding Filters}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <ContentPresenter Content="{Binding}"/>
@@ -77,14 +77,13 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Border>
-        <Border Grid.Column="1" Grid.Row="1" BorderBrush="Gray" Background="LightGray" BorderThickness="1" CornerRadius="4" Margin="5">
-            <ListBox ItemsSource="{Binding FilteredComponents}"
-             Background="Transparent"
-             BorderThickness="0"
-             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemTemplate>
+        <Border Grid.Column="1" Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding FilteredComponents}"
+                     Background="Transparent"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="5" Margin="0,2">
+                        <Border>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -104,17 +103,17 @@
                                 </StackPanel>
 
                                 <Button Grid.Column="1" 
-                                Content="Выбрать"
-                                Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}"
-                                Padding="8,3"
-                                Margin="5,0,0,0"
-                                VerticalAlignment="Center"/>
+                                        Content="Выбрать"
+                                        Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}"
+                                        Padding="8,3"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Border>
     </Grid>
 </UserControl>

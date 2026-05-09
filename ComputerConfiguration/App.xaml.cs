@@ -1,7 +1,7 @@
 ﻿using ComputerConfiguration.Builder;
 using ComputerConfiguration.DB;
 using ComputerConfiguration.Filters;
-using ComputerConfiguration.Models.Catalog;
+using ComputerConfiguration.Repositories.ComponentRepository;
 using ComputerConfiguration.Repositories.ServicesRepository;
 using ComputerConfiguration.Services.Authentication;
 using ComputerConfiguration.Services.Build;
@@ -27,9 +27,9 @@ public partial class App : Application
                 services.AddSingleton<INavigationTarget>(sp => sp.GetRequiredService<NavigationStore>());
                 
                 services.AddSingleton<IComputerBuildDtoBuilder, ComputerBuildDtoBuilder>();
-                services.AddSingleton<ComponentCatalog>();
                 services.AddSingleton<IServiceRepository, InMemoryServiceRepository>();
                 services.AddSingleton<IComponentFilterProvider, ComponentFilterProvider>();
+                services.AddSingleton<IComponentRepository, InMemoryComponentRepository>();
 
                 // services
                 services.AddSingleton<INavigationService, NavigationService>();
@@ -43,7 +43,6 @@ public partial class App : Application
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainViewModel>();
                 services.AddTransient<HomeViewModel>();
-                services.AddTransient<CatalogViewModel>();
                 services.AddTransient<CartViewModel>();
                 services.AddTransient<ComponentSelectionViewModel>();
             })

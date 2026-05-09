@@ -5,12 +5,7 @@ using ComputerConfiguration.Filters;
 using ComputerConfiguration.Models;
 using ComputerConfiguration.Models.Components;
 using ComputerConfiguration.Models.Enums;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComputerConfiguration.ViewModels;
 
@@ -28,7 +23,7 @@ public class ComponentSelectionViewModel : ViewModelBase
     {
         get => _sortBy ?? (_sortBy = new RelayCommand((param) =>
         {
-            string field = param as string;
+            string? field = param as string;
             if (string.IsNullOrEmpty(field)) return;
 
             if (_lastSortField == field)
@@ -44,21 +39,21 @@ public class ComponentSelectionViewModel : ViewModelBase
             {
                 case "Name":
                     if (_ascending)
-                        sorted = sorted.OrderBy(c => c.Name).ToList();
+                        sorted = [.. sorted.OrderBy(c => c.Name)];
                     else
-                        sorted = sorted.OrderByDescending(c => c.Name).ToList();
+                        sorted = [.. sorted.OrderByDescending(c => c.Name)];
                     break;
                 case "Price":
                     if (_ascending)
-                        sorted = sorted.OrderBy(c => c.BasePrice).ToList();
+                        sorted = [.. sorted.OrderBy(c => c.BasePrice)];
                     else
-                        sorted = sorted.OrderByDescending(c => c.BasePrice).ToList();
+                        sorted = [.. sorted.OrderByDescending(c => c.BasePrice)];
                     break;
                 case "Rating":
                     if (_ascending)
-                        sorted = sorted.OrderBy(c => c.Rating).ToList();
+                        sorted = [.. sorted.OrderBy(c => c.Rating)];
                     else
-                        sorted = sorted.OrderByDescending(c => c.Rating).ToList();
+                        sorted = [.. sorted.OrderByDescending(c => c.Rating)];
                     break;
                 default:
                     return;
@@ -72,7 +67,7 @@ public class ComponentSelectionViewModel : ViewModelBase
     private RelayCommand _selectCommand;
     public RelayCommand SelectCommand
     {
-        get => _selectCommand ?? (_selectCommand = new((component) =>
+        get => _selectCommand ??= new((component) =>
         {
             if (component is Cpu cpu)
                _builder.SetCpu(cpu);
@@ -82,7 +77,15 @@ public class ComponentSelectionViewModel : ViewModelBase
                 _builder.SetMotherboard(mot);
             if (component is Ram ram)
                 _builder.AddRam(ram);
-        }));
+            if (component is Cooler cooler)
+                _builder.SetCooler(cooler);
+            if (component is Psu psu)
+                _builder.SetPsu(psu);
+            if (component is Case case_)
+                _builder.SetCase(case_);
+            if (component is Storage storage)
+                _builder.AddStorage(storage);
+        });
     }
     public ComponentSelectionViewModel(IEnumerable<IComponent> components, IComponentFilterProvider filterProvider, ComponentCategory category, IComputerBuildDtoBuilder builder)
     {

@@ -2,6 +2,7 @@
 using ComputerConfiguration.Models.Build;
 using ComputerConfiguration.Models.Components;
 using ComputerConfiguration.Models.Orders;
+using ComputerConfiguration.Models.Orders.Bonus;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,9 @@ namespace ComputerConfiguration.DB
         public DbSet<Role> Roles { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Order> Orders { get;set; }
+        public DbSet<CoolerSocket> CoolerSockets { get; set; }
+        public DbSet<BonusHistory> BonusHistory { get; set; }
+        public DbSet<PrivilegeLevel> PrivilegeLevels { get; set; }
         public ComputerConfigurationDBContext()
         {
             Database.EnsureDeleted();

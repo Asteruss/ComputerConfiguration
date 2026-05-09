@@ -2,7 +2,6 @@
 using ComputerConfiguration.Converters;
 using ComputerConfiguration.DTO;
 using ComputerConfiguration.Models;
-using ComputerConfiguration.Models.Catalog;
 using ComputerConfiguration.Models.Components;
 using ComputerConfiguration.Services.Navigation;
 using ComputerConfiguration.Views;
@@ -20,14 +19,6 @@ namespace ComputerConfiguration.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
-        
-        public RelayCommand GoToCatalogCommand { get; set; }
-        public HomeViewModel(INavigationService navigationService)
-        {
-            GoToCatalogCommand = new((component) =>
-            {
-                navigationService.NavigateTo<CatalogViewModel>();
-            });
-        }
+
     }
 }

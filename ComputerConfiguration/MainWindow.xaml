@@ -14,9 +14,6 @@
         <DataTemplate DataType="{x:Type viewModels:HomeViewModel}">
             <views:HomeView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:CatalogViewModel}">
-            <views:CatalogView/>
-        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:CartViewModel}">
             <views:CartView/>
         </DataTemplate>
@@ -86,12 +83,12 @@
         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center">
             <Button Width="100" Command="{Binding GoToCpuCatalogCommand}" Content="CPU"/>
             <Button Width="100" Command="{Binding GoToGpuCatalogCommand}" Content="GPU"/>
-            <Button Width="100" Command="{Binding }" Content="Motherboard"/>
-            <Button Width="100" Command="{Binding }" Content="Ram"/>
-            <Button Width="100" Command="{Binding }" Content="Psu"/>
-            <Button Width="100" Command="{Binding }" Content="Storages"/>
-            <Button Width="100" Command="{Binding }" Content="Cooler"/>
-            <Button Width="100" Command="{Binding }" Content="Case"/>
+            <Button Width="100" Command="{Binding GoToMotherboardCatalogCommand}" Content="Motherboard"/>
+            <Button Width="100" Command="{Binding GoToRamCatalogCommand}" Content="Ram"/>
+            <Button Width="100" Command="{Binding GoToPsuCatalogCommand}" Content="Psu"/>
+            <Button Width="100" Command="{Binding GoToStorageCatalogCommand}" Content="Storages"/>
+            <Button Width="100" Command="{Binding GoToCoolerCatalogCommand}" Content="Cooler"/>
+            <Button Width="100" Command="{Binding GoToCaseCatalogCommand}" Content="Case"/>
         </StackPanel>
         <Border Grid.Column="1" Grid.Row="2" Background="LightBlue">
             <ContentControl Content="{Binding DataContext.NavigationStore.CurrentViewModel, RelativeSource={RelativeSource AncestorType=Window}}"/>

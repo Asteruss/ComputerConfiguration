@@ -2,9 +2,8 @@
 using ComputerConfiguration.Commands;
 using ComputerConfiguration.Converters;
 using ComputerConfiguration.DTO;
-using ComputerConfiguration.Models;
-using ComputerConfiguration.Models.Catalog;
 using ComputerConfiguration.Models.Components;
+using ComputerConfiguration.Repositories.ComponentRepository;
 using ComputerConfiguration.Services.Navigation;
 using System;
 using System.Collections.Generic;
@@ -36,13 +35,13 @@ namespace ComputerConfiguration.ViewModels
         {
             get => _toCartCommand ?? new((obj) => _navigationService.NavigateTo<CartViewModel>());
         }
-        public CatalogViewModel(INavigationService navigationService, IComputerBuildDtoBuilder builder, ComponentCatalog catalog)
+        public CatalogViewModel(INavigationService navigationService, IComputerBuildDtoBuilder builder, IComponentRepository components)
         {
             _navigationService = navigationService;
-            Cpus = catalog.Cpus.ToObservableCollection();
-            Gpus = catalog.Gpus.ToObservableCollection();
-            Motherboards = catalog.Motherboards.ToObservableCollection();
-            Rams = catalog.Rams.ToObservableCollection();
+            Cpus = components.GetCpus().ToObservableCollection();
+            Gpus = components.GetGpus().ToObservableCollection();
+            Motherboards = components.GetMotherboards().ToObservableCollection();
+            Rams = components.GetRam().ToObservableCollection();
             _builder = builder;
             SelectComponentCommand = new((component) =>
             {

@@ -8,10 +8,10 @@ namespace ComputerConfiguration.Models.Enums
 {
     public enum CaseFormFactor
     {
-        S,
-        M,
-        L,
-        XL
+        MidTower,
+        FullTower,
+        MicroAtx,
+        MiniItx
     }
 
     public enum CoolerType

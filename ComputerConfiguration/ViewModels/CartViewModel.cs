@@ -44,5 +44,6 @@ public class CartViewModel : ViewModelBase
         foreach (var service in allServices)
             ServiceItems.Add(new ServiceSelectionViewModel(service, builder));
         ComputerBuilder.SelectedServicesChanged += () => RecalculateTotalPrice();
+        RecalculateTotalPrice();
     }
 }

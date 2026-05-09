@@ -1,6 +1,5 @@
 ﻿using ComputerConfiguration.Models;
 using ComputerConfiguration.Models.Enums;
-using ComputerConfiguration.Models.Catalog;
 
 
 namespace ComputerConfiguration.Filters;
