@@ -15,15 +15,15 @@ public class OrderFacade
         _bonusService = bonusService;
         _dtoBuilder = dtoBuilder;
     }
-    private List<IComponent> GetComponents()
+    private List<ComponentBase> GetComponents()
     {
-        var comp = _dtoBuilder.BuildFinal();
+        var comp = _dtoBuilder.BuildDto();
         return [comp.Cpu, comp.Gpu, comp.Psu, comp.Cooler, comp.Case, comp.Motherboard, ..comp.Rams, ..comp.Storages];
     }
     public double GetFinalPrice(bool useBonuses = false)
     {
-        var comp = _dtoBuilder.BuildFinal();
-        double price = _pricingService.GetPriceForComponents(GetComponents()) + _pricingService.GetPriceForAdditiontalOptions(comp.AdditionalServices!);
+        var comp = _dtoBuilder.BuildDto();
+        double price = _pricingService.GetPriceForComponents(GetComponents()) + _pricingService.GetPriceForAdditiontalOptions(comp.SelectedAdditionalServices!);
         //if (useBonuses)
         //    price = _bonusService.GetMaxBonusToSpend(user, price);
         return price;

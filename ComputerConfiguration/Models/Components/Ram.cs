@@ -17,5 +17,6 @@ namespace ComputerConfiguration.Models.Components
         public string Timing { get; set; }
         public double Voltage { get; set; }
         public List<ComputerBuild> ComputerBuilds { get; set; }
+        public Ram ShallowCopy() => (Ram)this.MemberwiseClone();
     }
 }

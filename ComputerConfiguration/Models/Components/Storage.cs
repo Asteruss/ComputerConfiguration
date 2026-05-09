@@ -17,5 +17,7 @@ namespace ComputerConfiguration.Models.Components
         public int WriteSpeed { get; set; }
         public List<ComputerBuild> ComputerBuilds { get; set; }
         public string FormFactor { get; set; }
+        public Storage ShallowCopy() => (Storage)this.MemberwiseClone();
+
     }
 }

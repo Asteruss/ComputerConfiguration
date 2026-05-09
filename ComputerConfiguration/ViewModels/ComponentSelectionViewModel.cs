@@ -70,7 +70,7 @@ public class ComponentSelectionViewModel : ViewModelBase
         get => _selectCommand ??= new((component) =>
         {
             if (component is Cpu cpu)
-               _builder.SetCpu(cpu);
+                _builder.SetCpu(cpu);
             if (component is Gpu gpu)
                 _builder.SetGpu(gpu);
             if (component is Motherboard mot)
@@ -87,7 +87,67 @@ public class ComponentSelectionViewModel : ViewModelBase
                 _builder.AddStorage(storage);
         });
     }
-    public ComponentSelectionViewModel(IEnumerable<IComponent> components, IComponentFilterProvider filterProvider, ComponentCategory category, IComputerBuildDtoBuilder builder)
+
+    private RelayCommand _selectFakeCommand;
+    public RelayCommand SelectFakeCommand
+    {
+        get => _selectFakeCommand ??= new((component) =>
+        {
+            if (component is Cpu cpu)
+                _builder.SetFakeCpu(cpu);
+            if (component is Gpu gpu)
+                _builder.SetFakeGpu(gpu);
+            if (component is Motherboard mot)
+                _builder.SetFakeMotherboard(mot);
+            if (component is Ram ram)
+                _builder.AddFakeRam(ram);
+            if (component is Cooler cooler)
+                _builder.SetFakeCooler(cooler);
+            if (component is Psu psu)
+                _builder.SetFakePsu(psu);
+            if (component is Case case_)
+                _builder.SetFakeCase(case_);
+            if (component is Storage storage)
+                _builder.AddFakeStorage(storage);
+
+        });
+    }
+    private RelayCommand _removeCommand;
+    public RelayCommand RemoveCommand
+    {
+        get => _removeCommand ??= new((component) =>
+        {
+            if (component is Cpu cpu)
+                _builder.RemoveCpu(cpu);
+            if (component is Gpu gpu)
+                _builder.RemoveGpu(gpu);
+            if (component is Motherboard mot)
+                _builder.RemoveMotherboard(mot);
+            if (component is Ram ram)
+                _builder.ClearRams(ram);
+            if (component is Cooler cooler)
+                _builder.RemoveCooler(cooler);
+            if (component is Psu psu)
+                _builder.RemovePsu(psu);
+            if (component is Case case_)
+                _builder.RemoveCase(case_);
+            if (component is Storage storage)
+                _builder.ClearStorages(storage);
+        });
+    }
+    private RelayCommand _removeFakeCommand;
+    public RelayCommand RemoveFakeCommand
+    {
+        get => _removeFakeCommand ??= new((component) =>
+        {
+            if (component is Ram ram)
+                _builder.ClearFakeRams(ram);
+            if (component is Storage storage)
+                _builder.ClearFakeStorages(storage);
+        });
+    }
+    public ComponentSelectionViewModel(IEnumerable<IComponent> components, IComponentFilterProvider filterProvider,
+        ComponentCategory category, IComputerBuildDtoBuilder builder)
     {
         _components = [.. components];
         FilteredComponents = _components.ToObservableCollection();

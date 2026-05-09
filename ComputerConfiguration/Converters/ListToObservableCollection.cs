@@ -12,4 +12,5 @@ namespace ComputerConfiguration.Converters
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> lst) => new(lst);
         public static ObservableCollection<object> ToObservableCollectionObject<T>(this IEnumerable<T> lst) where T : class => new ObservableCollection<object>(lst);
     }
+
 }

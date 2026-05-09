@@ -32,7 +32,7 @@
                     MaxHeight="120"
                     Width="200"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                    behaviors:ListBoxBehavior.SelectedItems="{Binding SelectedItems}"/>    
+                    behaviors:ListBoxBehavior.SelectedItems="{Binding SelectedItems}"/>
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="{x:Type filters:RangeFilter}">
@@ -52,6 +52,11 @@
                     <Run Text=" до "/><Run Text="{Binding CurrentMax, StringFormat={}{0:F0}}"/>
                 </TextBlock>
             </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ButtomRemove">
+            <Button Content="Удалить"
+            Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            CommandParameter="{Binding}"/>
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
@@ -79,11 +84,11 @@
         </Border>
         <Border Grid.Column="1" Grid.Row="1">
             <ItemsControl ItemsSource="{Binding FilteredComponents}"
-                     Background="Transparent"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+              Background="Transparent"
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border>
+                        <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="5" Margin="0,2">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -102,13 +107,81 @@
                                     </StackPanel>
                                 </StackPanel>
 
-                                <Button Grid.Column="1" 
-                                        Content="Выбрать"
-                                        Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                        CommandParameter="{Binding}"
-                                        Padding="8,3"
-                                        Margin="5,0,0,0"
-                                        VerticalAlignment="Center"/>
+                                <ContentControl Grid.Column="1" Content="{Binding}">
+                                    <ContentControl.Style>
+                                        <Style TargetType="ContentControl">
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Button Content="Выбрать"
+                                                        Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}"/>
+                                                            <Button Content="Выбрать как свое"
+                                                        Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}" Margin="5,0,0,0"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ComponentStatus}" Value="1">
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource ButtomRemove}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentStatus}" Value="2">
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource ButtomRemove}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentStatus}" Value="3">
+                                                    <Setter Property="ContentTemplate">
+                                                        <Setter.Value>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <Button Content="Выбрать"
+Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+CommandParameter="{Binding}"/>
+                                                                    <Button Content="Выбрать как свое"
+Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+CommandParameter="{Binding}"/>
+
+                                                                    <Button Content="Очистить "
+                                                                        Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                        CommandParameter="{Binding}"/>
+                                                                    <Button Content="Очистить свои"
+    Command="{Binding DataContext.RemoveFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+    CommandParameter="{Binding}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentStatus}" Value="4">
+                                                    <Setter Property="ContentTemplate">
+                                                        <Setter.Value>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <Button Content="Очистить "
+                                                                    Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    CommandParameter="{Binding}"/>
+                                                                    <Button Content="Очистить свои"
+Command="{Binding DataContext.RemoveFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+CommandParameter="{Binding}"/>
+                                                                    <Button Content="Выбрать"
+Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+CommandParameter="{Binding}"/>
+                                                                    <Button Content="Выбрать как свое"
+Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+CommandParameter="{Binding}"/>
+
+                                                                    
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentControl.Style>
+                                </ContentControl>
                             </Grid>
                         </Border>
                     </DataTemplate>

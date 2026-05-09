@@ -80,4 +80,14 @@ namespace ComputerConfiguration.Models.Enums
         Earn,
         Spent
     }
+    public enum ComponentStatus
+    {
+        NotSelected,
+        Selected,
+        // есть у пользователя, однако требуется использовать для проверки
+        SelectedAsFake,
+        // если есть выбор нескольких
+        SelectedMany,
+        SelectedManyAsFake,
+    }
 }

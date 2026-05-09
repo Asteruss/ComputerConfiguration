@@ -3,13 +3,8 @@ using ComputerConfiguration.Models.Build;
 using ComputerConfiguration.Models.Components;
 using ComputerConfiguration.Models.Orders;
 using ComputerConfiguration.Models.Orders.Bonus;
+using ComputerConfiguration.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComputerConfiguration.DB
 {
@@ -46,6 +41,8 @@ namespace ComputerConfiguration.DB
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ComponentBase>().Ignore(c => c.ComponentStatus);
+
         }
     }
 }
