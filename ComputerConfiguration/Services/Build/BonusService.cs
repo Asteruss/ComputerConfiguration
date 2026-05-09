@@ -9,12 +9,12 @@ public class BonusService
 {
     // дo order
     public int GetBonuses(User user) => user.Balance;
-    public int GetMaxBonusToEarn(PrivilegeLevel level, int price)
-            => price * level.PercentGet / 100;
-    public int GetMaxBonusToSpend(User user, int price)
-            => Math.Min(price * user.PrivilegeLevel.PercentSpend / 100, user.Balance);
+    public int GetMaxBonusToEarn(PrivilegeLevel level, double price)
+            => (int)price * level.PercentGet / 100;
+    public int GetMaxBonusToSpend(User user, double price)
+            => (int)Math.Min(price * user.PrivilegeLevel.PercentSpend / 100, user.Balance);
 
-    public int GetNewPrice(User user, int price) => price - GetMaxBonusToSpend(user, price);
+    public double GetNewPrice(User user, double price) => price - GetMaxBonusToSpend(user, price);
     // после order
     public BonusHistory EarnBonuses(User user, Order order)
     {

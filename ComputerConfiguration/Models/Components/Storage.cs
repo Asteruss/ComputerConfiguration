@@ -10,12 +10,12 @@ namespace ComputerConfiguration.Models.Components
 {
     public class Storage : ComponentBase
     {
-        //public int Id { get; set; }
         public StorageType StorageType { get; set; }
         public int Capacity { get; set; }
         public string Interface { get; set; }
         public int ReadSpeed { get; set; }
         public int WriteSpeed { get; set; }
         public List<ComputerBuild> ComputerBuilds { get; set; }
+        public string FormFactor { get; set; }
     }
 }

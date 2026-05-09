@@ -22,10 +22,11 @@ namespace ComputerConfiguration.Models.Enums
 
     public enum StorageType
     {
-        SSD,
         HDD,
         NVMe,
-        SATA_SSD
+        SATA_SSD,
+        M2_SSD,
+      
     }
 
     public enum MemoryType

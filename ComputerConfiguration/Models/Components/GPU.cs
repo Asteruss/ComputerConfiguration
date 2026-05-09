@@ -9,8 +9,6 @@ namespace ComputerConfiguration.Models.Components
 {
     public class Gpu : ComponentBase
     {
-        //public int Id { get; set; }
-
         public int MemorySize { get; set; }
         public string MemoryType { get; set; }
         public int CoreClock { get; set; }
@@ -21,5 +19,7 @@ namespace ComputerConfiguration.Models.Components
         public int HdmiPorts { get; set; }
         public int DisplayPorts { get; set; }
         public List<ComputerBuild> ComputerBuilds { get; set; }
+        public string PcieVersion { get; set; }
+        public int WidthSlots { get; set; }
     }
 }

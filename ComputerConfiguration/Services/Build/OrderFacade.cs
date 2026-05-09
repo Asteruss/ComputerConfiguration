@@ -1,9 +1,31 @@
-﻿namespace ComputerConfiguration.Services.Build;
+﻿using ComputerConfiguration.Builder;
+using ComputerConfiguration.Models;
+using ComputerConfiguration.Models.Authentication;
+
+namespace ComputerConfiguration.Services.Build;
 
 public class OrderFacade
 {
-    public double GetFinalPrice()
+    private readonly IComputerBuildDtoBuilder _dtoBuilder;
+    private readonly PricingService _pricingService;
+    private readonly BonusService _bonusService;
+    public OrderFacade(PricingService pricingService, BonusService bonusService, IComputerBuildDtoBuilder dtoBuilder)
     {
-        return 0;
+        _pricingService = pricingService;
+        _bonusService = bonusService;
+        _dtoBuilder = dtoBuilder;
+    }
+    private List<IComponent> GetComponents()
+    {
+        var comp = _dtoBuilder.BuildFinal();
+        return [comp.Cpu, comp.Gpu, comp.Psu, comp.Cooler, comp.Case, comp.Motherboard, ..comp.Rams, ..comp.Storages];
+    }
+    public double GetFinalPrice(bool useBonuses = false)
+    {
+        var comp = _dtoBuilder.BuildFinal();
+        double price = _pricingService.GetPriceForComponents(GetComponents()) + _pricingService.GetPriceForAdditiontalOptions(comp.AdditionalServices!);
+        //if (useBonuses)
+        //    price = _bonusService.GetMaxBonusToSpend(user, price);
+        return price;
     }
 }

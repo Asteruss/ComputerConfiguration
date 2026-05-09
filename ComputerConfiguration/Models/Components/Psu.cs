@@ -11,8 +11,6 @@ namespace ComputerConfiguration.Models.Components
 {
     public class Psu : ComponentBase
     {
-        //public int Id { get; set; }
-
         public int Wattage { get; set; }
         public EfficiencyRating EfficiencyRating { get; set; }
         public bool Modular { get; set; }

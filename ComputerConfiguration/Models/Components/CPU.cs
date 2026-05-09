@@ -9,8 +9,6 @@ namespace ComputerConfiguration.Models.Components
 {
     public class Cpu : ComponentBase
     {
-        //public int Id { get; set; }
-
         public int CoreCount { get; set; }
         public int ThreadCount { get; set; }
         public double BaseClock { get; set; }
@@ -18,6 +16,8 @@ namespace ComputerConfiguration.Models.Components
         public bool IntegratedGraphics { get; set; }
         public string Series { get; set; }
         public int MaxMemorySpeed { get; set; }
+        public string Socket { get; set; }
+        public int Tdp { get; set; }
         public List<ComputerBuild> ComputerBuilds { get; set; }
     }
 }

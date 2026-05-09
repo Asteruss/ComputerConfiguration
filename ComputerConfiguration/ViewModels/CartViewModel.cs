@@ -3,6 +3,7 @@ using ComputerConfiguration.Commands;
 using ComputerConfiguration.Converters;
 using ComputerConfiguration.Models.Build;
 using ComputerConfiguration.Repositories.ServicesRepository;
+using ComputerConfiguration.Services.Build;
 using ComputerConfiguration.Services.Navigation;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -14,6 +15,7 @@ public class CartViewModel : ViewModelBase
 {
     private readonly INavigationService _navigationService;
     public IComputerBuildDtoBuilder ComputerBuilder;
+    private readonly OrderFacade _orderFacade;
     public ObservableCollection<ServiceSelectionViewModel> ServiceItems { get; } = new();
 
     private double _totalPrice;
@@ -29,14 +31,15 @@ public class CartViewModel : ViewModelBase
 
     public void RecalculateTotalPrice()
     {
-        var comp = ComputerBuilder.BuildFinal();
-        TotalPrice = comp.AdditionalServices.Sum(a => a.AdditionalPrice);
+        TotalPrice = _orderFacade.GetFinalPrice();
     }
 
-    public CartViewModel(INavigationService navigationService, IComputerBuildDtoBuilder builder, IServiceRepository services)
+    public CartViewModel(INavigationService navigationService, IComputerBuildDtoBuilder builder, 
+        IServiceRepository services, OrderFacade orderFacade)
     {
         _navigationService = navigationService;
         ComputerBuilder = builder;
+        _orderFacade = orderFacade;
         var allServices = services.GetAdditionalServices();
         foreach (var service in allServices)
             ServiceItems.Add(new ServiceSelectionViewModel(service, builder));

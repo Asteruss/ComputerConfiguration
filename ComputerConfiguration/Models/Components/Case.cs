@@ -10,7 +10,6 @@ namespace ComputerConfiguration.Models.Components
 {
     public class Case : ComponentBase
     {
-        //public int Id { get; set; }
         public string Color { get; set; }
         public int MaxGpuLength { get; set; }
         public int MaxCoolerHeight { get; set; }
@@ -18,6 +17,8 @@ namespace ComputerConfiguration.Models.Components
         public string RadiatorSupport { get; set; }
         public string SidePanel { get; set; }
         public CaseFormFactor CaseSize { get; set; }
+        public string SupportedMotherboardFormFactors { get; set; }
+        public int MaxGpuWidthSlots { get; set; }
         public List<ComputerBuild> ComputerBuilds { get; set; }
     }
 }

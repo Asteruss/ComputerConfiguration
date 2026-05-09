@@ -8,7 +8,7 @@ namespace ComputerConfiguration.Models.Orders
     {
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
-        public int Price { get; set; }
+        public double Price { get; set; }
         public int? ComputerBuildId { get; set; }
         public int? UserId { get; set; }
         public int? AddressId { get; set; }

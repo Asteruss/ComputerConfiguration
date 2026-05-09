@@ -4,6 +4,7 @@ using ComputerConfiguration.Filters;
 using ComputerConfiguration.Models.Catalog;
 using ComputerConfiguration.Repositories.ServicesRepository;
 using ComputerConfiguration.Services.Authentication;
+using ComputerConfiguration.Services.Build;
 using ComputerConfiguration.Services.Navigation;
 using ComputerConfiguration.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,12 +25,19 @@ public partial class App : Application
                 services.AddDbContext<ComputerConfigurationDBContext>();
                 services.AddSingleton<NavigationStore>();
                 services.AddSingleton<INavigationTarget>(sp => sp.GetRequiredService<NavigationStore>());
-                services.AddSingleton<INavigationService, NavigationService>();
-                services.AddSingleton<IAuthService, AuthService>();
+                
                 services.AddSingleton<IComputerBuildDtoBuilder, ComputerBuildDtoBuilder>();
                 services.AddSingleton<ComponentCatalog>();
                 services.AddSingleton<IServiceRepository, InMemoryServiceRepository>();
                 services.AddSingleton<IComponentFilterProvider, ComponentFilterProvider>();
+
+                // services
+                services.AddSingleton<INavigationService, NavigationService>();
+                services.AddSingleton<IAuthService, AuthService>();
+                services.AddSingleton<BonusService>();
+                services.AddSingleton<PricingService>();
+                services.AddSingleton<OrderService>();
+                services.AddSingleton<OrderFacade>();
 
                 // ViewModels и окна
                 services.AddSingleton<MainWindow>();

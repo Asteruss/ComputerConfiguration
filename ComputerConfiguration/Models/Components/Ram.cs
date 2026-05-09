@@ -9,8 +9,6 @@ namespace ComputerConfiguration.Models.Components
 {
     public class Ram : ComponentBase
     {
-        //public int Id { get; set; }
-
         public string MemoryType { get; set; }
         public int Capacity { get; set; }
         public int Speed { get; set; }

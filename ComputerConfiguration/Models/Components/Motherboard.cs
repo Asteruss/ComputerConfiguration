@@ -9,8 +9,6 @@ namespace ComputerConfiguration.Models.Components
 {
     public class Motherboard : ComponentBase
     {
-        //public int Id { get; set; }
-
         public string Chipset { get; set; }
         public string MemoryType { get; set; }
         public int MemorySlots { get; set; }
@@ -22,5 +20,8 @@ namespace ComputerConfiguration.Models.Components
         public bool IntegratedWifi { get; set; }
         public bool IntegratedBluetooth { get; set; }
         public List<ComputerBuild> ComputerBuilds { get; set; }
+        public string Socket { get; set; }
+        public string FormFactor { get; set; }
+        public int PowerConsumption { get; set; }
     }
 }
