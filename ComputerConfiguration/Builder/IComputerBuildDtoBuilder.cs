@@ -1,6 +1,7 @@
 ﻿using ComputerConfiguration.DTO;
 using ComputerConfiguration.Models.Build;
 using ComputerConfiguration.Models.Components;
+using ComputerConfiguration.Models.Enums;
 using System.Collections.ObjectModel;
 namespace ComputerConfiguration.Builder;
 
@@ -8,29 +9,27 @@ namespace ComputerConfiguration.Builder;
 public interface IComputerBuildDtoBuilder
 {
     void Reset();
-    void SetCpu(Cpu cpu);
+    void SetCpu(Cpu cpu, ComponentStatus status = ComponentStatus.Selected);
     void RemoveCpu(Cpu cpu);
-    void SetGpu(Gpu gpu);
+    void SetGpu(Gpu gpu, ComponentStatus status = ComponentStatus.Selected);
     void RemoveGpu(Gpu gpu);
-    void SetMotherboard(Motherboard motherboard);
+    void SetMotherboard(Motherboard motherboard, ComponentStatus status = ComponentStatus.Selected);
     void RemoveMotherboard(Motherboard motherboard);
-    void SetCase(Case caseComponent);
+    void SetCase(Case caseComponent, ComponentStatus status = ComponentStatus.Selected);
     void RemoveCase(Case caseComponent);
-    void SetCooler(Cooler cooler);
+    void SetCooler(Cooler cooler, ComponentStatus status = ComponentStatus.Selected);
     void RemoveCooler(Cooler cooler);
-    void SetPsu(Psu psu);
+    void SetPsu(Psu psu, ComponentStatus status = ComponentStatus.Selected);
     void RemovePsu(Psu psu);
 
 
-    void AddRam(Ram ram);
+    void AddRam(Ram ram, ComponentStatus status = ComponentStatus.SelectedMany);
     void RemoveRam(Ram ram);
-    void ClearRams(Ram ramReal);
-    void ClearFakeRams(Ram ramReal);
+    void ClearRams(Ram ramReal, ComponentStatus status = ComponentStatus.SelectedMany);
 
-    void AddStorage(Storage storage);
+    void AddStorage(Storage storage, ComponentStatus status = ComponentStatus.SelectedMany);
     void RemoveStorage(Storage storage);
-    void ClearStorages(Storage realStorage);
-    void ClearFakeStorages(Storage realStorage);
+    void ClearStorages(Storage realStorage, ComponentStatus status = ComponentStatus.SelectedMany);
 
     event Action? SelectedServicesChanged;
     void AddAdditionalOption(AdditionalServiceOption option);
@@ -38,16 +37,6 @@ public interface IComputerBuildDtoBuilder
     void RemoveAdditionalOptions(AdditionalService service);
     void ClearAdditionalServices();
     public ObservableCollection<AdditionalServiceOption> GetSelectedAdditionalServices();
-
-    void SetFakeCpu(Cpu cpu);
-    void SetFakeGpu(Gpu gpu);
-    void SetFakeMotherboard(Motherboard motherboard);
-    void SetFakeCase(Case caseComponent);
-    void SetFakeCooler(Cooler cooler);
-    void SetFakePsu(Psu psu);
-    void AddFakeRam(Ram ram);
-    void AddFakeStorage(Storage storage);
-
 
     ComputerBuildDTO BuildDto();
     ComputerBuild BuildFinal();

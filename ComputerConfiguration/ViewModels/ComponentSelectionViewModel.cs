@@ -94,21 +94,21 @@ public class ComponentSelectionViewModel : ViewModelBase
         get => _selectFakeCommand ??= new((component) =>
         {
             if (component is Cpu cpu)
-                _builder.SetFakeCpu(cpu);
+                _builder.SetCpu(cpu, ComponentStatus.SelectedAsFake);
             if (component is Gpu gpu)
-                _builder.SetFakeGpu(gpu);
+                _builder.SetGpu(gpu, ComponentStatus.SelectedAsFake);
             if (component is Motherboard mot)
-                _builder.SetFakeMotherboard(mot);
+                _builder.SetMotherboard(mot, ComponentStatus.SelectedAsFake);
             if (component is Ram ram)
-                _builder.AddFakeRam(ram);
+                _builder.AddRam(ram, ComponentStatus.SelectedManyAsFake);
             if (component is Cooler cooler)
-                _builder.SetFakeCooler(cooler);
+                _builder.SetCooler(cooler, ComponentStatus.SelectedAsFake);
             if (component is Psu psu)
-                _builder.SetFakePsu(psu);
+                _builder.SetPsu(psu, ComponentStatus.SelectedAsFake);
             if (component is Case case_)
-                _builder.SetFakeCase(case_);
+                _builder.SetCase(case_, ComponentStatus.SelectedAsFake);
             if (component is Storage storage)
-                _builder.AddFakeStorage(storage);
+                _builder.AddStorage(storage, ComponentStatus.SelectedManyAsFake);
 
         });
     }
@@ -141,9 +141,9 @@ public class ComponentSelectionViewModel : ViewModelBase
         get => _removeFakeCommand ??= new((component) =>
         {
             if (component is Ram ram)
-                _builder.ClearFakeRams(ram);
+                _builder.ClearRams(ram, ComponentStatus.SelectedManyAsFake);
             if (component is Storage storage)
-                _builder.ClearFakeStorages(storage);
+                _builder.ClearStorages(storage, ComponentStatus.SelectedManyAsFake);
         });
     }
     public ComponentSelectionViewModel(IEnumerable<IComponent> components, IComponentFilterProvider filterProvider,

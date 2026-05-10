@@ -4,6 +4,7 @@ using ComputerConfiguration.Models.Build;
 using ComputerConfiguration.Models.Components;
 using ComputerConfiguration.Models.Enums;
 using System.Collections.ObjectModel;
+using System.Runtime.Intrinsics.Arm;
 namespace ComputerConfiguration.Builder;
 
 public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
@@ -20,21 +21,14 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
         _dto = new ComputerBuildDTO();
     }
 
-    public void SetCpu(Cpu cpu)
+    public void SetCpu(Cpu cpu, ComponentStatus status = ComponentStatus.Selected)
     {
         if (_dto.Cpu != null)
             _dto.Cpu.ComponentStatus = ComponentStatus.NotSelected;
         _dto.Cpu = cpu;
-        _dto.Cpu.ComponentStatus = ComponentStatus.Selected;
+        _dto.Cpu.ComponentStatus = status;
     }
 
-    public void SetFakeCpu(Cpu cpu)
-    {
-        if (_dto.Cpu != null)
-            _dto.Cpu.ComponentStatus = ComponentStatus.NotSelected;
-        _dto.Cpu = cpu;
-        _dto.Cpu.ComponentStatus = ComponentStatus.SelectedAsFake;
-    }
 
     public void RemoveCpu(Cpu cpu)
     {
@@ -45,19 +39,12 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
         }
     }
 
-    public void SetGpu(Gpu gpu)
+    public void SetGpu(Gpu gpu, ComponentStatus status = ComponentStatus.Selected)
     {
         if (_dto.Gpu != null)
             _dto.Gpu.ComponentStatus = ComponentStatus.NotSelected;
         _dto.Gpu = gpu;
-        _dto.Gpu.ComponentStatus = ComponentStatus.Selected;
-    }
-    public void SetFakeGpu(Gpu gpu)
-    {
-        if (_dto.Gpu != null)
-            _dto.Gpu.ComponentStatus = ComponentStatus.NotSelected;
-        _dto.Gpu = gpu;
-        _dto.Gpu.ComponentStatus = ComponentStatus.SelectedAsFake;
+        _dto.Gpu.ComponentStatus = status;
     }
 
     public void RemoveGpu(Gpu gpu)
@@ -69,21 +56,14 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
         }
     }
 
-    public void SetMotherboard(Motherboard motherboard)
+    public void SetMotherboard(Motherboard motherboard, ComponentStatus status = ComponentStatus.Selected)
     {
         if (_dto.Motherboard != null)
             _dto.Motherboard.ComponentStatus = ComponentStatus.NotSelected;
         _dto.Motherboard = motherboard;
-        _dto.Motherboard.ComponentStatus = ComponentStatus.Selected;
+        _dto.Motherboard.ComponentStatus = status;
     }
 
-    public void SetFakeMotherboard(Motherboard motherboard)
-    {
-        if (_dto.Motherboard != null)
-            _dto.Motherboard.ComponentStatus = ComponentStatus.NotSelected;
-        _dto.Motherboard = motherboard;
-        _dto.Motherboard.ComponentStatus = ComponentStatus.SelectedAsFake;
-    }
 
     public void RemoveMotherboard(Motherboard motherboard)
     {
@@ -95,12 +75,12 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
     }
 
 
-    public void SetCase(Case caseComponent)
+    public void SetCase(Case caseComponent, ComponentStatus status = ComponentStatus.Selected)
     {
         if (_dto.Case != null)
             _dto.Case.ComponentStatus = ComponentStatus.NotSelected;
         _dto.Case = caseComponent;
-        _dto.Case.ComponentStatus = ComponentStatus.Selected;
+        _dto.Case.ComponentStatus = status;
     }
 
     public void RemoveCase(Case caseComponent)
@@ -111,30 +91,14 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
             _dto.Case = null;
         }
     }
-
-    public void SetFakeCase(Case caseComponent)
-    {
-        if (_dto.Case != null)
-            _dto.Case.ComponentStatus = ComponentStatus.NotSelected;
-        _dto.Case = caseComponent;
-        _dto.Case.ComponentStatus = ComponentStatus.SelectedAsFake;
-    }
-
-    public void SetCooler(Cooler cooler)
+    public void SetCooler(Cooler cooler, ComponentStatus status = ComponentStatus.Selected)
     {
         if (_dto.Cooler != null)
             _dto.Cooler.ComponentStatus = ComponentStatus.NotSelected;
         _dto.Cooler = cooler;
-        _dto.Cooler.ComponentStatus = ComponentStatus.Selected;
+        _dto.Cooler.ComponentStatus = status;
     }
 
-    public void SetFakeCooler(Cooler cooler)
-    {
-        if (_dto.Cooler != null)
-            _dto.Cooler.ComponentStatus = ComponentStatus.NotSelected;
-        _dto.Cooler = cooler;
-        _dto.Cooler.ComponentStatus = ComponentStatus.SelectedAsFake;
-    }
 
     public void RemoveCooler(Cooler cooler)
     {
@@ -145,21 +109,14 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
         }
     }
 
-    public void SetPsu(Psu psu)
+    public void SetPsu(Psu psu, ComponentStatus status = ComponentStatus.Selected)
     {
         if (_dto.Psu != null)
             _dto.Psu.ComponentStatus = ComponentStatus.NotSelected;
         _dto.Psu = psu;
-        _dto.Psu.ComponentStatus = ComponentStatus.Selected;
+        _dto.Psu.ComponentStatus = status;
     }
 
-    public void SetFakePsu(Psu psu)
-    {
-        if (_dto.Psu != null)
-            _dto.Psu.ComponentStatus = ComponentStatus.NotSelected;
-        _dto.Psu = psu;
-        _dto.Psu.ComponentStatus = ComponentStatus.SelectedAsFake;
-    }
     public void RemovePsu(Psu psu)
     {
         if (_dto.Psu != null)
@@ -168,18 +125,15 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
             _dto.Psu = null;
         }
     }
-    public void AddRam(Ram ram)
+    public void AddRam(Ram ram, ComponentStatus status = ComponentStatus.SelectedMany)
     {
         Ram ramCopy = ram.ShallowCopy();
-        ramCopy.ComponentStatus = ComponentStatus.SelectedMany;
-        ram.ComponentStatus = ComponentStatus.SelectedMany;
-        _dto.Rams.Add(ramCopy);
-    }
-    public void AddFakeRam(Ram ram)
-    {
-        Ram ramCopy = ram.ShallowCopy();
-        ramCopy.ComponentStatus = ComponentStatus.SelectedManyAsFake;
-        ram.ComponentStatus = ComponentStatus.SelectedManyAsFake;
+        ramCopy.ComponentStatus = status;
+        ram.ComponentStatus = status;
+        if (status == ComponentStatus.SelectedMany)
+            ram.CountSelected++;
+        else if (status == ComponentStatus.SelectedManyAsFake)
+            ram.CountFakeSelected++;
         _dto.Rams.Add(ramCopy);
     }
     public void RemoveRam(Ram ram)
@@ -187,38 +141,29 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
         ram.ComponentStatus = ComponentStatus.NotSelected;
         _dto.Rams.Remove(ram);
     }
-    public void ClearRams(Ram ramReal)
+    public void ClearRams(Ram ramReal, ComponentStatus status = ComponentStatus.SelectedMany)
     {
         var rams = new List<Ram>(_dto.Rams);
         foreach (var ram in rams)
-            if (ram.ComponentStatus == ComponentStatus.SelectedMany && ram.Id == ramReal.Id)
+            if (ram.ComponentStatus == status && ram.Id == ramReal.Id)
                 RemoveRam(ram);
         if (!_dto.Rams.Where(r => r.Id == ramReal.Id).Any())
             ramReal.ComponentStatus = ComponentStatus.NotSelected;
-    }
-    public void ClearFakeRams(Ram ramReal)
-    {
-        var rams = new List<Ram>(_dto.Rams);
-        foreach (var ram in rams)
-            if (ram.ComponentStatus == ComponentStatus.SelectedManyAsFake && ram.Id == ramReal.Id) 
-                RemoveRam(ram);
-        if (!_dto.Rams.Where(r => r.Id == ramReal.Id).Any())
-            ramReal.ComponentStatus = ComponentStatus.NotSelected;
+        if (status == ComponentStatus.SelectedMany)
+            ramReal.CountSelected = 0;
+        else if (status == ComponentStatus.SelectedManyAsFake)
+            ramReal.CountFakeSelected = 0;
     }
 
-    public void AddStorage(Storage storage)
+    public void AddStorage(Storage storage, ComponentStatus status = ComponentStatus.SelectedMany)
     {
         var storageCopy = storage.ShallowCopy();
-        storageCopy.ComponentStatus = ComponentStatus.SelectedMany;
-        storage.ComponentStatus = ComponentStatus.SelectedMany;
-        _dto.Storages.Add(storageCopy);
-    }
-
-    public void AddFakeStorage(Storage storage)
-    {
-        var storageCopy = storage.ShallowCopy();
-        storageCopy.ComponentStatus = ComponentStatus.SelectedManyAsFake;
-        storage.ComponentStatus = ComponentStatus.SelectedManyAsFake;
+        storageCopy.ComponentStatus = status;
+        storage.ComponentStatus = status;
+        if (status == ComponentStatus.SelectedMany)
+            storage.CountSelected++;
+        else if (status == ComponentStatus.SelectedManyAsFake)
+            storage.CountFakeSelected++;
         _dto.Storages.Add(storageCopy);
     }
 
@@ -228,25 +173,18 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
         _dto.Storages.Remove(storage);
     }
 
-    public void ClearStorages(Storage realStorage)
+    public void ClearStorages(Storage realStorage, ComponentStatus status = ComponentStatus.SelectedMany)
     {
         var storages = new List<Storage>(_dto.Storages);
         foreach (var storage in storages)
-            if (storage.ComponentStatus == ComponentStatus.SelectedMany && storage.Id == realStorage.Id)
+            if (storage.ComponentStatus == status && storage.Id == realStorage.Id)
                 RemoveStorage(storage);
         if (!_dto.Storages.Where(s => s.Id == realStorage.Id).Any())
             realStorage.ComponentStatus = ComponentStatus.NotSelected;
-    }
-
-    public void ClearFakeStorages(Storage realStorage)
-    {
-        var storages = new List<Storage>(_dto.Storages);
-        foreach (var storage in storages)
-            if (storage.ComponentStatus == ComponentStatus.SelectedManyAsFake && storage.Id == realStorage.Id)
-                RemoveStorage(storage);
-        if (!_dto.Storages.Where(s => s.Id == realStorage.Id).Any())
-            realStorage.ComponentStatus = ComponentStatus.NotSelected;
-
+        if (status == ComponentStatus.SelectedMany)
+            realStorage.CountSelected = 0;
+        else if (status == ComponentStatus.SelectedManyAsFake)
+            realStorage.CountFakeSelected = 0;
     }
 
     public event Action? SelectedServicesChanged;

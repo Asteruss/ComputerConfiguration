@@ -53,11 +53,57 @@
                 </TextBlock>
             </StackPanel>
         </DataTemplate>
+        
         <DataTemplate x:Key="ButtomRemove">
             <Button Content="Удалить"
-            Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-            CommandParameter="{Binding}"/>
+                    Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    CommandParameter="{Binding}"/>
         </DataTemplate>
+        
+        <DataTemplate x:Key="ButtonSelectManyOption">
+            <StackPanel Orientation="Horizontal">
+                
+                <Button Content="Выбрать"
+                        Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}"/>
+                
+                <Button Content="Выбрать как свое"
+                        Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}"/>
+
+                <Button
+                        Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}">
+                    <TextBlock>
+                        <Run Text="Очистить ("/>
+                        <Run Text="{Binding CountSelected}"/>
+                        <Run Text=")"/>
+                    </TextBlock>
+                </Button>
+
+                <Button 
+                        Command="{Binding DataContext.RemoveFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}">
+                    <TextBlock>
+                        <Run Text="Очистить свои ("/>
+                        <Run Text="{Binding CountFakeSelected}"/>
+                        <Run Text=")"/>
+                    </TextBlock>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="buttonSelectOne">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Выбрать"
+                        Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}"/>
+                <Button Content="Выбрать как свое"
+                        Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}" Margin="5,0,0,0"/>
+            </StackPanel>
+        </DataTemplate>
+
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -110,73 +156,23 @@
                                 <ContentControl Grid.Column="1" Content="{Binding}">
                                     <ContentControl.Style>
                                         <Style TargetType="ContentControl">
-                                            <Setter Property="ContentTemplate">
-                                                <Setter.Value>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Button Content="Выбрать"
-                                                        Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                        CommandParameter="{Binding}"/>
-                                                            <Button Content="Выбрать как свое"
-                                                        Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                        CommandParameter="{Binding}" Margin="5,0,0,0"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </Setter.Value>
-                                            </Setter>
+                                            <Setter Property="ContentTemplate" Value="{StaticResource buttonSelectOne}"/>
+
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ComponentStatus}" Value="1">
                                                     <Setter Property="ContentTemplate" Value="{StaticResource ButtomRemove}"/>
                                                 </DataTrigger>
+                                                
                                                 <DataTrigger Binding="{Binding ComponentStatus}" Value="2">
                                                     <Setter Property="ContentTemplate" Value="{StaticResource ButtomRemove}"/>
                                                 </DataTrigger>
+                                                
                                                 <DataTrigger Binding="{Binding ComponentStatus}" Value="3">
-                                                    <Setter Property="ContentTemplate">
-                                                        <Setter.Value>
-                                                            <DataTemplate>
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <Button Content="Выбрать"
-Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-CommandParameter="{Binding}"/>
-                                                                    <Button Content="Выбрать как свое"
-Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-CommandParameter="{Binding}"/>
-
-                                                                    <Button Content="Очистить "
-                                                                        Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                        CommandParameter="{Binding}"/>
-                                                                    <Button Content="Очистить свои"
-    Command="{Binding DataContext.RemoveFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-    CommandParameter="{Binding}"/>
-                                                                </StackPanel>
-                                                            </DataTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource ButtonSelectManyOption}"/>
                                                 </DataTrigger>
+                                                
                                                 <DataTrigger Binding="{Binding ComponentStatus}" Value="4">
-                                                    <Setter Property="ContentTemplate">
-                                                        <Setter.Value>
-                                                            <DataTemplate>
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <Button Content="Очистить "
-                                                                    Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                    CommandParameter="{Binding}"/>
-                                                                    <Button Content="Очистить свои"
-Command="{Binding DataContext.RemoveFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-CommandParameter="{Binding}"/>
-                                                                    <Button Content="Выбрать"
-Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-CommandParameter="{Binding}"/>
-                                                                    <Button Content="Выбрать как свое"
-Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-CommandParameter="{Binding}"/>
-
-                                                                    
-                                                                </StackPanel>
-                                                            </DataTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource ButtonSelectManyOption}"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
