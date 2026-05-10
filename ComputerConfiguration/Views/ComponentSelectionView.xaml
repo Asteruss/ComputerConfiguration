@@ -12,8 +12,12 @@
         <DataTemplate DataType="{x:Type filters:SingleChoiceFilter}">
             <StackPanel Orientation="Vertical">
                 <DockPanel>
-                    <TextBlock Text="{Binding DisplayName}" DockPanel.Dock="Left" Width="100" VerticalAlignment="Center"/>
-                    <Button Content="✖" DockPanel.Dock="Right" Command="{Binding ResetCommand}" Width="20" Margin="5,0,0,0"/>
+                    <TextBlock Text="{Binding DisplayName}" 
+                               DockPanel.Dock="Left"/>
+                    <Button Content="✖" 
+                            DockPanel.Dock="Right"
+                            Command="{Binding ResetCommand}" 
+                            Width="20" />
                 </DockPanel>
 
                 <ListBox ItemsSource="{Binding Options}"
@@ -24,9 +28,19 @@
                     SelectedItem="{Binding Value}"/>
             </StackPanel>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type filters:TextFilter}">
+            <StackPanel Orientation="Vertical">
+                <DockPanel>
+                    <TextBlock Text="{Binding DisplayName}" DockPanel.Dock="Top"/>
+                    <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Bottom"/>
+                </DockPanel>
+            </StackPanel>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type filters:MultiChoiceFilter}">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding DisplayName}" Width="100"/>
+                <TextBlock Text="{Binding DisplayName}" />
                 <ListBox ItemsSource="{Binding Options}"
                     SelectionMode="Multiple"
                     MaxHeight="120"
@@ -35,9 +49,10 @@
                     behaviors:ListBoxBehavior.SelectedItems="{Binding SelectedItems}"/>
             </StackPanel>
         </DataTemplate>
+        
         <DataTemplate DataType="{x:Type filters:RangeFilter}">
-            <StackPanel Orientation="Vertical" Margin="0,2">
-                <TextBlock Text="{Binding DisplayName}" FontWeight="Bold"/>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding DisplayName}"/>
 
                 <mah:RangeSlider Minimum="{Binding Min}"
                          Maximum="{Binding Max}"
@@ -47,7 +62,7 @@
                          TickFrequency="1"
                          Width="200"/>
 
-                <TextBlock Margin="0,2">
+                <TextBlock>
                     <Run Text="от "/><Run Text="{Binding CurrentMin, StringFormat={}{0:F0}}"/>
                     <Run Text=" до "/><Run Text="{Binding CurrentMax, StringFormat={}{0:F0}}"/>
                 </TextBlock>
