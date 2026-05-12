@@ -15,5 +15,7 @@ namespace ComputerConfiguration.Models
         double Rating { get; set; }
         List<string> Tags { get; set; }
         bool InStock { get; set; }
+        byte[] ImageData { get; set; }
+
     }
 }

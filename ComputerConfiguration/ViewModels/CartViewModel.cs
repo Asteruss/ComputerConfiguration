@@ -1,6 +1,8 @@
 ﻿using ComputerConfiguration.Builder;
 using ComputerConfiguration.Commands;
 using ComputerConfiguration.Converters;
+using ComputerConfiguration.DTO;
+using ComputerConfiguration.Models;
 using ComputerConfiguration.Models.Build;
 using ComputerConfiguration.Repositories.ServicesRepository;
 using ComputerConfiguration.Services.Build;
@@ -17,6 +19,10 @@ public class CartViewModel : ViewModelBase
     public IComputerBuildDtoBuilder ComputerBuilder;
     private readonly OrderFacade _orderFacade;
     public ObservableCollection<ServiceSelectionViewModel> ServiceItems { get; } = new();
+    public ObservableCollection<ComponentCartDTO> Components { get; } = new();
+    public ObservableCollection<CompabilityErrorDTO> Errors { get; } = new();
+    public bool IsCompatible { get; set; }
+    public bool IsAnyErrors { get; set; }
 
     private double _totalPrice;
     public double TotalPrice
@@ -45,5 +51,10 @@ public class CartViewModel : ViewModelBase
             ServiceItems.Add(new ServiceSelectionViewModel(service, builder));
         ComputerBuilder.SelectedServicesChanged += () => RecalculateTotalPrice();
         RecalculateTotalPrice();
+        Components = _orderFacade.GetComponentsDTO().ToObservableCollection();
+        var res = _orderFacade.CheckCompability();
+        Errors = res.Item1.ToObservableCollection();
+        IsCompatible = !res.Item2;
+        IsAnyErrors = IsCompatible || Errors.Any();
     }
 }

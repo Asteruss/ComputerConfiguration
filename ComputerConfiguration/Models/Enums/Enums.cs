@@ -90,4 +90,11 @@ namespace ComputerConfiguration.Models.Enums
         SelectedMany,
         SelectedManyAsFake,
     }
+    public enum CompatibilityRuleEnum
+    {
+        Error,
+        Warning,
+        Good,
+        ComponentNotFound
+    }
 }

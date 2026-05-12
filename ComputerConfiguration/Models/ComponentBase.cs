@@ -11,6 +11,7 @@ public abstract class ComponentBase : ComponentDTO, IComponent
     public double Rating { get; set; }
     public bool InStock { get; set; }
     public string Description { get; set; }
+    public byte[] ImageData { get; set; }
     public List<string> Tags { get; set; } = new();
 
     public virtual double GetFinalPrice() => BasePrice;

@@ -5,6 +5,7 @@ using ComputerConfiguration.Repositories.ComponentRepository;
 using ComputerConfiguration.Repositories.ServicesRepository;
 using ComputerConfiguration.Services.Authentication;
 using ComputerConfiguration.Services.Build;
+using ComputerConfiguration.Services.Build.Compability;
 using ComputerConfiguration.Services.Navigation;
 using ComputerConfiguration.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,13 @@ public partial class App : Application
                 services.AddSingleton<BonusService>();
                 services.AddSingleton<PricingService>();
                 services.AddSingleton<OrderService>();
+                services.AddSingleton<ICompatibilityRuleFactory, CompatibilityRuleFactory>();
+                services.AddSingleton(provider =>
+                {
+                    var factory = provider.GetRequiredService<ICompatibilityRuleFactory>();
+                    var rules = factory.CreateRules();
+                    return new CompatibilityCheckerService(rules);
+                });
                 services.AddSingleton<OrderFacade>();
 
                 // ViewModels и окна
