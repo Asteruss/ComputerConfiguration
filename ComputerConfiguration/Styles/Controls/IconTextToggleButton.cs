@@ -1,17 +1,17 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace ComputerConfiguration.Styles.Controls;
 
-public class IconTextButton : Button
+public class IconTextToggleButton : ToggleButton
 {
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-        nameof(Icon), typeof(ImageSource), typeof(IconTextButton)
+        nameof(Icon), typeof(ImageSource), typeof(IconTextToggleButton)
         );
 
     public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
-        nameof(Text), typeof(string), typeof(IconTextButton)
+        nameof(Text), typeof(string), typeof(IconTextToggleButton)
         );
 
     public ImageSource Icon

@@ -56,8 +56,12 @@
                     <controls:IconTextButton Text="Корзина" 
                                              Icon="/Icons/basket-icon.png"
                                              Command="{Binding GoToCartCommand}"/>
-                    <controls:IconTextButton Text="Аккаунт" 
-                                             Icon="/Icons/account-icon.png"/>
+                    <controls:IconTextToggleButton x:Name="btnOpenPopup"
+                                                   Text="Аккаунт" 
+                                                   Icon="/Icons/account-icon.png"/>
+                    <Popup IsOpen="{Binding IsChecked, ElementName=btnOpenPopup}">
+                        
+                    </Popup>
                 </StackPanel>
                 
 

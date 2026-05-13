@@ -26,4 +26,30 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="controls:IconTextToggleButton" BasedOn="{StaticResource iconButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:IconTextToggleButton">
+                    <Border Background="{TemplateBinding Background}"
+                         BorderThickness="0"
+                         CornerRadius="5">
+                        <StackPanel Orientation="Vertical" Margin="{TemplateBinding Padding}">
+                            <Image Source="{TemplateBinding Icon}"
+                                Style="{StaticResource Icon}"/>
+                            <TextBlock Text="{TemplateBinding Text}"
+                                    VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="LightGray"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
 </ResourceDictionary>
