@@ -5,7 +5,9 @@ using ComputerConfiguration.Models;
 using ComputerConfiguration.Models.Components;
 using ComputerConfiguration.Models.Enums;
 using ComputerConfiguration.Repositories.ComponentRepository;
+using ComputerConfiguration.Services.Authentication;
 using ComputerConfiguration.Services.Navigation;
+using ComputerConfiguration.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +24,7 @@ namespace ComputerConfiguration.ViewModels
         private readonly IComponentRepository _catalog;
         private readonly IComputerBuildDtoBuilder _builder;
         private readonly INavigationService _navigationService;
+        public IAuthService AuthService { get; init; }
         public ComputerBuildDTO ComputerBuild => _builder.BuildDto();
         #region команды перехода к компонентам
         private RelayCommand _goToCpuCatalogCommand;
@@ -79,13 +82,55 @@ namespace ComputerConfiguration.ViewModels
             get => _goToCartCommand ?? (_goToCartCommand = new((obj) =>
             _navigationService.NavigateTo<CartViewModel>()));
         }
-        public MainViewModel(INavigationService navigationService, NavigationStore navigationStore, IComputerBuildDtoBuilder builder, IComponentRepository componets)
+
+        private bool _isMenuOpen = false;
+        public bool IsMenuOpen
+        {
+            get => _isMenuOpen;
+            set
+            {
+                _isMenuOpen = value;
+                OnPropertyChanged();
+            }
+        }
+        #region Ауентификация
+        private RelayCommand _goToRegisterCommand;
+        public RelayCommand GoToRegisterCommand
+        {
+            get => _goToRegisterCommand ??= new((obj) =>
+            {
+                _navigationService.NavigateTo<RegistrationViewModel>();
+                IsMenuOpen = false;
+            });
+        }
+        private RelayCommand _goToLoginCommand;
+        public RelayCommand GoToLoginCommand
+        {
+            get => _goToLoginCommand ??= new((obj) =>
+            {
+                _navigationService.NavigateTo<LoginViewModel>();
+                IsMenuOpen = false;
+            });
+        }
+        private RelayCommand _logoutCommand;
+        public RelayCommand LogoutCommand
+        {
+            get => _logoutCommand ??= new((obj) =>
+            {
+                AuthService.Logout();
+                IsMenuOpen = false;
+            });
+        }
+        #endregion
+        public MainViewModel(INavigationService navigationService, NavigationStore navigationStore, 
+            IComputerBuildDtoBuilder builder, IComponentRepository componets, IAuthService authService)
         {
             navigationService.NavigateTo<HomeViewModel>();
             NavigationStore = navigationStore;
             _navigationService = navigationService;
             _builder = builder;
             _catalog = componets;
+            AuthService = authService;
         }
     }
 }

@@ -7,29 +7,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Navigation;
 
 namespace ComputerConfiguration.ViewModels;
 
-class RegistrationViewModel : ViewModelBase
+public class LoginViewModel : ViewModelBase
 {
-    public UserRegistrationDTO RegistrationDTO { get; set; } = new();
-    private RelayCommand _registerCommand;
+    public UserEntryDTO EntryDTO { get; set; } = new();
+    private RelayCommand _loginCommand;
     private readonly IAuthService _authService;
     private readonly INavigationService _navigationService;
-    public RelayCommand RegisterCommand
+    public RelayCommand LoginCommand
     {
-        get => _registerCommand ??= new RelayCommand(async (obj) =>
+        get => _loginCommand ??= new RelayCommand(async (obj) =>
         {
-            if (obj is UserRegistrationDTO user)
+            if (obj is UserEntryDTO user)
             {
-                await _authService.RegisterAsync(user);
-                await _authService.LoginAsync(new UserEntryDTO() { Email = user.Email, Password = user.Password});
+                await _authService.LoginAsync(user);
                 _navigationService.GoBack();
             }
         });
     }
-    public RegistrationViewModel(IAuthService authService, INavigationService navigationService)
+    public LoginViewModel(IAuthService authService, INavigationService navigationService)
     {
         _authService = authService;
         _navigationService = navigationService;

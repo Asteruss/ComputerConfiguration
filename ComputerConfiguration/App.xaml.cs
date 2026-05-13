@@ -52,6 +52,8 @@ public partial class App : Application
                 services.AddSingleton<MainViewModel>();
                 services.AddTransient<HomeViewModel>();
                 services.AddTransient<CartViewModel>();
+                services.AddTransient<RegistrationViewModel>();
+                services.AddTransient<LoginViewModel>();
                 services.AddTransient<ComponentSelectionViewModel>();
             })
             .Build();

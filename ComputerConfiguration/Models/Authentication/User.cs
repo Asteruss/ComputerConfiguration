@@ -8,12 +8,11 @@ public class User
     public int Id { get; set; }
     public string Email { get; set; }
     public string Name { get; set; }
-    public string Sername { get; set; }
     public string PasswordHash { get; set; }
     public DateTime RegistrationDate { get; set; }
     public int? RoleId { get; set; }
     public int Balance { get; set; } = 0;
-    public int PrivilegeLevelId { get; set; }
+    public int? PrivilegeLevelId { get; set; } = 1;
     public PrivilegeLevel? PrivilegeLevel { get; set; }
     public List<BonusHistory>? BonusHistories { get; set; }
     public Role? Role { get; set; }

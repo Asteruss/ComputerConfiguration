@@ -1,4 +1,5 @@
-﻿using ComputerConfiguration.DB;
+﻿using ComputerConfiguration.Commands;
+using ComputerConfiguration.DB;
 using ComputerConfiguration.DTO;
 using ComputerConfiguration.Models.Authentication;
 using ComputerConfiguration.Models.UI;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ComputerConfiguration.Services.Authentication
 {
-    public class AuthService : IAuthService
+    public class AuthService : NotifyPropertyChanged, IAuthService
     {
         private readonly ComputerConfigurationDBContext _db;
         public AuthService(ComputerConfigurationDBContext db)
@@ -20,6 +21,8 @@ namespace ComputerConfiguration.Services.Authentication
             get => _currentUser; set
             {
                 _currentUser = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsAuthenticated));
                 OnUserChanged();
             }
         }
@@ -29,14 +32,18 @@ namespace ComputerConfiguration.Services.Authentication
         {
             UserChanged?.Invoke(this, CurrentUser);
         }
-        public async Task<IResult> RegisterAsync(UserEntryDTO userData)
+        public async Task<IResult> RegisterAsync(UserRegistrationDTO userData)
         {
             if (await _db.Users.AnyAsync(u => u.Email == userData.Email))
-                return new Error("Auth", "Пользователь не найден");
+                return new Error("Auth", $"Пользователь с логином {userData.Email} уже зарегистрирован");
+            if (userData.Password.ToString() != userData.PasswordRepeat.ToString())
+                return new Error("Auth", $"Пароль повторен не верно");
             User user = new()
             {
                 Email = userData.Email,
                 RegistrationDate = DateTime.Now,
+                Name = userData.Name,
+                Balance = 0,
                 RoleId = 1,
                 PasswordHash = HashPassword(userData.Password.ToString())
             };

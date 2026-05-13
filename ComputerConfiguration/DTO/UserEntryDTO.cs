@@ -1,16 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ComputerConfiguration.Commands;
 using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ComputerConfiguration.DTO
+namespace ComputerConfiguration.DTO;
+
+public class UserEntryDTO : NotifyPropertyChanged
 {
-    public class UserEntryDTO
+    private string _email;
+    public string Email
     {
-        public string Email { get; set; }
-        public SecureString Password { get; set; }
-        
+        get => _email;
+        set
+        {
+            _email = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private SecureString _password;
+    public SecureString Password
+    {
+        get => _password;
+        set
+        {
+            _password = value;
+            OnPropertyChanged();
+        }
     }
 }

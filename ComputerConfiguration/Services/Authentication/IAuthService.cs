@@ -13,7 +13,7 @@ namespace ComputerConfiguration.Services.Authentication
     {
         User? CurrentUser { get; }
         bool IsAuthenticated { get; }
-        Task<IResult> RegisterAsync(UserEntryDTO userData);
+        Task<IResult> RegisterAsync(UserRegistrationDTO userData);
         Task<IResult> LoginAsync(UserEntryDTO userData);
         void Logout();
         event EventHandler<User?> UserChanged;

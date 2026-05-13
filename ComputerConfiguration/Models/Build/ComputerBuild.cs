@@ -12,12 +12,12 @@ namespace ComputerConfiguration.Models.Build
     public class ComputerBuild
     {
         public int Id { get; set; }
-        public int CaseId { get; set; }
-        public int CoolerId { get; set; }
-        public int CPUId { get; set; }
-        public int GPUId { get; set; }
-        public int MotherboardId { get; set; }
-        public int PsuId { get; set; }
+        public int? CaseId { get; set; }
+        public int? CoolerId { get; set; }
+        public int? CPUId { get; set; }
+        public int? GPUId { get; set; }
+        public int? MotherboardId { get; set; }
+        public int? PsuId { get; set; }
         public Cpu? Cpu { get; set; }
         public Gpu? Gpu { get; set; }
         public Motherboard? Motherboard { get; set; }
@@ -28,7 +28,6 @@ namespace ComputerConfiguration.Models.Build
         public List<Storage>? Storages { get; set; } = new();
         public List<AdditionalServiceOption>? AdditionalServices { get; set; } = new();
         public int? OrderId { get; set; }
-        public Order? Order { get; set; }
 
 
     }

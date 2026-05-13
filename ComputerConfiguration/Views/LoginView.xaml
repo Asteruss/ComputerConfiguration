@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ComputerConfiguration.Views.RegistrationView"
+﻿<UserControl x:Class="ComputerConfiguration.Views.LoginView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,28 +6,19 @@
              xmlns:local="clr-namespace:ComputerConfiguration.Views"
              xmlns:behaviors="clr-namespace:ComputerConfiguration.Behaviors"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             mc:Ignorable="d">
+             mc:Ignorable="d" >
     <StackPanel>
-        <StackPanel x:Name="stpRegistration" DataContext="{Binding RegistrationDTO}">
+        <StackPanel x:Name="stpLogin" DataContext="{Binding EntryDTO}">
             <Label Content="Name"/>
             <TextBox Text="{Binding Email}"/>
-            <Label Content="Name"/>
-            <TextBox Text="{Binding Name}"/>
-
             <Label Content="Password"/>
             <PasswordBox>
                 <i:Interaction.Behaviors>
                     <behaviors:PasswordBoxBehavior SecurePassword="{Binding Password, Mode=TwoWay}"/>
                 </i:Interaction.Behaviors>
             </PasswordBox>
-            <Label Content="Password"/>
-            <PasswordBox>
-                <i:Interaction.Behaviors>
-                    <behaviors:PasswordBoxBehavior SecurePassword="{Binding PasswordRepeat, Mode=TwoWay}"/>
-                </i:Interaction.Behaviors>
-            </PasswordBox>
         </StackPanel>
 
-        <Button Content="Reg" Command="{Binding RegisterCommand}" CommandParameter="{Binding DataContext, ElementName=stpRegistration}"/>
+        <Button Content="Reg" Command="{Binding LoginCommand}" CommandParameter="{Binding DataContext, ElementName=stpLogin}"/>
     </StackPanel>
 </UserControl>

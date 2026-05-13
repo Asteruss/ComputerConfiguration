@@ -20,6 +20,12 @@
         <DataTemplate DataType="{x:Type viewModels:ComponentSelectionViewModel}">
             <views:ComponentSelectionView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:RegistrationViewModel}">
+            <views:RegistrationView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:LoginViewModel}">
+            <views:LoginView/>
+        </DataTemplate>
         <converters:VisibilityConverter x:Key="visibilityConverter"/>
         <converters:BoolToGridWidthConverter x:Key="boolToGridWidthConverter"/>
         <Style TargetType="Control">
@@ -57,10 +63,49 @@
                                              Icon="/Icons/basket-icon.png"
                                              Command="{Binding GoToCartCommand}"/>
                     <controls:IconTextToggleButton x:Name="btnOpenPopup"
+                                                   IsChecked="{Binding IsMenuOpen, Mode=TwoWay}"
                                                    Text="Аккаунт" 
                                                    Icon="/Icons/account-icon.png"/>
-                    <Popup IsOpen="{Binding IsChecked, ElementName=btnOpenPopup}">
-                        
+                    <Popup IsOpen="{Binding IsMenuOpen}"
+                           PlacementTarget="{Binding ElementName=btnOpenPopup}"
+                           Placement="Bottom" 
+                           StaysOpen="False">
+                        <Border>
+                            <StackPanel>
+                                <StackPanel.Resources>
+                                    <DataTemplate x:Key="GuestMenu">
+                                        <StackPanel>
+                                            <Button Content="Зарегистрироваться"
+                                                    Command="{Binding GoToRegisterCommand}"/>
+                                            <Button Content="Войти"
+                                                    Command="{Binding GoToLoginCommand}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                    <DataTemplate x:Key="AccountMenu">
+                                        <StackPanel>
+                                            <Button Content="Профиль"/>
+                                            <Button Content="Мои адреса"/>
+                                            <Button Content="История заказов"/>
+                                            <Button Content="Отслеживание заказов"/>
+                                            <Button Content="Выход"
+                                                    Command="{Binding LogoutCommand}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </StackPanel.Resources>
+                                <ContentControl Content="{Binding}">
+                                    <ContentControl.Style>
+                                        <Style TargetType="ContentControl">
+                                            <Setter Property="ContentTemplate" Value="{StaticResource GuestMenu}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding AuthService.IsAuthenticated}" Value="True">
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource AccountMenu}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentControl.Style>
+                                </ContentControl>
+                            </StackPanel>
+                        </Border>
                     </Popup>
                 </StackPanel>
                 
