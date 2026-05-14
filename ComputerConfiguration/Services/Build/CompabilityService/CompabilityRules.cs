@@ -283,7 +283,8 @@ public class CoolerCaseLiquidRadiatorRule : ICompatibilityRule
             return new(CompatibilityRuleEnum.ComponentNotFound, "Кулер не установлен.");
         if (build.Cooler.CoolerType != CoolerType.Liquid)
             return new();
-        var supportedSizes = build.Case.RadiatorSupport?.Split(',').Select(s => s.Trim()).Select(int.Parse).ToList();
+        var supportedSizes = build.Case.RadiatorSupport?.Split(',').Select(s => s.Trim().
+        Where(s => char.IsAsciiDigit(s)).ToString()).Select(int.Parse).ToList();
         if (supportedSizes == null || !supportedSizes.Contains(build.Cooler.RadiatorSize))
             return new(CompatibilityRuleEnum.Error, $"Размер радиатора СЖО {build.Cooler.RadiatorSize} мм не поддерживается корпусом (поддерживает: {build.Case.RadiatorSupport})");
         return new();

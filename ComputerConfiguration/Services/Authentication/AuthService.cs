@@ -27,10 +27,10 @@ namespace ComputerConfiguration.Services.Authentication
             }
         }
         public bool IsAuthenticated => _currentUser != null;
-        public event EventHandler<User?> UserChanged;
+        public event Action? UserChanged;
         public void OnUserChanged()
         {
-            UserChanged?.Invoke(this, CurrentUser);
+            UserChanged?.Invoke();
         }
         public async Task<IResult> RegisterAsync(UserRegistrationDTO userData)
         {
@@ -43,7 +43,7 @@ namespace ComputerConfiguration.Services.Authentication
                 Email = userData.Email,
                 RegistrationDate = DateTime.Now,
                 Name = userData.Name,
-                Balance = 0,
+                Balance = 1000,
                 RoleId = 1,
                 PasswordHash = HashPassword(userData.Password.ToString())
             };
@@ -53,7 +53,9 @@ namespace ComputerConfiguration.Services.Authentication
         }
         public async Task<IResult> LoginAsync(UserEntryDTO userData)
         {
-            var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == userData.Email);
+            var user = await _db.Users.Include(u => u.Role)
+                .Include(u => u.PrivilegeLevel)
+                .FirstOrDefaultAsync(u => u.Email == userData.Email);
             if (user == null)
                 return new Error("Auth", "Пользователь не найден");
             if (!VerifyPassword(userData.Password.ToString(), user.PasswordHash))

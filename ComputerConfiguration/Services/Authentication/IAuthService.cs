@@ -16,6 +16,6 @@ namespace ComputerConfiguration.Services.Authentication
         Task<IResult> RegisterAsync(UserRegistrationDTO userData);
         Task<IResult> LoginAsync(UserEntryDTO userData);
         void Logout();
-        event EventHandler<User?> UserChanged;
+        event Action? UserChanged;
     }
 }

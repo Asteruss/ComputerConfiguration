@@ -7,6 +7,7 @@ namespace ComputerConfiguration.Models;
 
 public class ComponentDTO : NotifyPropertyChanged
 {
+    [NotMapped]
     private ComponentStatus _componentStatus = ComponentStatus.NotSelected;
     [NotMapped]
     public ComponentStatus ComponentStatus
@@ -20,6 +21,7 @@ public class ComponentDTO : NotifyPropertyChanged
     }
 
     // для ram и storage(подсчет каждого выбранного)
+    [NotMapped]
     private int _countSelected = 0;
     [NotMapped]
     public int CountSelected
@@ -31,6 +33,7 @@ public class ComponentDTO : NotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+    [NotMapped]
     private int _countFakeSelected = 0;
     [NotMapped]
     public int CountFakeSelected

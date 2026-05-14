@@ -31,6 +31,15 @@ public class NavigationService : INavigationService
         if (CanGoBack) 
             _navigationTarget.CurrentViewModel = _history.Pop();   
     }
+    public void GoBackReload()
+    {
+        if (CanGoBack)
+        {
+            var oldVm = _history.Pop();
+            var vmType = oldVm.GetType();
+            _navigationTarget.CurrentViewModel = (ViewModelBase)ActivatorUtilities.CreateInstance(_serviceProvider, vmType);
 
+        }
+    }
     public bool CanGoBack => _history.Count > 0;
 }

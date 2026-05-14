@@ -58,17 +58,35 @@ public class OrderFacade
 
         return res;
     }
-    public double GetFinalPrice(bool useBonuses = false)
+    
+    private double GetPrice()
     {
         var comp = _dtoBuilder.BuildDto();
         double price = _pricingService.GetPriceForComponents(GetComponents()) + _pricingService.GetPriceForAdditiontalOptions(comp.SelectedAdditionalServices!);
-        //if (useBonuses)
-        //    price = _bonusService.GetMaxBonusToSpend(user, price);
         return price;
+    }
+    public double GetFinalPrice(User user, bool useBonuses = false)
+    {
+        var price = GetPrice();
+        if (user != null && useBonuses)
+            price = _bonusService.GetNewPrice(user, price);
+        return price;
+    }
+
+    public double GetBonusEarn(User user)
+    {
+        if (user == null) return 0;
+        return _bonusService.GetMaxBonusToEarn(user.PrivilegeLevel, GetPrice());
+    }
+
+    public double GetBonusSpend(User user)
+    {
+        if (user == null) return 0;
+        return _bonusService.GetMaxBonusToSpend(user, GetPrice());
     }
     public (List<CompabilityErrorDTO>, bool) CheckCompability()
     {
-        var checkRes = _compatibilityService.Check(_dtoBuilder.BuildFinal());
+        var checkRes = _compatibilityService.Check(_dtoBuilder.BuildDto());
         var res = new List<CompabilityErrorDTO>();
         foreach (var error in checkRes.Errors)
             res.Add(new(CompatibilityRuleEnum.Error, error));

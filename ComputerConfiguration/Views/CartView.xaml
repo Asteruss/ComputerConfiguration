@@ -8,6 +8,7 @@
              xmlns:converters="clr-namespace:ComputerConfiguration.Converters"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:vm="clr-namespace:ComputerConfiguration.ViewModels"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -15,6 +16,7 @@
         <converters:IntToBoolConverter x:Key="IntToBoolConverter"/>
         <converters:StringToBoolConverter x:Key="StringToBoolConverter"/>
         <converters:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter" />
+        <converters:SignConverter x:Key="SignConverter" />
         <DataTemplate x:Key="SingleOptionTemplate" DataType="{x:Type vm:ServiceSelectionViewModel}">
             <StackPanel>
                 <CheckBox IsChecked="{Binding IsSelected}" Content="{Binding Service.Name}" />
@@ -54,96 +56,137 @@
 
     </UserControl.Resources>
     <ScrollViewer>
-        <StackPanel>
-            <StackPanel>
-                <TextBlock Text="Выбранные компоненты"/>
-                <ItemsControl ItemsSource="{Binding Components}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Width="600" HorizontalAlignment="Left">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="5*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Image Grid.Row="0"
-                                       Grid.RowSpan="3"
-                                       Grid.Column="0"
-                                       Source="{Binding Image, Converter={StaticResource ByteArrayToImageConverter}}"
-                                       Width="40"
-                                       Height="40"/>
-                                <TextBlock Grid.Column="1" Grid.Row="0">
-                                    <Run Text="{Binding TypeString}" />
-                                    <Run Text="{Binding Name}" />
-                                </TextBlock>
-                                <TextBlock Text="{Binding Description}" Grid.Column="1" Grid.Row="1"/>
-                                <TextBlock Grid.Column="1" Grid.Row="2" 
-                                           Visibility="{Binding IsFake, Converter={StaticResource NotVisibilityConverter}}">
-                                    <Run Text="{Binding Price, StringFormat= Цена: {0:C}}"/>
-                                </TextBlock>
-                                <TextBlock Grid.Column="1" Grid.Row="2" 
-                                           Text="Пользовательный выбор, не для покупки"
-                                           Visibility="{Binding IsFake, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-            
-            <GroupBox Header="Дополнительные услуги">
-                <ItemsControl ItemsSource="{Binding ServiceItems}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ContentControl Content="{Binding}">
-                                <ContentControl.Style>
-                                    <Style TargetType="ContentControl">
-                                        <Setter Property="ContentTemplate" Value="{StaticResource SingleOptionTemplate}" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Service.OptionType}" Value="1">
-                                                <Setter Property="ContentTemplate" Value="{StaticResource MultiOptionTemplate}" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Service.OptionType}" Value="2">
-                                                <Setter Property="ContentTemplate" Value="{StaticResource ListOptionTemplate}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ContentControl.Style>
-                            </ContentControl>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </GroupBox>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
 
-            <StackPanel >
-                <TextBlock Text="Проверка"/>
-                <ItemsControl ItemsSource="{Binding Errors}" Visibility="{Binding IsAnyErrors, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="10*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding TypeString}" Grid.Column="0" />
-                                <TextBlock Text="{Binding Message}" Grid.Column="1"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <TextBlock Text="Ошибок не найдено" Visibility="{Binding IsAnyErrors, Converter={StaticResource NotVisibilityConverter}}"/>
+            <StackPanel Grid.Column="0">
+                <StackPanel>
+                    <TextBlock Text="Выбранные компоненты"/>
+                    <Border>
+                        <ItemsControl ItemsSource="{Binding Components}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Stretch"
+                                            Margin="60,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="5*"/>
+                                            <ColumnDefinition Width="1.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="5"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Image Grid.Row="0"
+                        Grid.RowSpan="3"
+                        Grid.Column="0"
+                        Source="{Binding Image, Converter={StaticResource ByteArrayToImageConverter}}"
+                        Width="40"
+                        Height="40"/>
+
+                                        <TextBlock Grid.Column="1" Grid.Row="0">
+                         <Run Text="{Binding TypeString}" />
+                         <Run Text="{Binding Name}" />
+                                        </TextBlock>
+
+                                        <TextBlock Text="{Binding Description}" Grid.Column="1" Grid.Row="2"/>
+
+                                        <TextBlock Grid.Column="3" HorizontalAlignment="Right"
+                                Grid.Row="0" 
+                                Visibility="{Binding IsFake, Converter={StaticResource NotVisibilityConverter}}">
+                         <Run Text="{Binding Price, StringFormat= Цена: {0:C}}"/>
+                                        </TextBlock>
+
+                                        <TextBlock Grid.Column="3" HorizontalAlignment="Right"
+                                Grid.Row="0" 
+                                Text="Не для покупки"
+                                Visibility="{Binding IsFake, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        <Separator Grid.Row="3" 
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+
+                </StackPanel>
+
+                <GroupBox Header="Дополнительные услуги">
+                    <ItemsControl ItemsSource="{Binding ServiceItems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ContentControl Content="{Binding}">
+                                    <ContentControl.Style>
+                                        <Style TargetType="ContentControl">
+                                            <Setter Property="ContentTemplate" Value="{StaticResource SingleOptionTemplate}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Service.OptionType}" Value="1">
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource MultiOptionTemplate}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Service.OptionType}" Value="2">
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource ListOptionTemplate}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentControl.Style>
+                                </ContentControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </GroupBox>
+
+                <StackPanel>
+                    <TextBlock Text="Проверка"/>
+                    <ItemsControl ItemsSource="{Binding Errors}" Visibility="{Binding IsAnyErrors, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="10*"/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding TypeString}" 
+                                               Grid.Column="0" />
+
+                                    <TextBlock Text="{Binding Message}" 
+                                               Grid.Column="1"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="Ошибок не найдено" 
+                               Visibility="{Binding IsAnyErrors, Converter={StaticResource NotVisibilityConverter}}"/>
+                </StackPanel>
             </StackPanel>
 
-            <TextBlock Text="{Binding Description}" 
-                       TextWrapping="Wrap" 
-                       Margin="0,10"/>
-            <TextBlock>
-                <Run Text="Итоговая цена: "/>
-                <Run Text="{Binding TotalPrice, StringFormat=Итого: {0:C}}"/>
-            </TextBlock>
-        </StackPanel>
+            <Border Grid.Column="1" Margin="20,50">
+                <StackPanel Background="White">
+                    <mah:ToggleSwitch IsOn="{Binding UseBonuses}"
+                                      IsEnabled="{Binding AuthService.IsAuthenticated}"
+                                      OffContent="Получить бонусы"
+                                      OnContent="Использовать бонусы" 
+                                      Command="{Binding SwitchCommand}">
+                    </mah:ToggleSwitch>
+                    <TextBlock Visibility="{Binding AuthService.IsAuthenticated, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Run Text="{Binding UseBonuses, Converter={StaticResource SignConverter}}"/><Run Text="{Binding Bonuses}"/>
+                        <Run Text="бонусов"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run Text="{Binding TotalPrice, StringFormat=Итоговая цена: {0:C}}"/>
+                    </TextBlock>
+                    <Button Content="Заказать"
+                            IsEnabled="{Binding IsCompatible}"/>
+                </StackPanel>
+
+            </Border>
+        </Grid>
     </ScrollViewer>
 </UserControl>

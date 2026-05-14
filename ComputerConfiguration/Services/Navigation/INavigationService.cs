@@ -6,5 +6,6 @@ public interface INavigationService
 {
     void NavigateTo<TViewModel>(params object[] parameters) where TViewModel : ViewModelBase;
     void GoBack();
+    void GoBackReload();
     bool CanGoBack { get; } 
 }

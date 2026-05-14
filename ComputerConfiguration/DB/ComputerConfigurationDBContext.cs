@@ -30,7 +30,7 @@ namespace ComputerConfiguration.DB
         public DbSet<PrivilegeLevel> PrivilegeLevels { get; set; }
         public ComputerConfigurationDBContext()
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

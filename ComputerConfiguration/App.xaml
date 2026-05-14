@@ -1,13 +1,22 @@
 ﻿<Application x:Class="ComputerConfiguration.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Shadows.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ValidationError.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ContentControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/ToggleSwitch.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/RangeSlider.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
+                
                 <ResourceDictionary Source="/Styles/ButtonStyle.xaml"/>
                 <ResourceDictionary Source="/Styles/Images.xaml"/>
                 <ResourceDictionary Source="/Styles/IconTextButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Style BasedOn="{StaticResource MahApps.Styles.CustomValidationPopup}" TargetType="{x:Type mah:CustomValidationPopup}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

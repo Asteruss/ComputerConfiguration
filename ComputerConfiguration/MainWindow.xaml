@@ -38,7 +38,8 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding ComputerBuild.IsSelectedAnything, Converter={StaticResource boolToGridWidthConverter}}"/>
+            <!--<ColumnDefinition Width="{Binding ComputerBuild.IsSelectedAnything, Converter={StaticResource boolToGridWidthConverter}}"/>-->
+            <ColumnDefinition Width="0"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -53,7 +54,11 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="0.4*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Конфигуратор компьютера 3000" Grid.Column="0" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="Конфигуратор компьютера 3000" 
+                           Grid.Column="0" 
+                           FontSize="24" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center"/>
 
                 <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
                     <controls:IconTextButton Text="Избранное" 
@@ -113,7 +118,7 @@
             </Grid>
         </Border>
         
-        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Visibility="{Binding ComputerBuild.IsSelectedAnything, Converter={StaticResource visibilityConverter}}">
+        <!--<Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Visibility="{Binding ComputerBuild.IsSelectedAnything, Converter={StaticResource visibilityConverter}}">
             <TreeView Margin="2">
                 <TreeViewItem Header="Процессор" IsExpanded="{Binding ComputerBuild.IsSelectedCpu}">
                     <TreeViewItem Header="{Binding ComputerBuild.Cpu.Name}"/>
@@ -128,8 +133,11 @@
                     <TreeViewItem Header="{Binding ComputerBuild.Ram.Name}"/>
                 </TreeViewItem>
             </TreeView>
-        </Border>
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center">
+        </Border>-->
+        <StackPanel Orientation="Horizontal" 
+                    Grid.Column="1" 
+                    Grid.Row="1" 
+                    HorizontalAlignment="Center">
             <Button Width="100" Command="{Binding GoToCpuCatalogCommand}" Content="CPU"/>
             <Button Width="100" Command="{Binding GoToGpuCatalogCommand}" Content="GPU"/>
             <Button Width="100" Command="{Binding GoToMotherboardCatalogCommand}" Content="Motherboard"/>
