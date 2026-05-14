@@ -1,4 +1,4 @@
-﻿using ComputerConfiguration.Models.Build;
+﻿using ComputerConfiguration.DTO;
 using ComputerConfiguration.Models.Enums;
 
 namespace ComputerConfiguration.Services.Build.Compability;
@@ -6,7 +6,7 @@ namespace ComputerConfiguration.Services.Build.Compability;
 
 public class CpuMotherboardSocketRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Motherboard == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
@@ -20,7 +20,7 @@ public class CpuMotherboardSocketRule : ICompatibilityRule
 
 public class CpuCoolerTdpRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Cooler == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Система охлаждения не установлена.");
@@ -34,7 +34,7 @@ public class CpuCoolerTdpRule : ICompatibilityRule
 
 public class RamCpuSpeedRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Rams == null || !build.Rams.Any())
             return new(CompatibilityRuleEnum.ComponentNotFound, "Оперативная память не установлена.");
@@ -49,7 +49,7 @@ public class RamCpuSpeedRule : ICompatibilityRule
 
 public class RamMotherboardTypeRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Motherboard == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
@@ -66,7 +66,7 @@ public class RamMotherboardTypeRule : ICompatibilityRule
 
 public class RamMotherboardCapacityRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Motherboard == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
@@ -81,7 +81,7 @@ public class RamMotherboardCapacityRule : ICompatibilityRule
 
 public class RamMotherboardSpeedRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Motherboard == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
@@ -96,7 +96,7 @@ public class RamMotherboardSpeedRule : ICompatibilityRule
 
 public class RamMotherboardSlotsRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Motherboard == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
@@ -111,7 +111,7 @@ public class RamMotherboardSlotsRule : ICompatibilityRule
 
 public class StorageMotherboardM2CountRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Motherboard == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
@@ -126,7 +126,7 @@ public class StorageMotherboardM2CountRule : ICompatibilityRule
 
 public class StorageMotherboardSataCountRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Motherboard == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
@@ -141,7 +141,7 @@ public class StorageMotherboardSataCountRule : ICompatibilityRule
 
 public class StorageM2InterfaceWarningRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Motherboard == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
@@ -162,7 +162,7 @@ public class StorageM2InterfaceWarningRule : ICompatibilityRule
 
 public class GpuCaseLengthRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Case == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Корпус не установлен.");
@@ -176,7 +176,7 @@ public class GpuCaseLengthRule : ICompatibilityRule
 
 public class GpuCaseWidthSlotsWarningRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Case == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Корпус не установлен.");
@@ -190,7 +190,7 @@ public class GpuCaseWidthSlotsWarningRule : ICompatibilityRule
 
 public class GpuPsuPowerConnectorsRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Psu == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Блок питания не установлен.");
@@ -209,7 +209,7 @@ public class GpuPsuPowerConnectorsRule : ICompatibilityRule
 
 public class TotalPowerConsumptionRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Psu == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Блок питания не установлен.");
@@ -230,7 +230,7 @@ public class TotalPowerConsumptionRule : ICompatibilityRule
 
 public class StoragePsuSataConnectorsRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Psu == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Блок питания не установлен.");
@@ -245,7 +245,7 @@ public class StoragePsuSataConnectorsRule : ICompatibilityRule
 
 public class MotherboardCaseFormFactorRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Case == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Корпус не установлен.");
@@ -259,7 +259,7 @@ public class MotherboardCaseFormFactorRule : ICompatibilityRule
 
 public class CoolerCaseAirHeightRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Case == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Корпус не установлен.");
@@ -275,7 +275,7 @@ public class CoolerCaseAirHeightRule : ICompatibilityRule
 
 public class CoolerCaseLiquidRadiatorRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Case == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Корпус не установлен.");
@@ -292,7 +292,7 @@ public class CoolerCaseLiquidRadiatorRule : ICompatibilityRule
 
 public class CoolerCpuSocketSupportRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Cooler == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Кулер не установлен.");
@@ -306,7 +306,7 @@ public class CoolerCpuSocketSupportRule : ICompatibilityRule
 
 public class GpuMotherboardPcieVersionWarningRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Motherboard == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
@@ -322,7 +322,7 @@ public class GpuMotherboardPcieVersionWarningRule : ICompatibilityRule
 
 public class CpuGpuPriceBalanceWarningRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Cpu == null || build.Gpu == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Процессор или видеокарта не установлены.");
@@ -334,7 +334,7 @@ public class CpuGpuPriceBalanceWarningRule : ICompatibilityRule
 
 public class RamSameTypeRule : ICompatibilityRule
 {
-    public CompatibilityRuleResult Check(ComputerBuild build)
+    public CompatibilityRuleResult Check(ComputerBuildDTO build)
     {
         if (build.Rams == null || build.Rams.Count <= 1)
             return new();

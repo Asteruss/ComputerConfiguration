@@ -1,4 +1,4 @@
-﻿using ComputerConfiguration.Models.Build;
+﻿using ComputerConfiguration.DTO;
 using ComputerConfiguration.Models.Enums;
 
 namespace ComputerConfiguration.Services.Build.Compability;
@@ -8,7 +8,7 @@ public class CompatibilityCheckerService
     private readonly IEnumerable<ICompatibilityRule> _rules;
     public CompatibilityCheckerService(IEnumerable<ICompatibilityRule> rules) => _rules = rules;
 
-    public CompatibilityResult Check(ComputerBuild build)
+    public CompatibilityResult Check(ComputerBuildDTO build)
     {
         var result = new CompatibilityResult();
         foreach (var rule in _rules)

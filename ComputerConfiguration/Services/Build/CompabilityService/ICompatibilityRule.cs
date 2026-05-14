@@ -1,8 +1,8 @@
-﻿using ComputerConfiguration.Models.Build;
+﻿using ComputerConfiguration.DTO;
 
 namespace ComputerConfiguration.Services.Build.Compability;
 
 public interface ICompatibilityRule
 {
-    CompatibilityRuleResult Check(ComputerBuild build);
+    CompatibilityRuleResult Check(ComputerBuildDTO build);
 }
