@@ -18,6 +18,4 @@ public class User
     public Role? Role { get; set; }
     public List<Address>? Addresses { get; set; }
     public List<Order>? Orders { get; set; }
-
-
 }

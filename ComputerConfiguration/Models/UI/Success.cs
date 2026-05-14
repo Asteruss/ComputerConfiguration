@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComputerConfiguration.Models.UI
+namespace ComputerConfiguration.Models.UI;
+
+public class Success : IResult
 {
-    public class Success : IResult
+    public string Source { get; set; }
+    public string Message { get; set; }
+    public Success(string source, string message)
     {
-        public string Source { get; set; }
-        public string Message { get; set; }
-        public Success(string source, string message)
-        {
-            Source = source;
-            Message = message;
-        }
+        Source = source;
+        Message = message;
     }
 }

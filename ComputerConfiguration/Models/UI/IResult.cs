@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComputerConfiguration.Models.UI
+namespace ComputerConfiguration.Models.UI;
+
+public interface IResult
 {
-    public interface IResult
-    {
-        string Source { get; }
-        string Message { get; }
-    }
+    string Source { get; }
+    string Message { get; }
 }
