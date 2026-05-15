@@ -39,7 +39,7 @@ public class InMemoryComponentRepository : IComponentRepository
 
     private List<Cpu> InitializeCpus()
     {
-        return new List<Cpu>
+        var cpus = new List<Cpu>
             {
                 new() { Id = GetNextId(), Name = "AMD Ryzen 9 9950X", Manufacturer = "AMD", BasePrice = 699.99, Rating = 4.9, InStock = true, Description = "Флагманский 16-ядерный процессор для профессиональных задач", Tags = { "high-end", "productivity" }, CoreCount = 16, ThreadCount = 32, BaseClock = 4.3, BoostClock = 5.7, IntegratedGraphics = false, Series = "Ryzen 9000", MaxMemorySpeed = 5600, Socket = "AM5", Tdp = 170 },
                 new() { Id = GetNextId(), Name = "AMD Ryzen 9 9950X3D", Manufacturer = "AMD", BasePrice = 799.99, Rating = 4.95, InStock = true, Description = "16 ядер с 3D V-Cache для максимальной игровой производительности", Tags = { "high-end", "gaming", "3d-cache" }, CoreCount = 16, ThreadCount = 32, BaseClock = 4.3, BoostClock = 5.7, IntegratedGraphics = false, Series = "Ryzen 9000", MaxMemorySpeed = 5600, Socket = "AM5", Tdp = 170 },
@@ -59,11 +59,14 @@ public class InMemoryComponentRepository : IComponentRepository
                 new() { Id = GetNextId(), Name = "AMD Ryzen 7 8700G", Manufacturer = "AMD", BasePrice = 379.99, Rating = 4.5, InStock = true, Description = "APU с мощной встроенной графикой для сборок без дискретной видеокарты", Tags = { "apu", "budget-gaming" }, CoreCount = 8, ThreadCount = 16, BaseClock = 4.2, BoostClock = 5.1, IntegratedGraphics = true, Series = "Ryzen 8000", MaxMemorySpeed = 5200, Socket = "AM5", Tdp = 65 },
                 new() { Id = GetNextId(), Name = "AMD Ryzen 5 8600G", Manufacturer = "AMD", BasePrice = 249.99, Rating = 4.4, InStock = true, Description = "Доступный APU с графикой Radeon 760M", Tags = { "apu", "budget-gaming" }, CoreCount = 6, ThreadCount = 12, BaseClock = 4.3, BoostClock = 5.0, IntegratedGraphics = true, Series = "Ryzen 8000", MaxMemorySpeed = 5200, Socket = "AM5", Tdp = 65 }
             };
+        foreach (var cpu in cpus)
+            cpu.ComponentCategory = ComponentCategory.CPU;
+        return cpus;
     }
 
     private List<Gpu> InitializeGpus()
     {
-        return new List<Gpu>
+        var gpus = new List<Gpu>
             {
                 new() { Id = GetNextId(), Name = "NVIDIA GeForce RTX 5090", Manufacturer = "NVIDIA", BasePrice = 1999.99, Rating = 5.0, InStock = false, Description = "Флагманская видеокарта нового поколения Blackwell", Tags = { "flagship", "4k-gaming" }, MemorySize = 32, MemoryType = "GDDR7", CoreClock = 2235, BoostClock = 2520, Tdp = 575, Length = 304, PowerConnectors = "12V-2x6", HdmiPorts = 2, DisplayPorts = 3, PcieVersion = "5.0", WidthSlots = 4 },
                 new() { Id = GetNextId(), Name = "NVIDIA GeForce RTX 5080", Manufacturer = "NVIDIA", BasePrice = 999.99, Rating = 4.9, InStock = true, Description = "Высокопроизводительная карта для 4K-гейминга", Tags = { "high-end", "4k-gaming" }, MemorySize = 16, MemoryType = "GDDR7", CoreClock = 2295, BoostClock = 2610, Tdp = 360, Length = 304, PowerConnectors = "12V-2x6", HdmiPorts = 2, DisplayPorts = 3, PcieVersion = "5.0", WidthSlots = 3 },
@@ -81,11 +84,14 @@ public class InMemoryComponentRepository : IComponentRepository
                 new() { Id = GetNextId(), Name = "Intel Arc B580", Manufacturer = "Intel", BasePrice = 249.99, Rating = 4.5, InStock = true, Description = "Бюджетная видеокарта с 12 ГБ памяти", Tags = { "budget", "1080p-gaming" }, MemorySize = 12, MemoryType = "GDDR6", CoreClock = 1950, BoostClock = 2500, Tdp = 200, Length = 250, PowerConnectors = "8-pin x 1", HdmiPorts = 2, DisplayPorts = 3, PcieVersion = "5.0", WidthSlots = 3 },
                 new() { Id = GetNextId(), Name = "AMD Radeon RX 7700 XT", Manufacturer = "AMD", BasePrice = 419.99, Rating = 4.6, InStock = true, Description = "Отличная видеокарта для 1440p", Tags = { "mid-range", "1440p-gaming" }, MemorySize = 12, MemoryType = "GDDR6", CoreClock = 1435, BoostClock = 2544, Tdp = 245, Length = 270, PowerConnectors = "8-pin x 1", HdmiPorts = 2, DisplayPorts = 3, PcieVersion = "4.0", WidthSlots = 3 }
             };
+        foreach (var gpu in gpus)
+            gpu.ComponentCategory = ComponentCategory.GPU;
+        return gpus;
     }
 
     private List<Motherboard> InitializeMotherboards()
     {
-        return new List<Motherboard>
+        var motherboards = new List<Motherboard>
             {
                 new() { Id = GetNextId(), Name = "ASUS ROG Crosshair X870E Hero", Manufacturer = "ASUS", BasePrice = 699.99, Rating = 4.9, InStock = true, Description = "Топовая материнская плата для процессоров AMD Ryzen 9000", Tags = { "flagship", "overclocking" }, Chipset = "X870E", MemoryType = "DDR5", MemorySlots = 4, MaxMemory = 192, MaxMemorySpeed = 8000, PcieVersion = "5.0", M2Slots = 5, SataPorts = 6, IntegratedWifi = true, IntegratedBluetooth = true, Socket = "AM5", FormFactor = "ATX", PowerConsumption = 80 },
                 new() { Id = GetNextId(), Name = "MSI MAG X870 TOMAHAWK WIFI", Manufacturer = "MSI", BasePrice = 299.99, Rating = 4.7, InStock = true, Description = "Отличная плата для AM5 с хорошим оснащением", Tags = { "mid-range", "gaming" }, Chipset = "X870", MemoryType = "DDR5", MemorySlots = 4, MaxMemory = 256, MaxMemorySpeed = 7800, PcieVersion = "5.0", M2Slots = 4, SataPorts = 6, IntegratedWifi = true, IntegratedBluetooth = true, Socket = "AM5", FormFactor = "ATX", PowerConsumption = 70 },
@@ -103,11 +109,14 @@ public class InMemoryComponentRepository : IComponentRepository
                 new() { Id = GetNextId(), Name = "ASUS PRIME H610M-A D4", Manufacturer = "ASUS", BasePrice = 89.99, Rating = 4.3, InStock = true, Description = "Бюджетная плата для Intel с поддержкой DDR4", Tags = { "budget", "office" }, Chipset = "H610", MemoryType = "DDR4", MemorySlots = 2, MaxMemory = 64, MaxMemorySpeed = 3200, PcieVersion = "4.0", M2Slots = 2, SataPorts = 4, IntegratedWifi = false, IntegratedBluetooth = false, Socket = "LGA1700", FormFactor = "Micro-ATX", PowerConsumption = 45 },
                 new() { Id = GetNextId(), Name = "Gigabyte Z790 AORUS ELITE AX", Manufacturer = "Gigabyte", BasePrice = 259.99, Rating = 4.7, InStock = true, Description = "Популярная плата для LGA1700", Tags = { "mid-range", "gaming" }, Chipset = "Z790", MemoryType = "DDR5", MemorySlots = 4, MaxMemory = 128, MaxMemorySpeed = 6800, PcieVersion = "5.0", M2Slots = 4, SataPorts = 4, IntegratedWifi = true, IntegratedBluetooth = true, Socket = "LGA1700", FormFactor = "ATX", PowerConsumption = 65 }
             };
+        foreach (var mb in motherboards)
+            mb.ComponentCategory = ComponentCategory.Motherboard;
+        return motherboards;
     }
 
     private List<Ram> InitializeRams()
     {
-        return new List<Ram>
+        var rams = new List<Ram>
             {
                 new() { Id = GetNextId(), Name = "G.Skill Trident Z5 RGB", Manufacturer = "G.Skill", BasePrice = 109.99, Rating = 4.8, InStock = true, Description = "Высокоскоростная DDR5 RAM с RGB-подсветкой", Tags = { "ddr5", "gaming", "rgb" }, MemoryType = "DDR5", Capacity = 16, Speed = 6000, ModuleCount = 2, Timing = "CL30-38-38-96", Voltage = 1.35, ComputerBuilds = new List<ComputerBuild>() },
                 new() { Id = GetNextId(), Name = "Corsair Vengeance RGB", Manufacturer = "Corsair", BasePrice = 104.99, Rating = 4.7, InStock = true, Description = "Популярные модули DDR5 с RGB", Tags = { "ddr5", "gaming", "rgb" }, MemoryType = "DDR5", Capacity = 16, Speed = 6000, ModuleCount = 2, Timing = "CL36-36-36-76", Voltage = 1.35, ComputerBuilds = new List<ComputerBuild>() },
@@ -125,11 +134,14 @@ public class InMemoryComponentRepository : IComponentRepository
                 new() { Id = GetNextId(), Name = "Patriot Viper Steel", Manufacturer = "Patriot", BasePrice = 69.99, Rating = 4.6, InStock = true, Description = "DDR4 с агрессивным дизайном", Tags = { "ddr4", "gaming" }, MemoryType = "DDR4", Capacity = 16, Speed = 3200, ModuleCount = 2, Timing = "CL16-18-18-36", Voltage = 1.35, ComputerBuilds = new List<ComputerBuild>() },
                 new() { Id = GetNextId(), Name = "Crucial Ballistix", Manufacturer = "Crucial", BasePrice = 79.99, Rating = 4.7, InStock = false, Description = "Проверенная DDR4 для игр", Tags = { "ddr4", "gaming" }, MemoryType = "DDR4", Capacity = 16, Speed = 3600, ModuleCount = 2, Timing = "CL16-18-18-38", Voltage = 1.35, ComputerBuilds = new List<ComputerBuild>() }
             };
+        foreach (var ram in rams)
+            ram.ComponentCategory = ComponentCategory.RAM;
+        return rams;
     }
 
     private List<Psu> InitializePsus()
     {
-        return new List<Psu>
+        var psus = new List<Psu>
             {
                 new() { Id = GetNextId(), Name = "Corsair RM1000e (2025)", Manufacturer = "Corsair", BasePrice = 159.99, Rating = 4.8, InStock = true, Description = "1000W блок питания с поддержкой ATX 3.1 и PCIe 5.1", Tags = { "high-wattage", "modular" }, Wattage = 1000, EfficiencyRating = EfficiencyRating.Gold, Modular = true, SataConnectors = 8, PcieConnectors = 4, ComputerBuilds = new List<ComputerBuild>() },
                 new() { Id = GetNextId(), Name = "Corsair RM850e (2025)", Manufacturer = "Corsair", BasePrice = 129.99, Rating = 4.7, InStock = true, Description = "850W блок питания с ATX 3.1", Tags = { "mid-wattage", "modular" }, Wattage = 850, EfficiencyRating = EfficiencyRating.Gold, Modular = true, SataConnectors = 8, PcieConnectors = 4, ComputerBuilds = new List<ComputerBuild>() },
@@ -147,12 +159,15 @@ public class InMemoryComponentRepository : IComponentRepository
                 new() { Id = GetNextId(), Name = "DeepCool DQ750M-V3L", Manufacturer = "DeepCool", BasePrice = 89.99, Rating = 4.5, InStock = true, Description = "Бюджетный 750W блок", Tags = { "budget" }, Wattage = 750, EfficiencyRating = EfficiencyRating.Gold, Modular = true, SataConnectors = 6, PcieConnectors = 4, ComputerBuilds = new List<ComputerBuild>() },
                 new() { Id = GetNextId(), Name = "NZXT C1200 Gold", Manufacturer = "NZXT", BasePrice = 199.99, Rating = 4.8, InStock = true, Description = "1200W для самых мощных систем", Tags = { "high-wattage" }, Wattage = 1200, EfficiencyRating = EfficiencyRating.Gold, Modular = true, SataConnectors = 12, PcieConnectors = 6, ComputerBuilds = new List<ComputerBuild>() }
             };
+        foreach (var psu in psus)
+            psu.ComponentCategory = ComponentCategory.PSU;
+        return psus;
     }
 
     private List<Cooler> InitializeCoolers()
     {
         var socketSupport = new List<CoolerSocket> { new() { Socket = "AM5" }, new() { Socket = "LGA1700" } };
-        return new List<Cooler>
+        var coolers = new List<Cooler>
             {
                 new() { Id = GetNextId(), Name = "Noctua NH-D15 G2", Manufacturer = "Noctua", BasePrice = 149.99, Rating = 5.0, InStock = true, Description = "Лучший воздушный кулер на рынке", Tags = { "air", "premium" }, CoolerType = CoolerType.Air, TdpRating = 250, Height = 165, RadiatorSize = 0, NoiseLevel = 24.6, ComputerBuilds = new List<ComputerBuild>(), SocketSupport = socketSupport },
                 new() { Id = GetNextId(), Name = "DeepCool AK620", Manufacturer = "DeepCool", BasePrice = 64.99, Rating = 4.8, InStock = true, Description = "Мощный двухбашенный кулер", Tags = { "air", "value" }, CoolerType = CoolerType.Air, TdpRating = 260, Height = 160, RadiatorSize = 0, NoiseLevel = 28.6, ComputerBuilds = new List<ComputerBuild>(), SocketSupport = socketSupport },
@@ -170,11 +185,14 @@ public class InMemoryComponentRepository : IComponentRepository
                 new() { Id = GetNextId(), Name = "SilverStone IceMyst 360 ARGB", Manufacturer = "SilverStone", BasePrice = 149.99, Rating = 4.6, InStock = true, Description = "360mm AIO с уникальным дизайном", Tags = { "liquid", "rgb" }, CoolerType = CoolerType.Liquid, TdpRating = 280, Height = 0, RadiatorSize = 360, NoiseLevel = 31, ComputerBuilds = new List<ComputerBuild>(), SocketSupport = socketSupport },
                 new() { Id = GetNextId(), Name = "Thermalright Frost Commander 140", Manufacturer = "Thermalright", BasePrice = 49.99, Rating = 4.7, InStock = true, Description = "Мощный воздушный кулер с 140мм вентилятором", Tags = { "air", "value" }, CoolerType = CoolerType.Air, TdpRating = 275, Height = 160, RadiatorSize = 0, NoiseLevel = 27, ComputerBuilds = new List<ComputerBuild>(), SocketSupport = socketSupport }
             };
+        foreach (var cooler in coolers)
+            cooler.ComponentCategory = ComponentCategory.Cooler;
+        return coolers;
     }
 
     private List<Case> InitializeCases()
     {
-        return new List<Case>
+        var cases= new List<Case>
             {
                 new() { Id = GetNextId(), Name = "Lian Li Lancool 217 INF", Manufacturer = "Lian Li", BasePrice = 119.99, Rating = 4.8, InStock = true, Description = "Корпус с эффектом бесконечного зеркала", Tags = { "mid-tower", "rgb" }, Color = "Black", MaxGpuLength = 420, MaxCoolerHeight = 180, IncludedFans = 3, RadiatorSupport = "240mm, 280mm, 360mm", SidePanel = "Tempered Glass", CaseSize = CaseFormFactor.MidTower, SupportedMotherboardFormFactors = "ATX, Micro-ATX, Mini-ITX", MaxGpuWidthSlots = 7, ComputerBuilds = new List<ComputerBuild>() },
                 new() { Id = GetNextId(), Name = "Fractal Design North XL", Manufacturer = "Fractal Design", BasePrice = 159.99, Rating = 4.9, InStock = true, Description = "Стильный корпус с панелью из орехового дерева", Tags = { "mid-tower", "aesthetic" }, Color = "Charcoal", MaxGpuLength = 400, MaxCoolerHeight = 170, IncludedFans = 2, RadiatorSupport = "240mm, 360mm", SidePanel = "Tempered Glass", CaseSize = CaseFormFactor.MidTower, SupportedMotherboardFormFactors = "ATX, Micro-ATX, Mini-ITX", MaxGpuWidthSlots = 7, ComputerBuilds = new List<ComputerBuild>() },
@@ -192,11 +210,14 @@ public class InMemoryComponentRepository : IComponentRepository
                 new() { Id = GetNextId(), Name = "Lian Li DAN Case B4", Manufacturer = "Lian Li", BasePrice = 99.99, Rating = 4.7, InStock = true, Description = "Компактный корпус для сборок microATX, возможна вертикальная ориентация", Tags = { "micro-atx", "unique" }, Color = "Black", MaxGpuLength = 345, MaxCoolerHeight = 145, IncludedFans = 0, RadiatorSupport = "240mm", SidePanel = "Mesh", CaseSize = CaseFormFactor.MicroAtx, SupportedMotherboardFormFactors = "Micro-ATX", MaxGpuWidthSlots = 4, ComputerBuilds = new List<ComputerBuild>() },
                 new() { Id = GetNextId(), Name = "Jonsbo D31 Mesh", Manufacturer = "Jonsbo", BasePrice = 79.99, Rating = 4.5, InStock = true, Description = "Сетчатый корпус с возможностью установки экрана", Tags = { "micro-atx", "budget" }, Color = "Black", MaxGpuLength = 330, MaxCoolerHeight = 168, IncludedFans = 0, RadiatorSupport = "240mm, 360mm", SidePanel = "Mesh", CaseSize = CaseFormFactor.MicroAtx, SupportedMotherboardFormFactors = "Micro-ATX, Mini-ITX", MaxGpuWidthSlots = 6, ComputerBuilds = new List<ComputerBuild>() }
             };
+        foreach (var caseComp in cases)
+            caseComp.ComponentCategory = ComponentCategory.Case;
+        return cases;
     }
 
     private List<Storage> InitializeStorages()
     {
-        return new List<Storage>
+        var storages = new List<Storage>
             {
                 new() { Id = GetNextId(), Name = "Samsung 990 Pro", Manufacturer = "Samsung", BasePrice = 89.99, Rating = 4.9, InStock = true, Description = "Флагманский NVMe SSD PCIe 4.0", Tags = { "nvme", "flagship" }, StorageType = StorageType.NVMe, Capacity = 1000, Interface = "PCIe 4.0 x4", ReadSpeed = 7450, WriteSpeed = 6900, FormFactor = "M.2 2280", ComputerBuilds = new List<ComputerBuild>() },
                 new() { Id = GetNextId(), Name = "Western Digital Black SN850X", Manufacturer = "Western Digital", BasePrice = 89.99, Rating = 4.8, InStock = true, Description = "Высокопроизводительный NVMe SSD для игр", Tags = { "nvme", "gaming" }, StorageType = StorageType.NVMe, Capacity = 1000, Interface = "PCIe 4.0 x4", ReadSpeed = 7300, WriteSpeed = 6600, FormFactor = "M.2 2280", ComputerBuilds = new List<ComputerBuild>() },
@@ -214,6 +235,9 @@ public class InMemoryComponentRepository : IComponentRepository
                 new() { Id = GetNextId(), Name = "TeamGroup MP44L", Manufacturer = "TeamGroup", BasePrice = 59.99, Rating = 4.5, InStock = true, Description = "Доступный NVMe SSD", Tags = { "nvme", "budget" }, StorageType = StorageType.NVMe, Capacity = 1000, Interface = "PCIe 4.0 x4", ReadSpeed = 5000, WriteSpeed = 4500, FormFactor = "M.2 2280", ComputerBuilds = new List<ComputerBuild>() },
                 new() { Id = GetNextId(), Name = "Lexar NM790", Manufacturer = "Lexar", BasePrice = 74.99, Rating = 4.6, InStock = true, Description = "NVMe SSD с хорошим соотношением цена/производительность", Tags = { "nvme", "value" }, StorageType = StorageType.NVMe, Capacity = 1000, Interface = "PCIe 4.0 x4", ReadSpeed = 7400, WriteSpeed = 6500, FormFactor = "M.2 2280", ComputerBuilds = new List<ComputerBuild>() }
             };
+        foreach (var storage in storages)
+            storage.ComponentCategory = ComponentCategory.Storage;
+        return storages;
     }
 
     private int GetNextId()

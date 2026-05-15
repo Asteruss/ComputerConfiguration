@@ -2,6 +2,7 @@
 using ComputerConfiguration.Models.Enums;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 
 namespace ComputerConfiguration.Models;
 
@@ -42,6 +43,17 @@ public class ComponentDTO : NotifyPropertyChanged
         set
         {
             _countFakeSelected = value;
+            OnPropertyChanged();
+        }
+    }
+    private bool _isFavorite;
+    [NotMapped]
+    public bool IsFavorite
+    {
+        get => _isFavorite;
+        set
+        {
+            _isFavorite = value;
             OnPropertyChanged();
         }
     }

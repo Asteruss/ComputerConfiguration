@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ComputerConfiguration.Models.Enums;
 
-namespace ComputerConfiguration.Models
+namespace ComputerConfiguration.Models;
+
+public interface IComponent
 {
-    public interface IComponent
-    {
-        int Id { get; }
-        string Name { get; set; }
-        string Manufacturer { get; set; }
-        double BasePrice { get; set; }
-        double Rating { get; set; }
-        List<string> Tags { get; set; }
-        bool InStock { get; set; }
-        byte[] ImageData { get; set; }
+    int Id { get; }
+    string Name { get; set; }
+    string Manufacturer { get; set; }
+    double BasePrice { get; set; }
+    double Rating { get; set; }
+    List<string> Tags { get; set; }
+    bool InStock { get; set; }
+    byte[] ImageData { get; set; }
+    ComponentCategory ComponentCategory { get; set; }
 
-    }
+
 }

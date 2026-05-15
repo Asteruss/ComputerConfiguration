@@ -11,8 +11,8 @@ namespace ComputerConfiguration.ViewModels;
 
 public class ComponentSelectionViewModel : ViewModelBase
 {
-    public List<IComponent> _components { get; set; }
-    public ObservableCollection<IComponent> FilteredComponents { get; set; }
+    public List<ComponentBase> _components { get; set; }
+    public ObservableCollection<ComponentBase> FilteredComponents { get; set; }
     public ObservableCollection<FilterBase> Filters { get; } = new();
     private string _lastSortField;
     private bool _ascending = true;
@@ -63,6 +63,7 @@ public class ComponentSelectionViewModel : ViewModelBase
             OnPropertyChanged(nameof(FilteredComponents));
         }));
     }
+
 
     private RelayCommand _selectCommand;
     public RelayCommand SelectCommand
@@ -146,7 +147,7 @@ public class ComponentSelectionViewModel : ViewModelBase
                 _builder.ClearStorages(storage, ComponentStatus.SelectedManyAsFake);
         });
     }
-    public ComponentSelectionViewModel(IEnumerable<IComponent> components, IComponentFilterProvider filterProvider,
+    public ComponentSelectionViewModel(IEnumerable<ComponentBase> components, IComponentFilterProvider filterProvider,
         ComponentCategory category, IComputerBuildDtoBuilder builder)
     {
         _components = [.. components];
