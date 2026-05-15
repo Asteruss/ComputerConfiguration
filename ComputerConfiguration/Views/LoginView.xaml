@@ -9,9 +9,9 @@
              mc:Ignorable="d" >
     <StackPanel>
         <StackPanel x:Name="stpLogin" DataContext="{Binding EntryDTO}">
-            <Label Content="Name"/>
+            <Label Content="Email"/>
             <TextBox Text="{Binding Email}"/>
-            <Label Content="Password"/>
+            <Label Content="Пароль"/>
             <PasswordBox>
                 <i:Interaction.Behaviors>
                     <behaviors:PasswordBoxBehavior SecurePassword="{Binding Password, Mode=TwoWay}"/>
@@ -19,6 +19,6 @@
             </PasswordBox>
         </StackPanel>
 
-        <Button Content="Reg" Command="{Binding LoginCommand}" CommandParameter="{Binding DataContext, ElementName=stpLogin}"/>
+        <Button Content="Войти" Command="{Binding LoginCommand}" CommandParameter="{Binding DataContext, ElementName=stpLogin}"/>
     </StackPanel>
 </UserControl>

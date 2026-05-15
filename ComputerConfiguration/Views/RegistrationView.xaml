@@ -9,18 +9,18 @@
              mc:Ignorable="d">
     <StackPanel>
         <StackPanel x:Name="stpRegistration" DataContext="{Binding RegistrationDTO}">
-            <Label Content="Name"/>
+            <Label Content="Ваш email"/>
             <TextBox Text="{Binding Email}"/>
-            <Label Content="Name"/>
+            <Label Content="Ваше имя"/>
             <TextBox Text="{Binding Name}"/>
 
-            <Label Content="Password"/>
+            <Label Content="Придумайте пароль"/>
             <PasswordBox>
                 <i:Interaction.Behaviors>
                     <behaviors:PasswordBoxBehavior SecurePassword="{Binding Password, Mode=TwoWay}"/>
                 </i:Interaction.Behaviors>
             </PasswordBox>
-            <Label Content="Password"/>
+            <Label Content="Повторите его"/>
             <PasswordBox>
                 <i:Interaction.Behaviors>
                     <behaviors:PasswordBoxBehavior SecurePassword="{Binding PasswordRepeat, Mode=TwoWay}"/>
@@ -28,6 +28,6 @@
             </PasswordBox>
         </StackPanel>
 
-        <Button Content="Reg" Command="{Binding RegisterCommand}" CommandParameter="{Binding DataContext, ElementName=stpRegistration}"/>
+        <Button Content="Зарегистрироваться" Command="{Binding RegisterCommand}" CommandParameter="{Binding DataContext, ElementName=stpRegistration}"/>
     </StackPanel>
 </UserControl>
