@@ -72,7 +72,6 @@ public class OrderFacade
             price = _bonusService.GetNewPrice(user, price);
         return price;
     }
-
     public double GetBonusEarn(User user)
     {
         if (user == null) return 0;

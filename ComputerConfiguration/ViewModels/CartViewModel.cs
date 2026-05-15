@@ -21,6 +21,7 @@ public class CartViewModel : ViewModelBase
     public ObservableCollection<CompabilityErrorDTO> Errors { get; set;  } = new();
     public bool IsCompatible { get; set; }
     public bool IsAnyErrors { get; set; }
+    public bool IsOrderCreation => IsCompatible && AuthService.IsAuthenticated;
 
     private double _totalPrice;
     public double TotalPrice
@@ -70,7 +71,7 @@ public class CartViewModel : ViewModelBase
     {
         var res = _orderFacade.CheckCompability();
         Errors = res.Item1.ToObservableCollection();
-        IsCompatible = !res.Item2;
+        IsCompatible = res.Item2;
         IsAnyErrors = IsCompatible || Errors.Any();
     }
 
