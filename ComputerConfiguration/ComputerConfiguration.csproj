@@ -25,8 +25,11 @@
   <ItemGroup>
     <None Remove="Icons\account-icon.png" />
     <None Remove="Icons\basket-icon.png" />
+    <None Remove="Icons\down-arrow.png" />
     <None Remove="Icons\favourite-icon.png" />
     <None Remove="Icons\processor.png" />
+    <None Remove="Icons\up-arrow.png" />
+    <None Remove="Icons\up-down.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,10 +55,19 @@
     <Resource Include="Icons\basket-icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Icons\down-arrow.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Icons\favourite-icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\processor.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\up-arrow.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\up-down.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
