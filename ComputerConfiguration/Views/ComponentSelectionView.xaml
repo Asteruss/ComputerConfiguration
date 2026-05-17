@@ -7,26 +7,36 @@
              xmlns:filters="clr-namespace:ComputerConfiguration.Filters"
              xmlns:behaviors="clr-namespace:ComputerConfiguration.Behaviors"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d" >
+             mc:Ignorable="d">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type filters:SingleChoiceFilter}">
-            <StackPanel Orientation="Vertical">
-                <DockPanel>
-                    <TextBlock Text="{Binding DisplayName}" 
-                               DockPanel.Dock="Left"/>
-                    <Button Content="✖" 
-                            DockPanel.Dock="Right"
-                            Command="{Binding ResetCommand}" 
-                            Width="20" />
-                </DockPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding DisplayName}" 
+                           Grid.Column="0"
+                           Grid.Row="0"/>
+                <Button Content="✖" 
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Command="{Binding ResetCommand}" 
+                        Width="20" />
 
-                <ListBox ItemsSource="{Binding Options}"
+                <ListBox ItemsSource="{Binding Options}" 
+                         Grid.Row="1"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="2"
                     SelectionMode="Single"
                     MaxHeight="120"
-                    Width="200"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     SelectedItem="{Binding Value}"/>
-            </StackPanel>
+            </Grid>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type filters:TextFilter}">
@@ -44,12 +54,11 @@
                 <ListBox ItemsSource="{Binding Options}"
                     SelectionMode="Multiple"
                     MaxHeight="120"
-                    Width="200"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     behaviors:ListBoxBehavior.SelectedItems="{Binding SelectedItems}"/>
             </StackPanel>
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type filters:RangeFilter}">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="{Binding DisplayName}"/>
@@ -60,51 +69,65 @@
                          UpperValue="{Binding CurrentMax, Mode=TwoWay}"
                          IsSnapToTickEnabled="True"
                          TickFrequency="1"
-                         Width="200"/>
+                         x:Name="slider"/>
 
-                <TextBlock>
-                    <Run Text="от "/><Run Text="{Binding CurrentMin, StringFormat={}{0:F0}}"/>
-                    <Run Text=" до "/><Run Text="{Binding CurrentMax, StringFormat={}{0:F0}}"/>
-                </TextBlock>
+                <StackPanel>
+                    
+                    <TextBlock HorizontalAlignment="Left">
+    <Run Text="{Binding CurrentMin, StringFormat={}{0:F0}}"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Right">
+    <Run Text="{Binding CurrentMax, StringFormat={}{0:F0}}"/>
+                    </TextBlock>
+                </StackPanel>
+
             </StackPanel>
         </DataTemplate>
-        
+
+        <DataTemplate DataType="{x:Type filters:FavoriteOnlyFilter}">
+            <StackPanel Orientation="Horizontal">
+                <mah:ToggleSwitch IsOn="{Binding IsEnabled}" Content="{Binding DisplayName}"/>
+            </StackPanel>
+        </DataTemplate>
+
         <DataTemplate x:Key="ButtomRemove">
             <Button Content="Удалить"
                     Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                     CommandParameter="{Binding}"/>
         </DataTemplate>
-        
+
         <DataTemplate x:Key="ButtonSelectManyOption">
             <StackPanel Orientation="Horizontal">
-                
-                <Button Content="Выбрать"
-                        Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        CommandParameter="{Binding}"/>
-                
-                <Button Content="Выбрать как свое"
-                        Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        CommandParameter="{Binding}"/>
 
                 <Button
-                        Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        CommandParameter="{Binding}">
+        Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+        CommandParameter="{Binding}">
                     <TextBlock>
-                        <Run Text="Очистить ("/>
-                        <Run Text="{Binding CountSelected}"/>
-                        <Run Text=")"/>
+        <Run Text="Очистить ("/>
+        <Run Text="{Binding CountSelected}"/>
+        <Run Text=")"/>
                     </TextBlock>
                 </Button>
 
                 <Button 
-                        Command="{Binding DataContext.RemoveFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        CommandParameter="{Binding}">
+        Command="{Binding DataContext.RemoveFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+        CommandParameter="{Binding}">
                     <TextBlock>
-                        <Run Text="Очистить свои ("/>
-                        <Run Text="{Binding CountFakeSelected}"/>
-                        <Run Text=")"/>
+        <Run Text="Очистить свои ("/>
+        <Run Text="{Binding CountFakeSelected}"/>
+        <Run Text=")"/>
                     </TextBlock>
                 </Button>
+
+                <Button Content="Выбрать"
+                        Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}"/>
+
+                <Button Content="Выбрать как свое"
+                        Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        CommandParameter="{Binding}"/>
+
+
             </StackPanel>
         </DataTemplate>
 
@@ -122,18 +145,49 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="8*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.3*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
-            <Button Content="Сортировать по имени" Command="{Binding SortBy}" CommandParameter="Name"/>
-            <Button Content="Сортировать по цене" Command="{Binding SortBy}" CommandParameter="Price"/>
-            <Button Content="Сортировать по рейтингу" Command="{Binding SortBy}" CommandParameter="Rating"/>
-        </StackPanel>
+        <ItemsControl ItemsSource="{Binding SortOptions}"
+                      Grid.Column="1" 
+                      Grid.Row="0">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Command="{Binding DataContext.SortBy, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    CommandParameter="{Binding }">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding DisplayName, Mode=OneWay}" x:Name="txtSortDisplayName"/>
+                            <Image>
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Height" Value="{Binding ActualHeight,ElementName=txtSortDisplayName}"/>
+                                        <Setter Property="Width" Value="{Binding ActualHeight,ElementName=txtSortDisplayName}"/>
+                                        <Setter Property="Source" Value="/Icons/up-down.png"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsAscending}" Value="true">
+                                                <Setter Property="Source" Value="/Icons/up-arrow.png"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsAscending}" Value="false">
+                                                <Setter Property="Source" Value="/Icons/down-arrow.png"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </StackPanel>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <Border Grid.Column="0" Grid.Row="1">
             <ItemsControl ItemsSource="{Binding Filters}">
                 <ItemsControl.ItemTemplate>
@@ -145,8 +199,15 @@
         </Border>
         <Border Grid.Column="1" Grid.Row="1">
             <ItemsControl ItemsSource="{Binding FilteredComponents}"
-              Background="Transparent"
-              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                          Background="Transparent">
+                <ItemsControl.Template>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled">     
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="5" Margin="0,2">
@@ -154,21 +215,37 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14"/>
-                                    <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
-                                        <TextBlock Text="Производитель: " Foreground="Gray"/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Производитель: "/>
                                         <TextBlock Text="{Binding Manufacturer}"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Цена: " Foreground="Gray"/>
+                                        <TextBlock Text="Цена: "/>
                                         <TextBlock Text="{Binding BasePrice, StringFormat={}{0:C}}"/>
                                     </StackPanel>
                                 </StackPanel>
+                                <Button Grid.Column="1"
+                                        CommandParameter="{Binding}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Content" Value="Добавить в избранное"/>
+                                            <Setter Property="Command" Value="{Binding DataContext.AddFavorite, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
 
-                                <ContentControl Grid.Column="1" Content="{Binding}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsFavorite}" Value="true">
+                                                    <Setter Property="Content" Value="Удалить из избранного"/>
+                                                    <Setter Property="Command" Value="{Binding DataContext.DeleteFavorite, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                <ContentControl Grid.Column="2" Content="{Binding}">
                                     <ContentControl.Style>
                                         <Style TargetType="ContentControl">
                                             <Setter Property="ContentTemplate" Value="{StaticResource buttonSelectOne}"/>
@@ -177,15 +254,15 @@
                                                 <DataTrigger Binding="{Binding ComponentStatus}" Value="1">
                                                     <Setter Property="ContentTemplate" Value="{StaticResource ButtomRemove}"/>
                                                 </DataTrigger>
-                                                
+
                                                 <DataTrigger Binding="{Binding ComponentStatus}" Value="2">
                                                     <Setter Property="ContentTemplate" Value="{StaticResource ButtomRemove}"/>
                                                 </DataTrigger>
-                                                
+
                                                 <DataTrigger Binding="{Binding ComponentStatus}" Value="3">
                                                     <Setter Property="ContentTemplate" Value="{StaticResource ButtonSelectManyOption}"/>
                                                 </DataTrigger>
-                                                
+
                                                 <DataTrigger Binding="{Binding ComponentStatus}" Value="4">
                                                     <Setter Property="ContentTemplate" Value="{StaticResource ButtonSelectManyOption}"/>
                                                 </DataTrigger>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ComputerConfiguration.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace ComputerConfiguration.Views
         public ComponentSelectionView()
         {
             InitializeComponent();
+            Loaded += async (s, e) =>
+            {
+                if (DataContext is ComponentSelectionViewModel vm)
+                    await vm.LoadDataAsync();
+            };
         }
     }
 }
