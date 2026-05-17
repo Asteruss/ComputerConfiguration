@@ -15,5 +15,5 @@ public abstract class FilterBase : NotifyPropertyChanged
         get => _value;
         set { _value = value; OnPropertyChanged(); }
     }
-    public abstract bool Matches(IComponent component);
+    public abstract bool Matches(ComponentBase component);
 }

@@ -41,6 +41,12 @@ public class ComponentFilterProvider : IComponentFilterProvider
             MatchStrategy = new ContainsMatchStrategy()
         };
 
+        yield return new FavoriteOnlyFilter
+        {
+            Name = "Name",
+            DisplayName = "Только избранные"
+        };
+
         switch (type)
         {
             case ComponentCategory.CPU:

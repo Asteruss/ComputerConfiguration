@@ -17,7 +17,7 @@ public class SingleChoiceFilter : FilterBase
         get => _resetCommand ?? (_resetCommand = new((obj) => Value = null));
     }
     public ObservableCollection<object> Options { get; set; } = new();
-    public override bool Matches(IComponent component)
+    public override bool Matches(ComponentBase component)
     {
         if (Value == null) return true;
         var propValue = component.GetType().GetProperty(Name)?.GetValue(component);

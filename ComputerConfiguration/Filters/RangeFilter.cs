@@ -27,7 +27,7 @@ public class RangeFilter : FilterBase
         set { _currentMax = value; OnPropertyChanged(); OnPropertyChanged(nameof(Value)); }
     }
 
-    public override bool Matches(IComponent component)
+    public override bool Matches(ComponentBase component)
     {
         var propValue = component.GetType().GetProperty(Name)?.GetValue(component);
         var range = (CurrentMin, CurrentMax);

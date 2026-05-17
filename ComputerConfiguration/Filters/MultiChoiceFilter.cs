@@ -42,7 +42,7 @@ public class MultiChoiceFilter : FilterBase
         SelectedItems = [];
     }
 
-    public override bool Matches(IComponent component)
+    public override bool Matches(ComponentBase component)
     {
         if (SelectedItems == null || SelectedItems.Count == 0)
             return true;

@@ -11,7 +11,7 @@ namespace ComputerConfiguration.Filters;
 
 public class TextFilter : FilterBase
 {
-    public override bool Matches(IComponent component)
+    public override bool Matches(ComponentBase component)
     {
         string text = Value as string;
         if (string.IsNullOrWhiteSpace(text)) return true;
