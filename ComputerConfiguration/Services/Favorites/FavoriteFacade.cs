@@ -2,6 +2,7 @@
 using ComputerConfiguration.Models.Enums;
 using ComputerConfiguration.Models.Favorites;
 using ComputerConfiguration.Services.Authentication;
+using Microsoft.EntityFrameworkCore;
 
 namespace ComputerConfiguration.Services.Favorites;
 
@@ -10,12 +11,15 @@ public class FavoriteFacade : IDisposable
     private readonly FavoritesService _localService;
     private readonly FavoritesService _dbService;
     private readonly IAuthService _authService;
+    private readonly SemaphoreSlim _syncLock = new(1, 1);
 
-    public FavoriteFacade(ComputerConfigurationDBContext dbContext, LocalDBContext local,
-        IAuthService authService)
+    public FavoriteFacade(
+       IDbContextFactory<ComputerConfigurationDBContext> dbFactory,
+       IDbContextFactory<LocalDBContext> localFactory,
+       IAuthService authService)
     {
-        _localService = new FavoritesService(local);
-        _dbService = new FavoritesService(dbContext);
+        _localService = new FavoritesService(() => localFactory.CreateDbContext());
+        _dbService = new FavoritesService(() => dbFactory.CreateDbContext());
         _authService = authService;
         _authService.UserChanged += OnUserChanged;
     }
@@ -23,11 +27,20 @@ public class FavoriteFacade : IDisposable
     public void Dispose()
     {
         _authService.UserChanged -= OnUserChanged;
+        _syncLock.Dispose();
     }
-
     private async void OnUserChanged()
     {
-        await Sync();
+        if (!await _syncLock.WaitAsync(0)) 
+            return;
+        try
+        {
+            await Sync();
+        }
+        finally
+        {
+            _syncLock.Release();
+        }
     }
     private int _getUserId() => _authService.CurrentUser?.Id ?? 0;
     private IFavoritesService _chooseService() => (_authService.IsAuthenticated) ? _dbService : _localService;

@@ -6,6 +6,7 @@ using ComputerConfiguration.Repositories.ServicesRepository;
 using ComputerConfiguration.Services.Authentication;
 using ComputerConfiguration.Services.Build;
 using ComputerConfiguration.Services.Build.Compability;
+using ComputerConfiguration.Services.Favorites;
 using ComputerConfiguration.Services.Navigation;
 using ComputerConfiguration.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,10 @@ public partial class App : Application
             .ConfigureServices(services =>
             {
                 services.AddDbContext<ComputerConfigurationDBContext>();
+                services.AddDbContext<LocalDBContext>();
+                services.AddDbContextFactory<ComputerConfigurationDBContext>();
+                services.AddDbContextFactory<LocalDBContext>();
+
                 services.AddSingleton<NavigationStore>();
                 services.AddSingleton<INavigationTarget>(sp => sp.GetRequiredService<NavigationStore>());
                 
@@ -46,6 +51,9 @@ public partial class App : Application
                     return new CompatibilityCheckerService(rules);
                 });
                 services.AddSingleton<OrderFacade>();
+
+                services.AddSingleton<FavoriteFacade>();
+                services.AddSingleton<IComponentEnricher, ComponentEnricher>();
 
                 // ViewModels и окна
                 services.AddSingleton<MainWindow>();
