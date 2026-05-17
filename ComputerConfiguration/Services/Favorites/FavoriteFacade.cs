@@ -51,6 +51,8 @@ public class FavoriteFacade : IDisposable
             return;
 
         var allFavLocal = await _localService.GetFavoritesAsync(0);
+        if (!allFavLocal.Any())
+            return;
         var id = _getUserId();
         foreach (var fav in allFavLocal)
             if (!await _dbService.IsFavoriteAsync(id, fav.ComponentId, fav.ComponentCategory))

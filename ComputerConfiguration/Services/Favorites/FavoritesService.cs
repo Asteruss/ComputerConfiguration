@@ -52,7 +52,9 @@ public class FavoritesService : IFavoritesService
 
     public async Task ClearAllAsync(int userId)
     {
-        _dbContext.Favorites.RemoveRange(await GetFavoritesAsync(userId));
+        await _dbContext.Favorites
+               .Where(f => f.UserId == userId)
+               .ExecuteDeleteAsync();
         await _dbContext.SaveChangesAsync_();
     }
 
