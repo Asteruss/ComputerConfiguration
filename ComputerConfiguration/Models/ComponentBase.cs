@@ -15,5 +15,4 @@ public abstract class ComponentBase : ComponentDTO, IComponent
     public ComponentCategory ComponentCategory { get; set; }
     public List<string> Tags { get; set; } = new();
 
-    public virtual double GetFinalPrice() => BasePrice;
 }

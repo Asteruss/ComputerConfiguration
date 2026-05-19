@@ -6,17 +6,16 @@ using ComputerConfiguration.Models;
 using ComputerConfiguration.Models.Components;
 using ComputerConfiguration.Models.Enums;
 using ComputerConfiguration.Services.Authentication;
+using ComputerConfiguration.Services.Components;
 using ComputerConfiguration.Services.Favorites;
 using System.Collections.ObjectModel;
-using System.DirectoryServices;
-using System.Globalization;
 
 namespace ComputerConfiguration.ViewModels;
 
 public class ComponentSelectionViewModel : ViewModelBase
 {
-    public List<ComponentBase> _components { get; set; }
-    public ObservableCollection<ComponentBase> FilteredComponents { get; set; }
+    private List<ComponentBase> _components { get; set; }
+    public ObservableCollection<ComponentBase> Components { get; set; }
     public ObservableCollection<FilterBase> Filters { get; } = new();
     public ObservableCollection<SortOptionViewModel> SortOptions { get; set; }
     private readonly ComponentCategory _category;
@@ -33,8 +32,8 @@ public class ComponentSelectionViewModel : ViewModelBase
 
                 opt.IsAscending = !opt.IsAscending;
                 _components = opt.Sort()(_components).ToList();
-                FilteredComponents = opt.Sort()(FilteredComponents).ToObservableCollection();
-                OnPropertyChanged(nameof(FilteredComponents));
+                Components = opt.Sort()(Components).ToObservableCollection();
+                OnPropertyChanged(nameof(Components));
             }
         }));
     }
@@ -148,49 +147,49 @@ public class ComponentSelectionViewModel : ViewModelBase
         });
     }
 
-    public ComponentSelectionViewModel(IEnumerable<ComponentBase> components, IComponentFilterProvider filterProvider,
+    public ComponentSelectionViewModel(IComponentFactory factory, IComponentFilterProvider filterProvider,
         ComponentCategory category, IComputerBuildDtoBuilder builder, FavoriteFacade favoriteFacade, IComponentEnricher enricher,
         IAuthService authService)
     {
-        OnPropertyChanged(nameof(Filters));
         _category = category;
         _favoriteFacade = favoriteFacade;
         _enricher = enricher;
 
-        _components = [.. components];
+        _components = [.. factory.GetComponent(category)];
+
         _ = LoadDataAsync();
         authService.UserChanged += () => _ = LoadDataAsync();
-        Filters = filterProvider.GetFilters(category, components).ToObservableCollection();
+        Filters = filterProvider.GetFilters(category, _components).ToObservableCollection();
+        OnPropertyChanged(nameof(Filters));
+
 
         foreach (var filter in Filters)
             filter.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == nameof(FilterBase.Value) || e.PropertyName == nameof(MultiChoiceFilter.SelectedItems) ||
-                    e.PropertyName == nameof(RangeFilter.CurrentMin) || e.PropertyName == nameof(RangeFilter.CurrentMax) ||
-                    e.PropertyName == nameof(FavoriteOnlyFilter.IsEnabled))
+                if (e.PropertyName == nameof(FilterBase.Value))
                     _applyFilters();
             };
         _builder = builder;
 
         SortOptions = new ObservableCollection<SortOptionViewModel>
-    {
-        new SortOptionViewModel("Сортировать по имени",
-            items => items.OrderBy(c => c.Name),
-            items => items.OrderByDescending(c => c.Name)),
-        new SortOptionViewModel("Сортировать по цене",
-            items => items.OrderBy(c => c.BasePrice),
-            items => items.OrderByDescending(c => c.BasePrice)),
-        new SortOptionViewModel("Сортировать по рейтингу",
-            items => items.OrderBy(c => c.Rating),
-            items => items.OrderByDescending(c => c.Rating))
-    };
+        {
+            new("Сортировать по названию",
+                items => items.OrderBy(c => c.Name),
+                items => items.OrderByDescending(c => c.Name)),
+            new("Сортировать по цене",
+                items => items.OrderBy(c => c.BasePrice),
+                items => items.OrderByDescending(c => c.BasePrice)),
+            new("Сортировать по рейтингу",
+                items => items.OrderBy(c => c.Rating),
+                items => items.OrderByDescending(c => c.Rating))
+        };
     }
 
     public async Task LoadDataAsync()
     {
         await _enricher.EnrichAsync(_components);
-        FilteredComponents = _components.ToObservableCollection();
-        OnPropertyChanged(nameof(FilteredComponents));
+        Components = _components.ToObservableCollection();
+        OnPropertyChanged(nameof(Components));
 
     }
 
@@ -199,8 +198,8 @@ public class ComponentSelectionViewModel : ViewModelBase
         var filtered = _components;
         foreach (var filter in Filters)
             filtered = [.. filtered.Where(c => filter.Matches(c))];
-        FilteredComponents = filtered.ToObservableCollection();
-        OnPropertyChanged(nameof(FilteredComponents));
+        Components = filtered.ToObservableCollection();
+        OnPropertyChanged(nameof(Components));
 
     }
 }

@@ -7,6 +7,7 @@
              xmlns:filters="clr-namespace:ComputerConfiguration.Filters"
              xmlns:behaviors="clr-namespace:ComputerConfiguration.Behaviors"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:controls="clr-namespace:ComputerConfiguration.Styles.Controls"
              mc:Ignorable="d">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type filters:SingleChoiceFilter}">
@@ -84,7 +85,7 @@
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type filters:FavoriteOnlyFilter}">
+        <DataTemplate DataType="{x:Type filters:BoolFilter}">
             <StackPanel Orientation="Horizontal">
                 <mah:ToggleSwitch IsOn="{Binding IsEnabled}" Content="{Binding DisplayName}"/>
             </StackPanel>
@@ -198,7 +199,7 @@
             </ItemsControl>
         </Border>
         <Border Grid.Column="1" Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding FilteredComponents}"
+            <ItemsControl ItemsSource="{Binding Components}"
                           Background="Transparent">
                 <ItemsControl.Template>
                     <ControlTemplate TargetType="ItemsControl">
@@ -229,22 +230,24 @@
                                         <TextBlock Text="{Binding BasePrice, StringFormat={}{0:C}}"/>
                                     </StackPanel>
                                 </StackPanel>
-                                <Button Grid.Column="1"
-                                        CommandParameter="{Binding}">
-                                    <Button.Style>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Content" Value="Добавить в избранное"/>
+                                <controls:IconButton Grid.Column="1"
+                                                     CommandParameter="{Binding}">
+                                    <controls:IconButton.Style>
+                                        <Style TargetType="controls:IconButton" 
+                                               BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                            <Setter Property="Size" Value="35"/>
+                                            <Setter Property="Icon" Value="/Icons/heart.png"/>
                                             <Setter Property="Command" Value="{Binding DataContext.AddFavorite, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
 
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsFavorite}" Value="true">
-                                                    <Setter Property="Content" Value="Удалить из избранного"/>
+                                                    <Setter Property="Icon" Value="/Icons/heart-selected.png"/>
                                                     <Setter Property="Command" Value="{Binding DataContext.DeleteFavorite, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Button.Style>
-                                </Button>
+                                    </controls:IconButton.Style>
+                                </controls:IconButton>
                                 <ContentControl Grid.Column="2" Content="{Binding}">
                                     <ContentControl.Style>
                                         <Style TargetType="ContentControl">
