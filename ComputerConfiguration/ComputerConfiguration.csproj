@@ -31,6 +31,7 @@
     <None Remove="Icons\heart-selected.png" />
     <None Remove="Icons\heart.png" />
     <None Remove="Icons\processor.png" />
+    <None Remove="Icons\star.png" />
     <None Remove="Icons\up-arrow.png" />
     <None Remove="Icons\up-down.png" />
   </ItemGroup>
@@ -71,6 +72,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\processor.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\star.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\up-arrow.png">

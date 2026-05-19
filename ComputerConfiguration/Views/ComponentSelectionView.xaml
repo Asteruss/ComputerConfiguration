@@ -8,8 +8,10 @@
              xmlns:behaviors="clr-namespace:ComputerConfiguration.Behaviors"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:controls="clr-namespace:ComputerConfiguration.Styles.Controls"
+             xmlns:converters="clr-namespace:ComputerConfiguration.Converters"
              mc:Ignorable="d">
     <UserControl.Resources>
+        <converters:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter" />
         <DataTemplate DataType="{x:Type filters:SingleChoiceFilter}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -211,68 +213,117 @@
                 </ItemsControl.Template>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="5" Margin="0,2">
+                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="8" Margin="0,4">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Name}"/>
+                                <Image Grid.Column="0"
+                                       Width="80" Height="80"
+                                       VerticalAlignment="Top"
+                                       Source="{Binding ImageData, Converter={StaticResource ByteArrayToImageConverter}}"/>     
+
+                                <StackPanel Grid.Column="1" Margin="8,0">
+
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Производитель: "/>
+                                        <TextBlock Text="{Binding Name}"/>
+                                        <TextBlock Margin="8,0,0,0">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="Нет в наличии"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding InStock}" Value="True">
+                                                            <Setter Property="Text" Value="В наличии"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding Manufacturer}"/>
+                                        <TextBlock x:Name="txtRating"
+                                                   Margin="8,0,0,0"
+                                                   Text="{Binding Rating}"/>
+                                        <Image Source="/Icons/star.png"
+                                               Width="{Binding ActualHeight, ElementName=txtRating}"
+                                               Height="{Binding ActualHeight, ElementName=txtRating}"
+                                               Margin="2,0,0,0"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Цена: "/>
-                                        <TextBlock Text="{Binding BasePrice, StringFormat={}{0:C}}"/>
-                                    </StackPanel>
+
+                                    <TextBlock Text="{Binding Description}"
+                                               TextTrimming="CharacterEllipsis"
+                                               MaxHeight="20"/>
+
+                                    <ItemsControl ItemsSource="{Binding Tags}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="3" Margin="2,1" Padding="4,1">
+                                                    <TextBlock Text="{Binding}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
                                 </StackPanel>
-                                <controls:IconButton Grid.Column="1"
-                                                     CommandParameter="{Binding}">
-                                    <controls:IconButton.Style>
-                                        <Style TargetType="controls:IconButton" 
-                                               BasedOn="{StaticResource {x:Type controls:IconButton}}">
-                                            <Setter Property="Size" Value="30"/>
-                                            <Setter Property="Icon" Value="/Icons/heart.png"/>
-                                            <Setter Property="Command" Value="{Binding DataContext.AddFavorite, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
 
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsFavorite}" Value="true">
-                                                    <Setter Property="Icon" Value="/Icons/heart-selected.png"/>
-                                                    <Setter Property="Command" Value="{Binding DataContext.DeleteFavorite, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </controls:IconButton.Style>
-                                </controls:IconButton>
-                                <ContentControl Grid.Column="2" Content="{Binding}">
-                                    <ContentControl.Style>
-                                        <Style TargetType="ContentControl">
-                                            <Setter Property="ContentTemplate" Value="{StaticResource buttonSelectOne}"/>
+                                <StackPanel Grid.Column="2" VerticalAlignment="Stretch">
 
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ComponentStatus}" Value="1">
-                                                    <Setter Property="ContentTemplate" Value="{StaticResource ButtomRemove}"/>
-                                                </DataTrigger>
+                                    <TextBlock Text="{Binding BasePrice, StringFormat={}{0:C}}"
+                                               HorizontalAlignment="Right"/>
 
-                                                <DataTrigger Binding="{Binding ComponentStatus}" Value="2">
-                                                    <Setter Property="ContentTemplate" Value="{StaticResource ButtomRemove}"/>
-                                                </DataTrigger>
+                                    <controls:IconButton HorizontalAlignment="Right"
+                                        CommandParameter="{Binding}">
+                                        <controls:IconButton.Style>
+                                            <Style TargetType="controls:IconButton"
+                                                    BasedOn="{StaticResource {x:Type controls:IconButton}}">
+                                                <Setter Property="Size" Value="30"/>
+                                                <Setter Property="Icon" Value="/Icons/heart.png"/>
+                                                <Setter Property="Command" Value="{Binding DataContext.AddFavorite, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                                                        <Setter Property="Icon" Value="/Icons/heart-selected.png"/>
+                                                        <Setter Property="Command" Value="{Binding DataContext.DeleteFavorite, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </controls:IconButton.Style>
+                                    </controls:IconButton>
 
-                                                <DataTrigger Binding="{Binding ComponentStatus}" Value="3">
-                                                    <Setter Property="ContentTemplate" Value="{StaticResource ButtonSelectManyOption}"/>
-                                                </DataTrigger>
+                                    <ContentControl Content="{Binding}"
+                                    VerticalAlignment="Bottom"
+                                    Margin="0,4,0,0">
+                                        <ContentControl.Style>
+                                            <Style TargetType="ContentControl">
+                                                <Setter Property="ContentTemplate" Value="{StaticResource buttonSelectOne}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ComponentStatus}" Value="1">
+                                                        <Setter Property="ContentTemplate" Value="{StaticResource ButtomRemove}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ComponentStatus}" Value="2">
+                                                        <Setter Property="ContentTemplate" Value="{StaticResource ButtomRemove}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ComponentStatus}" Value="3">
+                                                        <Setter Property="ContentTemplate" Value="{StaticResource ButtonSelectManyOption}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ComponentStatus}" Value="4">
+                                                        <Setter Property="ContentTemplate" Value="{StaticResource ButtonSelectManyOption}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ContentControl.Style>
+                                    </ContentControl>
 
-                                                <DataTrigger Binding="{Binding ComponentStatus}" Value="4">
-                                                    <Setter Property="ContentTemplate" Value="{StaticResource ButtonSelectManyOption}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ContentControl.Style>
-                                </ContentControl>
+                                </StackPanel>
                             </Grid>
                         </Border>
                     </DataTemplate>

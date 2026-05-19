@@ -8,8 +8,8 @@ namespace ComputerConfiguration.Services.Favorites;
 
 public class FavoriteFacade : IDisposable
 {
-    private readonly FavoritesService _localService;
-    private readonly FavoritesService _dbService;
+    private readonly IFavoritesService _localService;
+    private readonly IFavoritesService _dbService;
     private readonly IAuthService _authService;
     private readonly SemaphoreSlim _syncLock = new(1, 1);
 

@@ -1,5 +1,4 @@
-﻿// FavoritesService.cs — принимает фабрику, создаёт контекст на каждую операцию
-using ComputerConfiguration.DB;
+﻿using ComputerConfiguration.DB;
 using ComputerConfiguration.Models.Enums;
 using ComputerConfiguration.Models.Favorites;
 using ComputerConfiguration.Services.Favorites;
