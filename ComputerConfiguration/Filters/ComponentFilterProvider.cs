@@ -3,12 +3,6 @@ using ComputerConfiguration.Filters.Strategies;
 using ComputerConfiguration.Models;
 using ComputerConfiguration.Models.Components;
 using ComputerConfiguration.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComputerConfiguration.Filters;
 
@@ -16,7 +10,13 @@ public class ComponentFilterProvider : IComponentFilterProvider
 {
     public IEnumerable<FilterBase> GetFilters(ComponentCategory type, IEnumerable<IComponent> allComponents)
     {
-        // Общие фильтры для всех компонентов (если нужны)
+
+        // Фильтры по избранным и продаже
+        yield return new BoolFilter(component => component.IsFavorite, "Только избранные", true);
+        yield return new BoolFilter(component => component.InStock, "В наличие", true);
+
+
+        // Общие фильтры для всех компонентов
         yield return new SingleChoiceFilter
         {
             Name = "Manufacturer",
@@ -41,11 +41,8 @@ public class ComponentFilterProvider : IComponentFilterProvider
             MatchStrategy = new ContainsMatchStrategy()
         };
 
-        yield return new FavoriteOnlyFilter
-        {
-            Name = "Name",
-            DisplayName = "Только избранные"
-        };
+      
+
 
         switch (type)
         {
@@ -239,7 +236,7 @@ public class ComponentFilterProvider : IComponentFilterProvider
                 {
                     Name = "SupportedMotherboardFormFactors",
                     DisplayName = "Поддержка форм‑фактора",
-                    MatchStrategy = new ContainsMatchStrategy(), // т.к. строка может содержать несколько форматов через запятую
+                    MatchStrategy = new ContainsMatchStrategy(), // строка может содержать несколько форматов через запятую
                     Options = allComponents.OfType<Case>().Select(c => c.SupportedMotherboardFormFactors).Distinct().ToObservableCollectionObject()
                 };
                 // Максимальная длина видеокарты

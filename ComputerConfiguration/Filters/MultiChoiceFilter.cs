@@ -12,9 +12,6 @@ namespace ComputerConfiguration.Filters;
 
 public class MultiChoiceFilter : FilterBase
 {
-    // Добавлено свойство для стратегии (если его нет в базовом классе)
-    public IMatchStrategy MatchStrategy { get; set; } = new ExactMatchStrategy();
-
     public ObservableCollection<object> Options { get; set; } = new();
     private ObservableCollection<object> _selectedItems;
     public ObservableCollection<object> SelectedItems
@@ -31,11 +28,15 @@ public class MultiChoiceFilter : FilterBase
                 _selectedItems.CollectionChanged += OnSelectedItemsChanged;
 
             OnPropertyChanged();
+            OnPropertyChanged(nameof(Value));
+
         }
     }
     private void OnSelectedItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         OnPropertyChanged(nameof(SelectedItems));
+        OnPropertyChanged(nameof(Value));
+
     }
     public MultiChoiceFilter()
     {
