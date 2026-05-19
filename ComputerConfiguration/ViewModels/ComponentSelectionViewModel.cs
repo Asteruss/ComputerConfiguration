@@ -19,7 +19,7 @@ public class ComponentSelectionViewModel : ViewModelBase
     public ObservableCollection<FilterBase> Filters { get; } = new();
     public ObservableCollection<SortOptionViewModel> SortOptions { get; set; }
     private readonly ComponentCategory _category;
-    private readonly IComputerBuildDtoBuilder _builder;
+    private readonly IComputerBuildSession _session;
     private readonly IComponentEnricher _enricher;
     private readonly FavoriteFacade _favoriteFacade;
     private RelayCommand _sortBy;
@@ -45,21 +45,21 @@ public class ComponentSelectionViewModel : ViewModelBase
         get => _selectCommand ??= new((component) =>
         {
             if (component is Cpu cpu)
-                _builder.SetCpu(cpu);
+                _session.SetCpu(cpu);
             if (component is Gpu gpu)
-                _builder.SetGpu(gpu);
+                _session.SetGpu(gpu);
             if (component is Motherboard mot)
-                _builder.SetMotherboard(mot);
+                _session.SetMotherboard(mot);
             if (component is Ram ram)
-                _builder.AddRam(ram);
+                _session.AddRam(ram);
             if (component is Cooler cooler)
-                _builder.SetCooler(cooler);
+                _session.SetCooler(cooler);
             if (component is Psu psu)
-                _builder.SetPsu(psu);
+                _session.SetPsu(psu);
             if (component is Case case_)
-                _builder.SetCase(case_);
+                _session.SetCase(case_);
             if (component is Storage storage)
-                _builder.AddStorage(storage);
+                _session.AddStorage(storage);
         });
     }
 
@@ -69,21 +69,21 @@ public class ComponentSelectionViewModel : ViewModelBase
         get => _selectFakeCommand ??= new((component) =>
         {
             if (component is Cpu cpu)
-                _builder.SetCpu(cpu, ComponentStatus.SelectedAsFake);
+                _session.SetCpu(cpu, ComponentStatus.SelectedAsFake);
             if (component is Gpu gpu)
-                _builder.SetGpu(gpu, ComponentStatus.SelectedAsFake);
+                _session.SetGpu(gpu, ComponentStatus.SelectedAsFake);
             if (component is Motherboard mot)
-                _builder.SetMotherboard(mot, ComponentStatus.SelectedAsFake);
+                _session.SetMotherboard(mot, ComponentStatus.SelectedAsFake);
             if (component is Ram ram)
-                _builder.AddRam(ram, ComponentStatus.SelectedManyAsFake);
+                _session.AddRam(ram, ComponentStatus.SelectedManyAsFake);
             if (component is Cooler cooler)
-                _builder.SetCooler(cooler, ComponentStatus.SelectedAsFake);
+                _session.SetCooler(cooler, ComponentStatus.SelectedAsFake);
             if (component is Psu psu)
-                _builder.SetPsu(psu, ComponentStatus.SelectedAsFake);
+                _session.SetPsu(psu, ComponentStatus.SelectedAsFake);
             if (component is Case case_)
-                _builder.SetCase(case_, ComponentStatus.SelectedAsFake);
+                _session.SetCase(case_, ComponentStatus.SelectedAsFake);
             if (component is Storage storage)
-                _builder.AddStorage(storage, ComponentStatus.SelectedManyAsFake);
+                _session.AddStorage(storage, ComponentStatus.SelectedManyAsFake);
 
         });
     }
@@ -93,21 +93,21 @@ public class ComponentSelectionViewModel : ViewModelBase
         get => _removeCommand ??= new((component) =>
         {
             if (component is Cpu cpu)
-                _builder.RemoveCpu(cpu);
+                _session.RemoveCpu();
             if (component is Gpu gpu)
-                _builder.RemoveGpu(gpu);
+                _session.RemoveGpu();
             if (component is Motherboard mot)
-                _builder.RemoveMotherboard(mot);
+                _session.RemoveMotherboard();
             if (component is Ram ram)
-                _builder.ClearRams(ram);
+                _session.ClearRams(ram);
             if (component is Cooler cooler)
-                _builder.RemoveCooler(cooler);
+                _session.RemoveCooler();
             if (component is Psu psu)
-                _builder.RemovePsu(psu);
+                _session.RemovePsu();
             if (component is Case case_)
-                _builder.RemoveCase(case_);
+                _session.RemoveCase();
             if (component is Storage storage)
-                _builder.ClearStorages(storage);
+                _session.ClearStorages(storage);
         });
     }
     private RelayCommand _removeFakeCommand;
@@ -116,9 +116,9 @@ public class ComponentSelectionViewModel : ViewModelBase
         get => _removeFakeCommand ??= new((component) =>
         {
             if (component is Ram ram)
-                _builder.ClearRams(ram, ComponentStatus.SelectedManyAsFake);
+                _session.ClearRams(ram, ComponentStatus.SelectedManyAsFake);
             if (component is Storage storage)
-                _builder.ClearStorages(storage, ComponentStatus.SelectedManyAsFake);
+                _session.ClearStorages(storage, ComponentStatus.SelectedManyAsFake);
         });
     }
 
@@ -147,8 +147,12 @@ public class ComponentSelectionViewModel : ViewModelBase
         });
     }
 
-    public ComponentSelectionViewModel(IComponentFactory factory, IComponentFilterProvider filterProvider,
-        ComponentCategory category, IComputerBuildDtoBuilder builder, FavoriteFacade favoriteFacade, IComponentEnricher enricher,
+    public ComponentSelectionViewModel(IComponentFactory factory, 
+        IComponentFilterProvider filterProvider,
+        ComponentCategory category, 
+        IComputerBuildSession session, 
+        FavoriteFacade favoriteFacade,
+        IComponentEnricher enricher,
         IAuthService authService)
     {
         _category = category;
@@ -169,7 +173,7 @@ public class ComponentSelectionViewModel : ViewModelBase
                 if (e.PropertyName == nameof(FilterBase.Value))
                     _applyFilters();
             };
-        _builder = builder;
+        _session = session;
 
         SortOptions = new ObservableCollection<SortOptionViewModel>
         {

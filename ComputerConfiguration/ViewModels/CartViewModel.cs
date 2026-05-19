@@ -13,7 +13,7 @@ namespace ComputerConfiguration.ViewModels;
 public class CartViewModel : ViewModelBase
 {
     private readonly INavigationService _navigationService;
-    public IComputerBuildDtoBuilder ComputerBuilder;
+    public IComputerBuildSession ComputerSession;
     private readonly OrderFacade _orderFacade;
     public IAuthService AuthService { get; init; }
     public ObservableCollection<ServiceSelectionViewModel> ServiceItems { get;} = new();
@@ -75,11 +75,11 @@ public class CartViewModel : ViewModelBase
         IsAnyErrors = IsCompatible || Errors.Any();
     }
 
-    public CartViewModel(INavigationService navigationService, IComputerBuildDtoBuilder builder, 
+    public CartViewModel(INavigationService navigationService, IComputerBuildSession session, 
         IServiceRepository services, OrderFacade orderFacade, IAuthService authService)
     {
         _navigationService = navigationService;
-        ComputerBuilder = builder;
+        ComputerSession = session;
         _orderFacade = orderFacade;
         AuthService = authService;
 
@@ -87,8 +87,8 @@ public class CartViewModel : ViewModelBase
 
         var allServices = services.GetAdditionalServices();
         foreach (var service in allServices)
-            ServiceItems.Add(new ServiceSelectionViewModel(service, builder));
-        ComputerBuilder.SelectedServicesChanged += () => RecalculateTotalPrice();
+            ServiceItems.Add(new ServiceSelectionViewModel(service, ComputerSession));
+        ComputerSession.SelectedServicesChanged += () => RecalculateTotalPrice();
 
         Components = _orderFacade.GetComponentsDTO().ToObservableCollection();
 

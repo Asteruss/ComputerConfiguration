@@ -214,7 +214,7 @@
                         <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="5" Margin="0,2">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
@@ -235,7 +235,7 @@
                                     <controls:IconButton.Style>
                                         <Style TargetType="controls:IconButton" 
                                                BasedOn="{StaticResource {x:Type controls:IconButton}}">
-                                            <Setter Property="Size" Value="35"/>
+                                            <Setter Property="Size" Value="30"/>
                                             <Setter Property="Icon" Value="/Icons/heart.png"/>
                                             <Setter Property="Command" Value="{Binding DataContext.AddFavorite, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
 

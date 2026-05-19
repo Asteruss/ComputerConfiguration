@@ -6,7 +6,7 @@ namespace ComputerConfiguration.ViewModels;
 
 public class ServiceSelectionViewModel : ViewModelBase
 {
-    private readonly IComputerBuildDtoBuilder _computerBuilder;
+    private readonly IComputerBuildSession _computerSession;
     public AdditionalService Service { get; }
     public IEnumerable<AdditionalServiceOption> Options { get; }
 
@@ -41,17 +41,17 @@ public class ServiceSelectionViewModel : ViewModelBase
     }
     private void UpdateSelection()
     {
-        _computerBuilder.RemoveAdditionalOptions(Service);
+        _computerSession.RemoveAdditionalOptions(Service);
 
         if (IsSelected && SelectedOption != null)
-            _computerBuilder.AddAdditionalOption(SelectedOption);
+            _computerSession.AddAdditionalOption(SelectedOption);
     }
 
-    public ServiceSelectionViewModel(AdditionalService service, IComputerBuildDtoBuilder computerBuilder)
+    public ServiceSelectionViewModel(AdditionalService service, IComputerBuildSession computerSession)
     {
         Service = service;
         Options = service.AdditionalServiceOptions ?? [];
-        _computerBuilder = computerBuilder;
+        _computerSession = computerSession;
         if (Service.OptionType == OptionType.SingleOption && Options.Any())
             _selectedOption = Options.First();
     }

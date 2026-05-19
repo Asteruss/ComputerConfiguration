@@ -1,6 +1,7 @@
 ﻿using ComputerConfiguration.Builder;
 using ComputerConfiguration.DB;
 using ComputerConfiguration.Filters;
+using ComputerConfiguration.Mappers;
 using ComputerConfiguration.Repositories.ComponentRepository;
 using ComputerConfiguration.Repositories.ServicesRepository;
 using ComputerConfiguration.Services.Authentication;
@@ -32,8 +33,12 @@ public partial class App : Application
 
                 services.AddSingleton<NavigationStore>();
                 services.AddSingleton<INavigationTarget>(sp => sp.GetRequiredService<NavigationStore>());
-                
+
+                services.AddSingleton<IComputerBuildMapper, ComputerBuildMapper>();
                 services.AddSingleton<IComputerBuildDtoBuilder, ComputerBuildDtoBuilder>();
+                services.AddSingleton<IComputerBuildSession, ComputerBuildSession>();
+
+
                 services.AddSingleton<IServiceRepository, InMemoryServiceRepository>();
                 services.AddSingleton<IComponentFilterProvider, ComponentFilterProvider>();
                 services.AddSingleton<IComponentRepository, InMemoryComponentRepository>();

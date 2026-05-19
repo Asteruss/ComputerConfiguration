@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Builder\Class1.cs" />
     <Compile Remove="Program.cs" />
     <Compile Remove="ViewModels\CatalogViewModel.cs" />
     <Compile Remove="Views\CatalogView.xaml.cs" />

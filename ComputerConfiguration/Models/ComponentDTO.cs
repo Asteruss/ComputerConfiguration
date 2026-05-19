@@ -1,8 +1,6 @@
 ﻿using ComputerConfiguration.Commands;
 using ComputerConfiguration.Models.Enums;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics;
 
 namespace ComputerConfiguration.Models;
 
