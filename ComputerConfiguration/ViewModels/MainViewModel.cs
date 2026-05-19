@@ -31,49 +31,49 @@ namespace ComputerConfiguration.ViewModels
         public RelayCommand GoToCpuCatalogCommand
         {
             get => _goToCpuCatalogCommand ??= new((obj) =>
-            _navigationService.NavigateTo<ComponentSelectionViewModel>(_catalog.GetCpus(), ComponentCategory.CPU));
+            _navigationService.NavigateTo<ComponentSelectionViewModel>(ComponentCategory.CPU));
         }
         private RelayCommand _goToGpuCatalogCommand;
         public RelayCommand GoToGpuCatalogCommand
         {
             get => _goToGpuCatalogCommand ??= new((obj) =>
-            _navigationService.NavigateTo<ComponentSelectionViewModel>(_catalog.GetGpus(), ComponentCategory.GPU));
+            _navigationService.NavigateTo<ComponentSelectionViewModel>(ComponentCategory.GPU));
         }
         private RelayCommand _goToMotherboardCatalogCommand;
         public RelayCommand GoToMotherboardCatalogCommand
         {
             get => _goToMotherboardCatalogCommand ??= new((obj) =>
-            _navigationService.NavigateTo<ComponentSelectionViewModel>(_catalog.GetMotherboards(), ComponentCategory.Motherboard));
+            _navigationService.NavigateTo<ComponentSelectionViewModel>(ComponentCategory.Motherboard));
         }
         private RelayCommand _goToRamCatalogCommand;
         public RelayCommand GoToRamCatalogCommand
         {
             get => _goToRamCatalogCommand ??= new((obj) =>
-            _navigationService.NavigateTo<ComponentSelectionViewModel>(_catalog.GetRam(), ComponentCategory.RAM));
+            _navigationService.NavigateTo<ComponentSelectionViewModel>(ComponentCategory.RAM));
         }
         private RelayCommand _goToStorageCatalogCommand;
         public RelayCommand GoToStorageCatalogCommand
         {
             get => _goToStorageCatalogCommand ??= new((obj) =>
-            _navigationService.NavigateTo<ComponentSelectionViewModel>(_catalog.GetStorages(), ComponentCategory.Storage));
+            _navigationService.NavigateTo<ComponentSelectionViewModel>(ComponentCategory.Storage));
         }
         private RelayCommand _goToPsuCatalogCommand;
         public RelayCommand GoToPsuCatalogCommand
         {
             get => _goToPsuCatalogCommand ??= new((obj) =>
-            _navigationService.NavigateTo<ComponentSelectionViewModel>(_catalog.GetPsu(), ComponentCategory.PSU));
+            _navigationService.NavigateTo<ComponentSelectionViewModel>(ComponentCategory.PSU));
         }
         private RelayCommand _goToCoolerCatalogCommand;
         public RelayCommand GoToCoolerCatalogCommand
         {
             get => _goToCoolerCatalogCommand ??= new((obj) =>
-            _navigationService.NavigateTo<ComponentSelectionViewModel>(_catalog.GetCoolers(), ComponentCategory.Cooler));
+            _navigationService.NavigateTo<ComponentSelectionViewModel>(ComponentCategory.Cooler));
         }
         private RelayCommand _goToCaseCatalogCommand;
         public RelayCommand GoToCaseCatalogCommand
         {
             get => _goToCaseCatalogCommand ??= new((obj) =>
-            _navigationService.NavigateTo<ComponentSelectionViewModel>(_catalog.GetCases(), ComponentCategory.Case));
+            _navigationService.NavigateTo<ComponentSelectionViewModel>(ComponentCategory.Case));
         }
         #endregion
         private RelayCommand _goToCartCommand;
