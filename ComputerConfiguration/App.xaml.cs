@@ -6,6 +6,7 @@ using ComputerConfiguration.Repositories.ServicesRepository;
 using ComputerConfiguration.Services.Authentication;
 using ComputerConfiguration.Services.Build;
 using ComputerConfiguration.Services.Build.Compability;
+using ComputerConfiguration.Services.Components;
 using ComputerConfiguration.Services.Favorites;
 using ComputerConfiguration.Services.Navigation;
 using ComputerConfiguration.ViewModels;
@@ -36,6 +37,7 @@ public partial class App : Application
                 services.AddSingleton<IServiceRepository, InMemoryServiceRepository>();
                 services.AddSingleton<IComponentFilterProvider, ComponentFilterProvider>();
                 services.AddSingleton<IComponentRepository, InMemoryComponentRepository>();
+                services.AddSingleton<IComponentFactory, ComponentFactory>();
 
                 // services
                 services.AddSingleton<INavigationService, NavigationService>();
