@@ -27,6 +27,8 @@
     <None Remove="Icons\basket-icon.png" />
     <None Remove="Icons\down-arrow.png" />
     <None Remove="Icons\favourite-icon.png" />
+    <None Remove="Icons\heart-selected.png" />
+    <None Remove="Icons\heart.png" />
     <None Remove="Icons\processor.png" />
     <None Remove="Icons\up-arrow.png" />
     <None Remove="Icons\up-down.png" />
@@ -59,6 +61,12 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\favourite-icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\heart-selected.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\heart.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\processor.png">
