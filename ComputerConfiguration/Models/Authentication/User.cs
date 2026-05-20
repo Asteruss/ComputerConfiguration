@@ -14,8 +14,8 @@ public class User
     public int Balance { get; set; } = 0;
     public int? PrivilegeLevelId { get; set; } = 1;
     public PrivilegeLevel? PrivilegeLevel { get; set; }
-    public List<BonusHistory>? BonusHistories { get; set; }
+    public List<BonusHistory>? BonusHistories { get; set; } = new();
     public Role? Role { get; set; }
-    public List<Address>? Addresses { get; set; }
-    public List<Order>? Orders { get; set; }
+    public List<Address>? Addresses { get; set; } = new();
+    public List<Order>? Orders { get; set; } = new();
 }

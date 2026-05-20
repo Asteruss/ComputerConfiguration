@@ -35,9 +35,9 @@ public class AuthService : NotifyPropertyChanged, IAuthService
     public async Task<IResult> RegisterAsync(UserRegistrationDTO userData)
     {
         if (await _db.Users.AnyAsync(u => u.Email == userData.Email))
-            return new Error("Auth", $"Пользователь с логином {userData.Email} уже зарегистрирован");
+            return new Error("Auth", "Email", $"Пользователь с логином {userData.Email} уже зарегистрирован");
         if (userData.Password.ToString() != userData.PasswordRepeat.ToString())
-            return new Error("Auth", $"Пароль повторен не верно");
+            return new Error("Auth", "Password", $"Пароль повторен не верно");
         User user = new()
         {
             Email = userData.Email,
@@ -49,7 +49,7 @@ public class AuthService : NotifyPropertyChanged, IAuthService
         };
         await _db.Users.AddAsync(user);
         await _db.SaveChangesAsync();
-        return new Success("Auth", "Пользователь успешно создан");
+        return new Success("Auth", "Final", "Пользователь успешно создан");
     }
     public async Task<IResult> LoginAsync(UserEntryDTO userData)
     {
@@ -57,11 +57,11 @@ public class AuthService : NotifyPropertyChanged, IAuthService
             .Include(u => u.PrivilegeLevel)
             .FirstOrDefaultAsync(u => u.Email == userData.Email);
         if (user == null)
-            return new Error("Auth", "Пользователь не найден");
+            return new Error("Auth", "Email", "Пользователь не найден");
         if (!VerifyPassword(userData.Password.ToString(), user.PasswordHash))
-            return new Error("Auth", "Введен неверный пароль");
+            return new Error("Auth", "Password", "Введен неверный пароль");
         CurrentUser = user;
-        return new Success("Auth", "Вход в аккаунт совершен");
+        return new Success("Auth", "Final", "Вход в аккаунт совершен");
     }
     public void Logout()
     {

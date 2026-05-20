@@ -57,10 +57,10 @@ public class CartViewModel : ViewModelBase
     public void RecalculateTotalPrice()
     {
         Bonuses = (UseBonuses && AuthService.IsAuthenticated)?
-            _orderFacade.GetBonusSpend(AuthService.CurrentUser) 
-          : _orderFacade.GetBonusEarn(AuthService.CurrentUser);
+            _orderFacade.GetBonusSpend() 
+          : _orderFacade.GetBonusEarn();
         
-        TotalPrice = _orderFacade.GetFinalPrice(AuthService.CurrentUser, UseBonuses);
+        TotalPrice = _orderFacade.GetFinalPrice(UseBonuses);
     }
     private RelayCommand _switchCommand;
     public RelayCommand SwitchCommand

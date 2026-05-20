@@ -9,10 +9,12 @@ namespace ComputerConfiguration.Models.UI;
 public class Error : IResult
 {
     public string Source { get; set; }
+    public string Block { get; set; }
     public string Message { get; set; }
-    public Error(string source, string message)
+    public Error(string source, string block, string message)
     {
         Source = source;
+        Block = block;
         Message = message;
     }
 }

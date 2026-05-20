@@ -79,9 +79,17 @@ namespace ComputerConfiguration.ViewModels
         private RelayCommand _goToCartCommand;
         public RelayCommand GoToCartCommand
         {
-            get => _goToCartCommand ?? (_goToCartCommand = new((obj) =>
-            _navigationService.NavigateTo<CartViewModel>()));
+            get => _goToCartCommand ??= new((obj) =>
+            _navigationService.NavigateTo<CartViewModel>());
         }
+
+        private RelayCommand _goToAddressListCommand;
+        public RelayCommand GoToAddressListCommand
+        {
+            get => _goToAddressListCommand ??= new((obj) =>
+            _navigationService.NavigateTo<AddressListViewModel>());
+        }
+
 
         private bool _isMenuOpen = false;
         public bool IsMenuOpen

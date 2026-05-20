@@ -44,7 +44,6 @@ public class ComputerConfigurationDBContext : DbContext, IFavoriteDBContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        //modelBuilder.Entity<ComponentBase>().Ignore(c => c.ComponentStatus);
         modelBuilder.Entity<PrivilegeLevel>().HasData(
             new PrivilegeLevel() { Id=1, PercentGet=5, PercentSpend=5, PrivilegeName="Bronze", PriceThreshold=50000},
             new PrivilegeLevel() { Id=2, PercentGet=15, PercentSpend=10, PrivilegeName="Silver", PriceThreshold=100000}

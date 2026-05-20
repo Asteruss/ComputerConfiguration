@@ -47,6 +47,7 @@ public partial class App : Application
                 // services
                 services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<IAuthService, AuthService>();
+                services.AddSingleton<IAddressService, AddressService>();
                 services.AddSingleton<BonusService>();
                 services.AddSingleton<PricingService>();
                 services.AddSingleton<OrderService>();
@@ -70,6 +71,8 @@ public partial class App : Application
                 services.AddTransient<RegistrationViewModel>();
                 services.AddTransient<LoginViewModel>();
                 services.AddTransient<ComponentSelectionViewModel>();
+                services.AddTransient<AddressAddingViewModel>();
+                services.AddTransient<AddressListViewModel>();
             })
             .Build();
     }

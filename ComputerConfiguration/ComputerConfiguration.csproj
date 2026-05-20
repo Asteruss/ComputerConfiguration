@@ -27,11 +27,13 @@
     <None Remove="Icons\account-icon.png" />
     <None Remove="Icons\basket-icon.png" />
     <None Remove="Icons\down-arrow.png" />
+    <None Remove="Icons\edit.png" />
     <None Remove="Icons\favourite-icon.png" />
     <None Remove="Icons\heart-selected.png" />
     <None Remove="Icons\heart.png" />
     <None Remove="Icons\processor.png" />
     <None Remove="Icons\star.png" />
+    <None Remove="Icons\trash.png" />
     <None Remove="Icons\up-arrow.png" />
     <None Remove="Icons\up-down.png" />
   </ItemGroup>
@@ -47,6 +49,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
   </ItemGroup>
@@ -62,6 +68,9 @@
     <Resource Include="Icons\down-arrow.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Icons\edit.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Icons\favourite-icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -75,6 +84,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\star.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\trash.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\up-arrow.png">

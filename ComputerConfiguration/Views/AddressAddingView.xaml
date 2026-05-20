@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="ComputerConfiguration.Views.AddressAddingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ComputerConfiguration.Views"
+             mc:Ignorable="d">
+    <StackPanel>
+        <StackPanel x:Name="stpAddress" DataContext="{Binding AddressDTO}">
+            <Label Content="Страна"/>
+            <TextBox Text="{Binding Country}"/>
+
+            <Label Content="Регион/Область"/>
+            <TextBox Text="{Binding Region}"/>
+
+            <Label Content="Город"/>
+            <TextBox Text="{Binding City}"/>
+
+            <Label Content="Улица"/>
+            <TextBox Text="{Binding Street}"/>
+
+            <Label Content="Номер дома"/>
+            <TextBox Text="{Binding HouseNumber}"/>
+
+            <Label Content="Корпус/строение"/>
+            <TextBox Text="{Binding Building}"/>
+
+            <Label Content="Квартира/офис"/>
+            <TextBox Text="{Binding Apartment}"/>
+
+            <Label Content="Подъезд"/>
+            <TextBox Text="{Binding Entrance}"/>
+
+            <Label Content="Этаж"/>
+            <TextBox Text="{Binding Floor}"/>
+
+            <Label Content="Код домофона"/>
+            <TextBox Text="{Binding IntercomCode}"/>
+
+            <Label Content="Почтовый индекс"/>
+            <TextBox Text="{Binding PostalCode}"/>
+        </StackPanel>
+
+        <Button Content="{Binding CommandText}" 
+                Command="{Binding Command}" 
+                CommandParameter="{Binding DataContext, ElementName=stpAddress}"/>
+    </StackPanel>
+</UserControl>

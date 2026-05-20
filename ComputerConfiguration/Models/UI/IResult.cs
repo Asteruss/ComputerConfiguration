@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ComputerConfiguration.Models.UI;
+﻿namespace ComputerConfiguration.Models.UI;
 
 public interface IResult
 {
     string Source { get; }
+    string Block { get; }
     string Message { get; }
 }

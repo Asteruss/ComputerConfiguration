@@ -31,10 +31,10 @@ public class BonusService
         return CreateBonusHistory(user, order, bonus, OperationType.Spent);
     }
 
-    public PrivilegeLevel GetPrivilegeLevel(IEnumerable<PrivilegeLevel> levels, int sum) =>
+    public PrivilegeLevel GetPrivilegeLevel(IEnumerable<PrivilegeLevel> levels, double sum) =>
         levels.Where(l => l.PriceThreshold <= sum).OrderByDescending(l => l.PriceThreshold).First();
 
-    public void ChangePrivilegeLevel(User user, IEnumerable<PrivilegeLevel> levels, int sum)
+    public void ChangePrivilegeLevel(User user, IEnumerable<PrivilegeLevel> levels, double sum)
     {
         var level = GetPrivilegeLevel(levels, sum);
         if (level.Id == user.PrivilegeLevel.Id) return;

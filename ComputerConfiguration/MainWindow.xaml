@@ -26,6 +26,12 @@
         <DataTemplate DataType="{x:Type viewModels:LoginViewModel}">
             <views:LoginView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:AddressAddingViewModel}">
+            <views:AddressAddingView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:AddressListViewModel}">
+            <views:AddressListView/>
+        </DataTemplate>
         <converters:VisibilityConverter x:Key="visibilityConverter"/>
         <converters:BoolToGridWidthConverter x:Key="boolToGridWidthConverter"/>
         <Style TargetType="Control">
@@ -38,7 +44,6 @@
     </Window.Resources>
     <Grid Background="Gray">
         <Grid.ColumnDefinitions>
-            <!--<ColumnDefinition Width="{Binding ComputerBuild.IsSelectedAnything, Converter={StaticResource boolToGridWidthConverter}}"/>-->
             <ColumnDefinition Width="0.15*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="0.15*"/>
@@ -90,7 +95,8 @@
                                     <DataTemplate x:Key="AccountMenu">
                                         <StackPanel>
                                             <Button Content="Профиль"/>
-                                            <Button Content="Мои адреса"/>
+                                            <Button Content="Мои адреса"
+                                                    Command="{Binding GoToAddressListCommand}"/>
                                             <Button Content="История заказов"/>
                                             <Button Content="Отслеживание заказов"/>
                                             <Button Content="Выход"
