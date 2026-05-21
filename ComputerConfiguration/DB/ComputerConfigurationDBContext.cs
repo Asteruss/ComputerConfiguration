@@ -19,6 +19,8 @@ public class ComputerConfigurationDBContext : DbContext, IFavoriteDBContext
     public DbSet<Ram> Rams { get; set; }
     public DbSet<Storage> Storages { get; set; }
     public DbSet<Cooler> Coolers { get; set; }
+    public DbSet<BuildRam> BuildRams { get; set; }
+    public DbSet<BuildStorage> BuildStorages { get; set; }
     public DbSet<ComputerBuild> ComputerBuilds { get; set; }
     public DbSet<AdditionalService> AdditionalServices { get; set; }
     public DbSet<AdditionalServiceOption> AdditionalServiceOptions { get; set; }
@@ -51,6 +53,8 @@ public class ComputerConfigurationDBContext : DbContext, IFavoriteDBContext
         modelBuilder.Entity<Role>().HasData(
             new Role() { Id=1, RoleName="User"}
             );
+
+        modelBuilder.Entity<Order>().HasIndex(o => o.AddressId).IsUnique(false); 
 
     }
 

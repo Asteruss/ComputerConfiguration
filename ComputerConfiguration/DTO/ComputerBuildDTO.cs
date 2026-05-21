@@ -1,6 +1,7 @@
 ﻿using ComputerConfiguration.Commands;
 using ComputerConfiguration.Models.Build;
 using ComputerConfiguration.Models.Components;
+using System.Collections.ObjectModel;
 
 namespace ComputerConfiguration.DTO;
 
@@ -42,8 +43,8 @@ public class ComputerBuildDTO : NotifyPropertyChanged
         }
     }
 
-    private List<Ram> _rams = new();
-    public List<Ram> Rams
+    private ObservableCollection<BuildRam> _rams = new();
+    public ObservableCollection<BuildRam> Rams
     {
         get => _rams; set
         {
@@ -90,8 +91,8 @@ public class ComputerBuildDTO : NotifyPropertyChanged
         }
     }
 
-    private List<Storage> _storages = new();
-    public List<Storage> Storages
+    private ObservableCollection<BuildStorage> _storages = new();
+    public ObservableCollection<BuildStorage> Storages
     {
         get => _storages; set
         {
@@ -127,4 +128,9 @@ public class ComputerBuildDTO : NotifyPropertyChanged
     // Общий флаг
     public bool IsSelectedAnything => IsSelectedCpu || IsSelectedGpu || IsSelectedMotherboard || IsSelectedRam ||
                                       IsSelectedCase || IsSelectedCooler || IsSelectedPsu || IsSelectedStorage;
+    public ComputerBuildDTO()
+    {
+        Rams.CollectionChanged += (s, e) => { OnPropertyChanged(nameof(IsSelectedRam)); OnPropertyChanged(nameof(IsSelectedAnything)); };
+        Storages.CollectionChanged += (s, e) => { OnPropertyChanged(nameof(IsSelectedStorage)); OnPropertyChanged(nameof(IsSelectedAnything)); };
+    }
 }

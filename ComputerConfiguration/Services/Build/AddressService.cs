@@ -76,7 +76,7 @@ public class AddressService : IAddressService
         if (string.IsNullOrWhiteSpace(addressData.PostalCode))
             return new Error("Address", "PostalCode", "Почтовый индекс не указан");
 
-        address.Country = addressData.Country ?? "Россия";
+        address.Country = string.IsNullOrWhiteSpace(addressData.Country) ? "Россия" : addressData.Country;
         address.Region = addressData.Region;
         address.City = addressData.City;
         address.Street = addressData.Street;

@@ -131,7 +131,7 @@ public class ComputerBuildSession : IComputerBuildSession
         _builder.AddRam(copy);
     }
 
-    public void RemoveRam(Ram ram)
+    public void RemoveRam(BuildRam ram)
     {
         ram.ComponentStatus = ComponentStatus.NotSelected;
         CurrentDto.Rams.Remove(ram);
@@ -140,13 +140,13 @@ public class ComputerBuildSession : IComputerBuildSession
     public void ClearRams(Ram ram, ComponentStatus status = ComponentStatus.SelectedMany)
     {
         var toRemove = CurrentDto.Rams
-            .Where(r => r.ComponentStatus == status && r.Id == ram.Id)
+            .Where(r => r.ComponentStatus == status && r.RamId == ram.Id)
             .ToList();
 
         foreach (var r in toRemove)
             RemoveRam(r);
 
-        if (!CurrentDto.Rams.Any(r => r.Id == ram.Id))
+        if (!CurrentDto.Rams.Any(r => r.RamId == ram.Id))
             ram.ComponentStatus = ComponentStatus.NotSelected;
 
         if (status == ComponentStatus.SelectedMany)
@@ -169,7 +169,7 @@ public class ComputerBuildSession : IComputerBuildSession
         _builder.AddStorage(copy);
     }
 
-    public void RemoveStorage(Storage storage)
+    public void RemoveStorage(BuildStorage storage)
     {
         storage.ComponentStatus = ComponentStatus.NotSelected;
         CurrentDto.Storages.Remove(storage);
@@ -178,13 +178,13 @@ public class ComputerBuildSession : IComputerBuildSession
     public void ClearStorages(Storage storage, ComponentStatus status = ComponentStatus.SelectedMany)
     {
         var toRemove = CurrentDto.Storages
-            .Where(s => s.ComponentStatus == status && s.Id == storage.Id)
+            .Where(s => s.ComponentStatus == status && s.StorageId == storage.Id)
             .ToList();
 
         foreach (var s in toRemove)
             RemoveStorage(s);
 
-        if (!CurrentDto.Storages.Any(s => s.Id == storage.Id))
+        if (!CurrentDto.Storages.Any(s => s.StorageId == storage.Id))
             storage.ComponentStatus = ComponentStatus.NotSelected;
 
         if (status == ComponentStatus.SelectedMany)

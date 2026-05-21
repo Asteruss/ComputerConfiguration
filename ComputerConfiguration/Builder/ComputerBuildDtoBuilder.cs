@@ -1,7 +1,7 @@
 ﻿using ComputerConfiguration.DTO;
 using ComputerConfiguration.Models.Build;
 using ComputerConfiguration.Models.Components;
-using ComputerConfiguration.Models.Enums;
+
 namespace ComputerConfiguration.Builder;
 
 public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
@@ -54,13 +54,23 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
 
     public IComputerBuildDtoBuilder AddRam(Ram ram)
     {
-        _dto.Rams.Add(ram);
+        _dto.Rams.Add(new BuildRam
+        {
+            RamId = ram.Id,
+            ComponentStatus = ram.ComponentStatus,
+            RamHelper = ram
+        });
         return this;
     }
 
     public IComputerBuildDtoBuilder AddStorage(Storage storage)
     {
-        _dto.Storages.Add(storage);
+        _dto.Storages.Add(new BuildStorage
+        {
+            StorageId = storage.Id,
+            ComponentStatus = storage.ComponentStatus,
+            StorageHelper = storage
+        });
         return this;
     }
 

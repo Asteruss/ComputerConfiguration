@@ -11,11 +11,11 @@ namespace ComputerConfiguration.Models.Components
 {
     public class Psu : ComponentBase
     {
-        public int Wattage { get; set; }
-        public EfficiencyRating EfficiencyRating { get; set; }
-        public bool Modular { get; set; }
-        public int SataConnectors { get; set; }
-        public int PcieConnectors { get; set; }
-        public List<ComputerBuild> ComputerBuilds { get; set; }
+        public int? Wattage { get; set; }
+        public EfficiencyRating? EfficiencyRating { get; set; }
+        public bool? Modular { get; set; }
+        public int? SataConnectors { get; set; }
+        public int? PcieConnectors { get; set; }
+        public List<ComputerBuild> ComputerBuilds { get; set; } = new();
     }
 }

@@ -19,6 +19,10 @@
             </PasswordBox>
         </StackPanel>
 
-        <Button Content="Войти" Command="{Binding LoginCommand}" CommandParameter="{Binding DataContext, ElementName=stpLogin}"/>
+        <Button Content="Войти" 
+                Command="{Binding LoginCommand}" 
+                CommandParameter="{Binding DataContext, ElementName=stpLogin}"
+                Style="{StaticResource RoundedButtonPrimary}"
+                Width="300"/>
     </StackPanel>
 </UserControl>

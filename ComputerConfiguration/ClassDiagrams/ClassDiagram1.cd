@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ComputerConfiguration.Commands.NotifyPropertyChanged">
+    <Position X="23.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\NotifyPropertyChanged.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ComputerConfiguration.DTO.ComputerBuildDTO">
+    <Position X="0.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACEAJAAABAAACEBABAAASAAKCAAAAEAASAAA4CIggE=</HashCode>
+      <FileName>DTO\ComputerBuildDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.DTO.UserEntryDTO">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAE=</HashCode>
+      <FileName>DTO\UserEntryDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.Filters.FilterBase">
+    <Position X="9.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAEgAAAAAAAAAAAAAAAAQAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Filters\FilterBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.Models.ComponentDTO">
+    <Position X="16.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAggAAAQAAAgAAAAAAAAAAAAAQAABAACAAAAAAAA=</HashCode>
+      <FileName>Models\ComponentDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.Services.Authentication.AuthService">
+    <Position X="18.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAgAAAAIAEAAAAAEACAAIgIAACAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Authentication\AuthService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ComputerConfiguration.Services.Navigation.NavigationStore">
+    <Position X="21" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Navigation\NavigationStore.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ComputerConfiguration.ViewModels.ViewModelBase">
+    <Position X="34.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ViewModelBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.ViewModels.AddressAddingViewModel">
+    <Position X="23.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAYDAAAAAABASAIAAABAAgAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\AddressAddingViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.ViewModels.AddressListViewModel">
+    <Position X="25.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARAAAAAAAAAQAECIACAAAAgACAAAAEEAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\AddressListViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.ViewModels.CartViewModel">
+    <Position X="27.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAZACAAEAgAYCCIQEAAAEACAAAWQCAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\CartViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.ViewModels.ComponentSelectionViewModel">
+    <Position X="30" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BCAAAAAEAAAAJIAAAIAKTAAAoAAgAAAkAAAQoAACABA=</HashCode>
+      <FileName>ViewModels\ComponentSelectionViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.ViewModels.HomeViewModel">
+    <Position X="32.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\HomeViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.ViewModels.LoginViewModel">
+    <Position X="34.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAIAAAAAAgAAAAAIAAAAAAAACAAAA=</HashCode>
+      <FileName>ViewModels\LoginViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.ViewModels.MainViewModel">
+    <Position X="36.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBAAAAASABhgAAAAoIAEAIIICAIQhEIRQCQQAEAASYA=</HashCode>
+      <FileName>ViewModels\MainViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.ViewModels.OrderViewModel">
+    <Position X="39" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABABgCAAEAACAAAIAAAAgBADAAACADAAAAAIAAAAAA=</HashCode>
+      <FileName>ViewModels\OrderViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.ViewModels.RegistrationViewModel">
+    <Position X="41.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAIAAAAAAgAAAAAACAAAAAAABAAAA=</HashCode>
+      <FileName>ViewModels\RegistrationViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.ViewModels.ServiceSelectionViewModel">
+    <Position X="43.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAEAAAAAAAAACAAAAAQQAAAABAAADAAAA=</HashCode>
+      <FileName>ViewModels\ServiceSelectionViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.ViewModels.SortOptionViewModel">
+    <Position X="45.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAACAQAAAAgAAAAAQAAAAAAAAAAAg=</HashCode>
+      <FileName>ViewModels\SortOptionViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.DTO.UserRegistrationDTO">
+    <Position X="3" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAIAAAAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>DTO\UserRegistrationDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.Filters.BoolFilter">
+    <Position X="5.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gBCAAAAAAIAAAAAAAAEAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Filters\BoolFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.Filters.MultiChoiceFilter">
+    <Position X="7.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAgAAAAAAAAAAAAAABAAAAAAAAAAAABAAAg=</HashCode>
+      <FileName>Filters\MultiChoiceFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.Filters.RangeFilter">
+    <Position X="9.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAABAAAAAAEAAAAAAAAAAAAAAAUABBgAAAIAA=</HashCode>
+      <FileName>Filters\RangeFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.Filters.SingleChoiceFilter">
+    <Position X="12" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAIAAAAAAAgAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Filters\SingleChoiceFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.Filters.TextFilter">
+    <Position X="14.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Filters\TextFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerConfiguration.Models.ComponentBase">
+    <Position X="16.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAgCAAAAAAAgAAAAAAAgAIQAAAAAAEECAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ComponentBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

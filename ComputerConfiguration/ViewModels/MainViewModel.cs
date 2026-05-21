@@ -1,6 +1,8 @@
 ﻿using ComputerConfiguration.Builder;
 using ComputerConfiguration.Commands;
+using ComputerConfiguration.DB;
 using ComputerConfiguration.DTO;
+using ComputerConfiguration.Infrastructure.Seeding;
 using ComputerConfiguration.Models;
 using ComputerConfiguration.Models.Components;
 using ComputerConfiguration.Models.Enums;
@@ -8,6 +10,7 @@ using ComputerConfiguration.Repositories.ComponentRepository;
 using ComputerConfiguration.Services.Authentication;
 using ComputerConfiguration.Services.Navigation;
 using ComputerConfiguration.Views;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -131,7 +134,7 @@ namespace ComputerConfiguration.ViewModels
         }
         #endregion
         public MainViewModel(INavigationService navigationService, NavigationStore navigationStore, 
-            IComputerBuildDtoBuilder builder, IComponentRepository componets, IAuthService authService)
+            IComputerBuildDtoBuilder builder, IComponentRepository componets, IAuthService authService, ComputerConfigurationDBContext context)
         {
             navigationService.NavigateTo<HomeViewModel>();
             NavigationStore = navigationStore;
@@ -139,6 +142,11 @@ namespace ComputerConfiguration.ViewModels
             _builder = builder;
             _catalog = componets;
             AuthService = authService;
+            _ = _seedAsync(context);
+        }
+        private async Task _seedAsync(ComputerConfigurationDBContext dbContext)
+        {
+            await DatabaseSeeder.SeedAsync(dbContext, @"C:\\Users\\Artem\\Desktop\\вуз\\ООП\\parsed_data");
         }
     }
 }

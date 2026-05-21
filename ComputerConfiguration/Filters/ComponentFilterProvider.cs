@@ -217,8 +217,8 @@ public class ComponentFilterProvider : IComponentFilterProvider
                     Name = "Wattage",
                     DisplayName = "Мощность (Вт)",
                     MatchStrategy = new RangeMatchStrategy(),
-                    Min = allComponents.OfType<Psu>().Min(psu => psu.Wattage),
-                    Max = allComponents.OfType<Psu>().Max(psu => psu.Wattage)
+                    Min = allComponents.OfType<Psu>().Min(psu => psu.Wattage ?? 0),
+                    Max = allComponents.OfType<Psu>().Max(psu => psu.Wattage ?? 0)
                 };
                 // Сертификат эффективности
                 yield return new SingleChoiceFilter

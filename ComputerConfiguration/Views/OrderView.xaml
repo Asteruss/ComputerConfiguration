@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="ComputerConfiguration.Views.OrderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ComputerConfiguration.Views"
+             xmlns:converters="clr-namespace:ComputerConfiguration.Converters"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:SignConverter x:Key="SignConverter" />
+    </UserControl.Resources>
+    <StackPanel>
+        <Label Content="Адрес:"/>
+        <ListBox ItemsSource="{Binding Addresses}" 
+                 SelectedItem="{Binding SelectedAddress}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border>
+                        <TextBlock Text="{Binding FullAddress}"/>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Separator Height="2"/>
+
+        <Label Content="Выберите способ оплаты"/>
+        <ListBox ItemsSource="{Binding PaymentMethods}" 
+                 SelectedItem="{Binding SelectedPaymentMethod}"
+                 BorderThickness="0"
+                 Background="Transparent">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <RadioButton GroupName="PaymentGroup" 
+                         IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}"
+                         Margin="0,2">
+                        <TextBlock>
+                                <Run Text="{Binding Name}"/>
+                                <Run Text=": "/>
+                                <Run Text="{Binding Description}"/>
+                        </TextBlock>
+                    </RadioButton>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel>
+
+        </StackPanel>
+        <StackPanel>
+            <TextBlock>
+                <Run Text="{Binding FinalPrice, StringFormat=К оплате {0:C}}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="{Binding UseBonuses, Converter={StaticResource SignConverter}}"/><Run Text="{Binding Bonuses}"/>
+                <Run Text="бонусов"/>
+            </TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Назад" 
+                    Command="{Binding BackCommand}"
+                    Style="{StaticResource RoundedButtonOutline}"/>
+            <Button Content="Оплатить" 
+                    Command="{Binding BuyCommand}"
+                    Style="{StaticResource RoundedButtonPrimary}"/>
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>

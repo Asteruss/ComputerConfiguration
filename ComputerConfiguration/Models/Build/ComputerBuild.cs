@@ -21,14 +21,12 @@ namespace ComputerConfiguration.Models.Build
         public Cpu? Cpu { get; set; }
         public Gpu? Gpu { get; set; }
         public Motherboard? Motherboard { get; set; }
-        public List<Ram>? Rams { get; set; } = new();
         public Case? Case { get; set; }
         public Cooler? Cooler { get; set; }
         public Psu? Psu { get; set; }
-        public List<Storage>? Storages { get; set; } = new();
+        public List<BuildRam> BuildRams { get; set; } = new();
+        public List<BuildStorage> BuildStorages { get; set; } = new();
         public List<AdditionalServiceOption>? AdditionalServices { get; set; } = new();
         public int? OrderId { get; set; }
-
-
     }
 }

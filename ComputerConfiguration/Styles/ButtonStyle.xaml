@@ -8,4 +8,135 @@
         <Setter Property="Margin" Value="10, 0"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
+
+    <Style x:Key="BaseButton" TargetType="Button">
+        <Setter Property="FontFamily"         Value="Segoe UI"/>
+        <Setter Property="FontSize"           Value="15"/>
+        <Setter Property="FontWeight"         Value="Normal"/>
+        <Setter Property="Padding"            Value="18,8"/>
+        <Setter Property="Cursor"             Value="Hand"/>
+        <Setter Property="BorderThickness"    Value="0"/>
+        <Setter Property="Background"         Value="Transparent"/>
+        <Setter Property="Foreground"         Value="{StaticResource Blue600Brush}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment"   Value="Center"/>
+        <Setter Property="FocusVisualStyle"   Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding Tag}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="BtnSm" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="Padding"   Value="12,5"/>
+        <Setter Property="FontSize"  Value="14"/>
+    </Style>
+    <Style x:Key="BtnMd" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="Padding"   Value="18,8"/>
+        <Setter Property="FontSize"  Value="15"/>
+    </Style>
+    <Style x:Key="BtnLg" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="Padding"   Value="24,11"/>
+        <Setter Property="FontSize"  Value="16"/>
+    </Style>
+
+    <Style x:Key="LinkButton" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="Foreground"  Value="{StaticResource Blue600Brush}"/>
+        <Setter Property="Padding" Value="0,2"/>
+        <Setter Property="Tag" Value="0"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <TextBlock x:Name="tb"
+                               Text="{TemplateBinding Content}"
+                               FontSize="{TemplateBinding FontSize}"
+                               FontFamily="{TemplateBinding FontFamily}"
+                               Foreground="{TemplateBinding Foreground}"
+                               Cursor="Hand"
+                               TextDecorations="None"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="tb" Property="TextDecorations" Value="Underline"/>
+                            <Setter TargetName="tb" Property="Opacity" Value="0.85"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="tb" Property="Opacity" Value="0.65"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="tb" Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RoundedButtonPrimary" TargetType="Button" BasedOn="{StaticResource BtnMd}">
+        <Setter Property="Background"     Value="{StaticResource Blue600Brush}"/>
+        <Setter Property="Foreground"     Value="{StaticResource Blue50Brush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Tag"            Value="8"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource Blue800Brush}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{StaticResource Blue900Brush}"/>
+
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="RoundedButtonSecondary" TargetType="Button" BasedOn="{StaticResource BtnMd}">
+        <Setter Property="Background"      Value="{StaticResource Blue50Brush}"/>
+        <Setter Property="Foreground"      Value="{StaticResource Blue800Brush}"/>
+        <Setter Property="BorderBrush"     Value="{StaticResource Blue100Brush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Tag"             Value="8"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource Blue100Brush}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{StaticResource Blue200Brush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="RoundedButtonOutline" TargetType="Button" BasedOn="{StaticResource BtnMd}">
+        <Setter Property="Background"      Value="White"/>
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{StaticResource TextPrimary}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush"     Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Tag"             Value="8"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource Gray50Brush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
 </ResourceDictionary>

@@ -9,7 +9,10 @@
         xmlns:converters="clr-namespace:ComputerConfiguration.Converters"
         xmlns:controls="clr-namespace:ComputerConfiguration.Styles.Controls"
         mc:Ignorable="d"
-        Title="Сборка компьютера" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="Сборка компьютера" 
+        WindowStartupLocation="CenterScreen" 
+        WindowState="Maximized"
+        >
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModels:HomeViewModel}">
             <views:HomeView/>
@@ -32,6 +35,9 @@
         <DataTemplate DataType="{x:Type viewModels:AddressListViewModel}">
             <views:AddressListView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:OrderViewModel}">
+            <views:OrderView/>
+        </DataTemplate>
         <converters:VisibilityConverter x:Key="visibilityConverter"/>
         <converters:BoolToGridWidthConverter x:Key="boolToGridWidthConverter"/>
         <Style TargetType="Control">
@@ -42,18 +48,23 @@
         </Style>
         
     </Window.Resources>
-    <Grid Background="Gray">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.15*"/>
+            <ColumnDefinition Width="0.2*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0.15*"/>
 
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" BorderThickness="0,0,0,2" BorderBrush="Aqua" Background="IndianRed">
+        <Border Grid.Column="0" 
+                Grid.ColumnSpan="3" 
+                Grid.Row="0" 
+                BorderThickness="0,0,0,2"
+                BorderBrush="{StaticResource Blue900Brush}"
+                Background="{StaticResource Blue200Brush}"
+                >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.4*"/>
@@ -124,38 +135,87 @@
 
             </Grid>
         </Border>
+
+        <Border Grid.Column="0" 
+                Grid.Row="1"
+                BorderThickness="0,0,2,0"
+                BorderBrush="{StaticResource Blue900Brush}"
+                Background="{StaticResource Gray100Brush}">
+            <StackPanel Orientation="Vertical" >
+
+                <Button Command="{Binding GoToCpuCatalogCommand}" 
+            Content="Процессоры"
+            Style="{StaticResource LinkButton}"/>
+
+                <TextBlock Text="{Binding ComputerBuild.Cpu.Name}"
+               Visibility="{Binding ComputerBuild.IsSelectedCpu, Converter={StaticResource visibilityConverter}}"/>
+
+                <Button Command="{Binding GoToGpuCatalogCommand}" 
+            Content="Видеокарты"
+            Style="{StaticResource LinkButton}"/>
+
+                <TextBlock Text="{Binding ComputerBuild.Gpu.Name}"
+                            Visibility="{Binding ComputerBuild.IsSelectedGpu, Converter={StaticResource visibilityConverter}}"/>
+
+                <Button Command="{Binding GoToMotherboardCatalogCommand}" 
+                        Content="Материнские платы"
+                        Style="{StaticResource LinkButton}"/>
+
+                <TextBlock Text="{Binding ComputerBuild.Motherboard.Name}"
+                            Visibility="{Binding ComputerBuild.IsSelectedMotherboard, Converter={StaticResource visibilityConverter}}"/>
+
+                <Button Command="{Binding GoToRamCatalogCommand}" 
+                        Content="Оперативная память"
+                        Style="{StaticResource LinkButton}"/>
+
+                <ItemsControl ItemsSource="{Binding ComputerBuild.Rams}"
+                                Visibility="{Binding ComputerBuild.IsSelectedRam, Converter={StaticResource visibilityConverter}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding RamHelper.Name}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Button Command="{Binding GoToPsuCatalogCommand}" 
+            Content="Блоки питания"
+            Style="{StaticResource LinkButton}"/>
+
+                <TextBlock Text="{Binding ComputerBuild.Psu.Name}"
+               Visibility="{Binding ComputerBuild.IsSelectedPsu, Converter={StaticResource visibilityConverter}}"/>
+
+                <Button Command="{Binding GoToStorageCatalogCommand}" 
+            Content="Накопители"
+            Style="{StaticResource LinkButton}"/>
+
+                <ItemsControl ItemsSource="{Binding ComputerBuild.Storages}"
+                              Visibility="{Binding ComputerBuild.IsSelectedStorage, Converter={StaticResource visibilityConverter}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StorageHelper.Name}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
+                <Button Command="{Binding GoToCoolerCatalogCommand}" 
+            Content="Охлаждение"
+            Style="{StaticResource LinkButton}"/>
+
+                <TextBlock Text="{Binding ComputerBuild.Cooler.Name}"
+               Visibility="{Binding ComputerBuild.IsSelectedCooler, Converter={StaticResource visibilityConverter}}"/>
+
+                <Button Command="{Binding GoToCaseCatalogCommand}" 
+            Content="Корпуса"
+            Style="{StaticResource LinkButton}"/>
+
+                <TextBlock Text="{Binding ComputerBuild.Case.Name}"
+               Visibility="{Binding ComputerBuild.IsSelectedCase, Converter={StaticResource visibilityConverter}}"/>
+            </StackPanel>
+        </Border>
         
-        <!--<Border Grid.Column="0" Grid.Row="1" Visibility="{Binding ComputerBuild.IsSelectedAnything, Converter={StaticResource visibilityConverter}}">
-            <TreeView Margin="2">
-                <TreeViewItem Header="Процессор" IsExpanded="{Binding ComputerBuild.IsSelectedCpu}">
-                    <TreeViewItem Header="{Binding ComputerBuild.Cpu.Name}"/>
-                </TreeViewItem>
-                <TreeViewItem Header="Видеокарта" IsExpanded="{Binding ComputerBuild.IsSelectedGpu}">
-                    <TreeViewItem Header="{Binding ComputerBuild.Gpu.Name}"/>
-                </TreeViewItem>
-                <TreeViewItem Header="Матплата" IsExpanded="{Binding ComputerBuild.IsSelectedMotherboard}">
-                    <TreeViewItem Header="{Binding ComputerBuild.Motherboard.Name}"/>
-                </TreeViewItem>
-                <TreeViewItem Header="Оперативная память" IsExpanded="{Binding ComputerBuild.IsSelectedRam}">
-                    <TreeViewItem Header="{Binding ComputerBuild.Ram.Name}"/>
-                </TreeViewItem>
-            </TreeView>
-        </Border>-->
-        <StackPanel Orientation="Vertical" 
-                    Grid.Column="0" 
-                    Grid.Row="1" >
-            <Button Command="{Binding GoToCpuCatalogCommand}" Content="CPU"/>
-            <TextBlock Text="{Binding ComputerBuild.Cpu.Name}"
-                       Visibility="{Binding ComputerBuild.IsSelectedCpu, Converter={StaticResource visibilityConverter}}"/>
-            <Button Command="{Binding GoToGpuCatalogCommand}" Content="GPU"/>
-            <Button Command="{Binding GoToMotherboardCatalogCommand}" Content="Motherboard"/>
-            <Button Command="{Binding GoToRamCatalogCommand}" Content="Ram"/>
-            <Button Command="{Binding GoToPsuCatalogCommand}" Content="Psu"/>
-            <Button Command="{Binding GoToStorageCatalogCommand}" Content="Storages"/>
-            <Button Command="{Binding GoToCoolerCatalogCommand}" Content="Cooler"/>
-            <Button Command="{Binding GoToCaseCatalogCommand}" Content="Case"/>
-        </StackPanel>
-        <Border Grid.Column="1" Grid.Row="2" Background="LightBlue">
+        <Border Grid.Column="1" 
+                Grid.Row="2"
+                Background="{StaticResource Blue50Brush}">
             <ContentControl Content="{Binding DataContext.NavigationStore.CurrentViewModel, RelativeSource={RelativeSource AncestorType=Window}}"/>
         </Border>
     </Grid>

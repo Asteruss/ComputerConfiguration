@@ -28,6 +28,10 @@
             </PasswordBox>
         </StackPanel>
 
-        <Button Content="Зарегистрироваться" Command="{Binding RegisterCommand}" CommandParameter="{Binding DataContext, ElementName=stpRegistration}"/>
+        <Button Content="Зарегистрироваться" 
+                Command="{Binding RegisterCommand}"
+                CommandParameter="{Binding DataContext, ElementName=stpRegistration}"
+                Style="{StaticResource RoundedButtonPrimary}"
+                Width="300"/>
     </StackPanel>
 </UserControl>

@@ -89,11 +89,11 @@
                                             </Grid.RowDefinitions>
 
                                             <Image Grid.Row="0"
-                        Grid.RowSpan="3"
-                        Grid.Column="0"
-                        Source="{Binding Image, Converter={StaticResource ByteArrayToImageConverter}}"
-                        Width="40"
-                        Height="40"/>
+                                                   Grid.RowSpan="3"
+                                                   Grid.Column="0"
+                                                   Source="{Binding Image, Converter={StaticResource ByteArrayToImageConverter}}"
+                                                   Width="40"
+                                                   Height="40"/>
 
                                             <TextBlock Grid.Column="1" Grid.Row="0">
                          <Run Text="{Binding TypeString}" />
@@ -191,7 +191,9 @@
                         <Run Text="{Binding TotalPrice, StringFormat=Итоговая цена: {0:C}}"/>
                     </TextBlock>
                     <Button Content="Заказать"
-                            IsEnabled="{Binding IsOrderCreation}"/>
+                            IsEnabled="{Binding IsOrderCreation}"
+                            Command="{Binding BuyCommand}"
+                            Style="{StaticResource RoundedButtonPrimary}"/>
                 </StackPanel>
 
             </Border>

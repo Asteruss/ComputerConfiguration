@@ -29,11 +29,11 @@ public interface IComputerBuildSession
     void RemovePsu();
 
     void AddRam(Ram ram, ComponentStatus status = ComponentStatus.SelectedMany);
-    void RemoveRam(Ram ram);
+    void RemoveRam(BuildRam ram);
     void ClearRams(Ram ram, ComponentStatus status = ComponentStatus.SelectedMany);
 
     void AddStorage(Storage storage, ComponentStatus status = ComponentStatus.SelectedMany);
-    void RemoveStorage(Storage storage);
+    void RemoveStorage(BuildStorage storage);
     void ClearStorages(Storage storage, ComponentStatus status = ComponentStatus.SelectedMany);
 
     void AddAdditionalOption(AdditionalServiceOption option);

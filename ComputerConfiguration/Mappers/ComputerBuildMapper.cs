@@ -16,8 +16,8 @@ public class ComputerBuildMapper : IComputerBuildMapper
         Cooler = dto.Cooler?.ComponentStatus == ComponentStatus.Selected ? dto.Cooler : null,
         Psu = dto.Psu?.ComponentStatus == ComponentStatus.Selected ? dto.Psu : null,
 
-        Rams = dto.Rams?.Where(r => r.ComponentStatus == ComponentStatus.SelectedMany).ToList() ?? [],
-        Storages = dto.Storages?.Where(s => s.ComponentStatus == ComponentStatus.SelectedMany).ToList() ?? [],
+        BuildRams = dto.Rams?.Where(r => r.ComponentStatus == ComponentStatus.SelectedMany).ToList() ?? [],
+        BuildStorages = dto.Storages?.Where(s => s.ComponentStatus == ComponentStatus.SelectedMany).ToList() ?? [],
 
         AdditionalServices = dto.SelectedAdditionalServices?.ToList() ?? []
     };

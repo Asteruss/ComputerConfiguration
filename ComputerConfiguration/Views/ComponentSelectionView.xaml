@@ -96,15 +96,17 @@
         <DataTemplate x:Key="ButtomRemove">
             <Button Content="Удалить"
                     Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    CommandParameter="{Binding}"/>
+                    CommandParameter="{Binding}"
+                    Style="{StaticResource RoundedButtonPrimary}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="ButtonSelectManyOption">
             <StackPanel Orientation="Horizontal">
 
-                <Button
-        Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-        CommandParameter="{Binding}">
+                <Button          
+                    Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    CommandParameter="{Binding}"
+                    Style="{StaticResource RoundedButtonPrimary}">
                     <TextBlock>
         <Run Text="Очистить ("/>
         <Run Text="{Binding CountSelected}"/>
@@ -113,8 +115,9 @@
                 </Button>
 
                 <Button 
-        Command="{Binding DataContext.RemoveFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-        CommandParameter="{Binding}">
+                    Command="{Binding DataContext.RemoveFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    CommandParameter="{Binding}"
+                    Style="{StaticResource RoundedButtonSecondary}">
                     <TextBlock>
         <Run Text="Очистить свои ("/>
         <Run Text="{Binding CountFakeSelected}"/>
@@ -124,11 +127,13 @@
 
                 <Button Content="Выбрать"
                         Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        CommandParameter="{Binding}"/>
+                        CommandParameter="{Binding}"
+                        Style="{StaticResource RoundedButtonPrimary}"/>
 
                 <Button Content="Выбрать как свое"
                         Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        CommandParameter="{Binding}"/>
+                        CommandParameter="{Binding}"
+                        Style="{StaticResource RoundedButtonSecondary}"/>
 
 
             </StackPanel>
@@ -138,10 +143,12 @@
             <StackPanel Orientation="Horizontal">
                 <Button Content="Выбрать"
                         Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        CommandParameter="{Binding}"/>
+                        CommandParameter="{Binding}"
+                        Style="{StaticResource RoundedButtonPrimary}"/>
                 <Button Content="Выбрать как свое"
                         Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        CommandParameter="{Binding}" Margin="5,0,0,0"/>
+                        CommandParameter="{Binding}" Margin="5,0,0,0"
+                        Style="{StaticResource RoundedButtonSecondary}"/>
             </StackPanel>
         </DataTemplate>
 
@@ -152,7 +159,7 @@
             <ColumnDefinition Width="8*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="0.6*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <ItemsControl ItemsSource="{Binding SortOptions}"
@@ -166,7 +173,8 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button Command="{Binding DataContext.SortBy, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    CommandParameter="{Binding }">
+                            CommandParameter="{Binding }"
+                            Style="{StaticResource RoundedButtonOutline}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding DisplayName, Mode=OneWay}" x:Name="txtSortDisplayName"/>
                             <Image>
@@ -224,7 +232,7 @@
                                 <Image Grid.Column="0"
                                        Width="80" Height="80"
                                        VerticalAlignment="Top"
-                                       Source="{Binding ImageData, Converter={StaticResource ByteArrayToImageConverter}}"/>     
+                                       Source="{Binding ImageSource}"/>     
 
                                 <StackPanel Grid.Column="1" Margin="8,0">
 

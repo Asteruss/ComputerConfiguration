@@ -40,7 +40,7 @@ public class RamCpuSpeedRule : ICompatibilityRule
             return new(CompatibilityRuleEnum.ComponentNotFound, "Оперативная память не установлена.");
         if (build.Cpu == null)
             return new(CompatibilityRuleEnum.ComponentNotFound, "Процессор не установлен.");
-        var maxSpeed = build.Rams.Max(r => r.Speed);
+        var maxSpeed = build.Rams.Max(r => r.RamHelper.Speed);
         if (maxSpeed > build.Cpu.MaxMemorySpeed)
             return new(CompatibilityRuleEnum.Warning, $"Частота RAM ({maxSpeed} МГц) превышает максимальную частоту, поддерживаемую процессором ({build.Cpu.MaxMemorySpeed} МГц). Память будет работать на пониженной частоте.");
         return new();
@@ -57,8 +57,8 @@ public class RamMotherboardTypeRule : ICompatibilityRule
             return new(CompatibilityRuleEnum.ComponentNotFound, "Оперативная память не установлена.");
         foreach (var ram in build.Rams)
         {
-            if (ram.MemoryType != build.Motherboard.MemoryType)
-                return new(CompatibilityRuleEnum.Error, $"Тип памяти RAM '{ram.MemoryType}' не поддерживается материнской платой (требуется '{build.Motherboard.MemoryType}')");
+            if (ram.RamHelper.MemoryType != build.Motherboard.MemoryType)
+                return new(CompatibilityRuleEnum.Error, $"Тип памяти RAM '{ram.Ram.MemoryType}' не поддерживается материнской платой (требуется '{build.Motherboard.MemoryType}')");
         }
         return new();
     }
@@ -72,7 +72,7 @@ public class RamMotherboardCapacityRule : ICompatibilityRule
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
         if (build.Rams == null || !build.Rams.Any())
             return new(CompatibilityRuleEnum.ComponentNotFound, "Оперативная память не установлена.");
-        var totalCapacity = build.Rams.Sum(r => r.TotalCapacity);
+        var totalCapacity = build.Rams.Sum(r => r.RamHelper.TotalCapacity);
         if (totalCapacity > build.Motherboard.MaxMemory)
             return new(CompatibilityRuleEnum.Error, $"Общий объём RAM ({totalCapacity} ГБ) превышает максимальный объём материнской платы ({build.Motherboard.MaxMemory} ГБ)");
         return new();
@@ -87,7 +87,7 @@ public class RamMotherboardSpeedRule : ICompatibilityRule
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
         if (build.Rams == null || !build.Rams.Any())
             return new(CompatibilityRuleEnum.ComponentNotFound, "Оперативная память не установлена.");
-        var maxSpeed = build.Rams.Max(r => r.Speed);
+        var maxSpeed = build.Rams.Max(r => r.RamHelper.Speed);
         if (maxSpeed > build.Motherboard.MaxMemorySpeed)
             return new(CompatibilityRuleEnum.Warning, $"Максимальная частота RAM ({maxSpeed} МГц) выше поддерживаемой материнской платой ({build.Motherboard.MaxMemorySpeed} МГц). Память будет работать на пониженной частоте.");
         return new();
@@ -102,7 +102,7 @@ public class RamMotherboardSlotsRule : ICompatibilityRule
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
         if (build.Rams == null || !build.Rams.Any())
             return new(CompatibilityRuleEnum.ComponentNotFound, "Оперативная память не установлена.");
-        var totalModules = build.Rams.Sum(r => r.ModuleCount);
+        var totalModules = build.Rams.Sum(r => r.RamHelper.ModuleCount);
         if (totalModules > build.Motherboard.MemorySlots)
             return new(CompatibilityRuleEnum.Error, $"Общее количество модулей RAM ({totalModules}) превышает число слотов на материнской плате ({build.Motherboard.MemorySlots})");
         return new();
@@ -117,7 +117,7 @@ public class StorageMotherboardM2CountRule : ICompatibilityRule
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
         if (build.Storages == null || !build.Storages.Any())
             return new(CompatibilityRuleEnum.ComponentNotFound, "Накопители не установлены.");
-        var m2Count = build.Storages.Count(s => s.StorageType == StorageType.M2_SSD);
+        var m2Count = build.Storages.Count(s => s.StorageHelper.StorageType == StorageType.M2_SSD);
         if (m2Count > build.Motherboard.M2Slots)
             return new(CompatibilityRuleEnum.Error, $"Недостаточно M.2 слотов на материнской плате (требуется {m2Count}, доступно {build.Motherboard.M2Slots})");
         return new();
@@ -132,7 +132,7 @@ public class StorageMotherboardSataCountRule : ICompatibilityRule
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
         if (build.Storages == null || !build.Storages.Any())
             return new(CompatibilityRuleEnum.ComponentNotFound, "Накопители не установлены.");
-        var sataCount = build.Storages.Count(s => s.StorageType == StorageType.SATA_SSD);
+        var sataCount = build.Storages.Count(s => s.StorageHelper.StorageType == StorageType.SATA_SSD);
         if (sataCount > build.Motherboard.SataPorts)
             return new(CompatibilityRuleEnum.Error, $"Недостаточно SATA портов на материнской плате (требуется {sataCount}, доступно {build.Motherboard.SataPorts})");
         return new();
@@ -147,11 +147,11 @@ public class StorageM2InterfaceWarningRule : ICompatibilityRule
             return new(CompatibilityRuleEnum.ComponentNotFound, "Материнская плата не установлена.");
         if (build.Storages == null || !build.Storages.Any())
             return new(CompatibilityRuleEnum.ComponentNotFound, "Накопители не установлены.");
-        var m2Storages = build.Storages.Where(s => s.StorageType == StorageType.M2_SSD);
+        var m2Storages = build.Storages.Where(s => s.StorageHelper.StorageType == StorageType.M2_SSD);
         bool hasIssue = false;
         foreach (var storage in m2Storages)
         {
-            if (storage.Interface.Contains("NVMe") && build.Motherboard.PcieVersion == null) // упрощённая проверка
+            if (storage.StorageHelper.Interface.Contains("NVMe") && build.Motherboard.PcieVersion == null) // упрощённая проверка
                 hasIssue = true;
         }
         if (hasIssue)
@@ -217,7 +217,7 @@ public class TotalPowerConsumptionRule : ICompatibilityRule
         if (build.Cpu != null) total += build.Cpu.Tdp;
         if (build.Gpu != null) total += build.Gpu.Tdp;
         if (build.Motherboard != null) total += build.Motherboard.PowerConsumption;
-        if (build.Rams != null) total += build.Rams.Sum(r => 5 * r.ModuleCount); // 5 Вт на модуль
+        if (build.Rams != null) total += build.Rams.Sum(r => 5 * r.RamHelper.ModuleCount); // 5 Вт на модуль
         if (build.Storages != null) total += build.Storages.Sum(s => 10); // 10 Вт на накопитель
         if (build.Cooler != null) total += 10; // приблизительно
 
@@ -236,7 +236,7 @@ public class StoragePsuSataConnectorsRule : ICompatibilityRule
             return new(CompatibilityRuleEnum.ComponentNotFound, "Блок питания не установлен.");
         if (build.Storages == null || !build.Storages.Any())
             return new(CompatibilityRuleEnum.ComponentNotFound, "Накопители не установлены.");
-        var sataCount = build.Storages.Count(s => s.StorageType == StorageType.SATA_SSD);
+        var sataCount = build.Storages.Count(s => s.StorageHelper.StorageType == StorageType.SATA_SSD);
         if (sataCount > build.Psu.SataConnectors)
             return new(CompatibilityRuleEnum.Error, $"Недостаточно SATA разъёмов питания (требуется {sataCount}, доступно {build.Psu.SataConnectors})");
         return new();
@@ -339,8 +339,8 @@ public class RamSameTypeRule : ICompatibilityRule
     {
         if (build.Rams == null || build.Rams.Count <= 1)
             return new();
-        var firstType = build.Rams.First().MemoryType;
-        if (build.Rams.Any(r => r.MemoryType != firstType))
+        var firstType = build.Rams.First().RamHelper.MemoryType;
+        if (build.Rams.Any(r => r.RamHelper.MemoryType != firstType))
             return new(CompatibilityRuleEnum.Error, "Все модули оперативной памяти должны быть одного типа (например, DDR4 или DDR5)");
         return new();
     }

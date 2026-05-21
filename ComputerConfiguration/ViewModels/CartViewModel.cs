@@ -21,7 +21,7 @@ public class CartViewModel : ViewModelBase
     public ObservableCollection<CompabilityErrorDTO> Errors { get; set;  } = new();
     public bool IsCompatible { get; set; }
     public bool IsAnyErrors { get; set; }
-    public bool IsOrderCreation => IsCompatible && AuthService.IsAuthenticated;
+    public bool IsOrderCreation => AuthService.IsAuthenticated;
 
     private double _totalPrice;
     public double TotalPrice
@@ -65,7 +65,7 @@ public class CartViewModel : ViewModelBase
     private RelayCommand _switchCommand;
     public RelayCommand SwitchCommand
     {
-        get => _switchCommand ??= new RelayCommand((obj) => RecalculateTotalPrice());
+        get => _switchCommand ??= new RelayCommand((_) => RecalculateTotalPrice());
     }
     public void CheckCompability()
     {
@@ -75,6 +75,11 @@ public class CartViewModel : ViewModelBase
         IsAnyErrors = IsCompatible || Errors.Any();
     }
 
+    private RelayCommand _buyCommand;
+    public RelayCommand BuyCommand
+    {
+        get => _buyCommand ??= new((_) => _navigationService.NavigateTo<OrderViewModel>(_useBonuses));
+    }
     public CartViewModel(INavigationService navigationService, IComputerBuildSession session, 
         IServiceRepository services, OrderFacade orderFacade, IAuthService authService)
     {

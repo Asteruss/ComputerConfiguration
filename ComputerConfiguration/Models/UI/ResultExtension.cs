@@ -13,5 +13,6 @@ public static class ResultExtension
 
     public static Error AsError(this IResult result) => result as Error;
     public static Success AsSuccess(this IResult result) => result as Success;
+    public static OrderSuccess AsOrderSuccess(this IResult result) => result as OrderSuccess;
 
 }

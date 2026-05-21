@@ -1,6 +1,7 @@
 ﻿using ComputerConfiguration.Commands;
 using ComputerConfiguration.Models.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Windows.Media;
 
 namespace ComputerConfiguration.Models;
 

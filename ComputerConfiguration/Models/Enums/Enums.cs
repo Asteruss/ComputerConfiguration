@@ -97,4 +97,14 @@ namespace ComputerConfiguration.Models.Enums
         Good,
         ComponentNotFound
     }
+
+    public enum OrderStatus
+    {
+        WaitForPayment,
+        Accepted,
+        InProgress,
+        InDelivery,
+        Delivered,
+        Done
+    }
 }

@@ -4,6 +4,7 @@ using ComputerConfiguration.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComputerConfiguration.Migrations
 {
     [DbContext(typeof(ComputerConfigurationDBContext))]
-    partial class ComputerConfigurationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260521180803_OrderStatus")]
+    partial class OrderStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace ComputerConfiguration.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("AdditionalServiceOptionComputerBuild", b =>
-                {
-                    b.Property<int>("AdditionalServicesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ComputerBuildsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AdditionalServicesId", "ComputerBuildsId");
-
-                    b.HasIndex("ComputerBuildsId");
-
-                    b.ToTable("AdditionalServiceOptionComputerBuild");
-                });
 
             modelBuilder.Entity("AddressUser", b =>
                 {
@@ -50,6 +38,36 @@ namespace ComputerConfiguration.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("AddressUser");
+                });
+
+            modelBuilder.Entity("ComputerBuildRam", b =>
+                {
+                    b.Property<int>("ComputerBuildsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RamsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ComputerBuildsId", "RamsId");
+
+                    b.HasIndex("RamsId");
+
+                    b.ToTable("ComputerBuildRam");
+                });
+
+            modelBuilder.Entity("ComputerBuildStorage", b =>
+                {
+                    b.Property<int>("ComputerBuildsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StoragesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ComputerBuildsId", "StoragesId");
+
+                    b.HasIndex("StoragesId");
+
+                    b.ToTable("ComputerBuildStorage");
                 });
 
             modelBuilder.Entity("ComputerConfiguration.Models.Authentication.Address", b =>
@@ -207,6 +225,9 @@ namespace ComputerConfiguration.Migrations
                     b.Property<int?>("AdditionalServiceId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ComputerBuildId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Option")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -215,53 +236,9 @@ namespace ComputerConfiguration.Migrations
 
                     b.HasIndex("AdditionalServiceId");
 
+                    b.HasIndex("ComputerBuildId");
+
                     b.ToTable("AdditionalServiceOptions");
-                });
-
-            modelBuilder.Entity("ComputerConfiguration.Models.Build.BuildRam", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ComputerBuildId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RamId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ComputerBuildId");
-
-                    b.HasIndex("RamId");
-
-                    b.ToTable("BuildRams");
-                });
-
-            modelBuilder.Entity("ComputerConfiguration.Models.Build.BuildStorage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ComputerBuildId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StorageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ComputerBuildId");
-
-                    b.HasIndex("StorageId");
-
-                    b.ToTable("BuildStorages");
                 });
 
             modelBuilder.Entity("ComputerConfiguration.Models.Build.ComputerBuild", b =>
@@ -735,7 +712,7 @@ namespace ComputerConfiguration.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EfficiencyRating")
+                    b.Property<int>("EfficiencyRating")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("ImageData")
@@ -749,27 +726,27 @@ namespace ComputerConfiguration.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Modular")
+                    b.Property<bool>("Modular")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PcieConnectors")
+                    b.Property<int>("PcieConnectors")
                         .HasColumnType("int");
 
                     b.Property<double>("Rating")
                         .HasColumnType("float");
 
-                    b.Property<int?>("SataConnectors")
+                    b.Property<int>("SataConnectors")
                         .HasColumnType("int");
 
                     b.PrimitiveCollection<string>("Tags")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Wattage")
+                    b.Property<int>("Wattage")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1033,28 +1010,15 @@ namespace ComputerConfiguration.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("AddressId")
+                        .IsUnique()
+                        .HasFilter("[AddressId] IS NOT NULL");
 
                     b.HasIndex("ComputerBuildId1");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("AdditionalServiceOptionComputerBuild", b =>
-                {
-                    b.HasOne("ComputerConfiguration.Models.Build.AdditionalServiceOption", null)
-                        .WithMany()
-                        .HasForeignKey("AdditionalServicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComputerConfiguration.Models.Build.ComputerBuild", null)
-                        .WithMany()
-                        .HasForeignKey("ComputerBuildsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("AddressUser", b =>
@@ -1068,6 +1032,36 @@ namespace ComputerConfiguration.Migrations
                     b.HasOne("ComputerConfiguration.Models.Authentication.User", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ComputerBuildRam", b =>
+                {
+                    b.HasOne("ComputerConfiguration.Models.Build.ComputerBuild", null)
+                        .WithMany()
+                        .HasForeignKey("ComputerBuildsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ComputerConfiguration.Models.Components.Ram", null)
+                        .WithMany()
+                        .HasForeignKey("RamsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ComputerBuildStorage", b =>
+                {
+                    b.HasOne("ComputerConfiguration.Models.Build.ComputerBuild", null)
+                        .WithMany()
+                        .HasForeignKey("ComputerBuildsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ComputerConfiguration.Models.Components.Storage", null)
+                        .WithMany()
+                        .HasForeignKey("StoragesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1093,37 +1087,11 @@ namespace ComputerConfiguration.Migrations
                         .WithMany("AdditionalServiceOptions")
                         .HasForeignKey("AdditionalServiceId");
 
+                    b.HasOne("ComputerConfiguration.Models.Build.ComputerBuild", null)
+                        .WithMany("AdditionalServices")
+                        .HasForeignKey("ComputerBuildId");
+
                     b.Navigation("AdditionalService");
-                });
-
-            modelBuilder.Entity("ComputerConfiguration.Models.Build.BuildRam", b =>
-                {
-                    b.HasOne("ComputerConfiguration.Models.Build.ComputerBuild", "Build")
-                        .WithMany("BuildRams")
-                        .HasForeignKey("ComputerBuildId");
-
-                    b.HasOne("ComputerConfiguration.Models.Components.Ram", "Ram")
-                        .WithMany("BuildRams")
-                        .HasForeignKey("RamId");
-
-                    b.Navigation("Build");
-
-                    b.Navigation("Ram");
-                });
-
-            modelBuilder.Entity("ComputerConfiguration.Models.Build.BuildStorage", b =>
-                {
-                    b.HasOne("ComputerConfiguration.Models.Build.ComputerBuild", "Build")
-                        .WithMany("BuildStorages")
-                        .HasForeignKey("ComputerBuildId");
-
-                    b.HasOne("ComputerConfiguration.Models.Components.Storage", "Storage")
-                        .WithMany("BuildStorages")
-                        .HasForeignKey("StorageId");
-
-                    b.Navigation("Build");
-
-                    b.Navigation("Storage");
                 });
 
             modelBuilder.Entity("ComputerConfiguration.Models.Build.ComputerBuild", b =>
@@ -1241,9 +1209,7 @@ namespace ComputerConfiguration.Migrations
 
             modelBuilder.Entity("ComputerConfiguration.Models.Build.ComputerBuild", b =>
                 {
-                    b.Navigation("BuildRams");
-
-                    b.Navigation("BuildStorages");
+                    b.Navigation("AdditionalServices");
                 });
 
             modelBuilder.Entity("ComputerConfiguration.Models.Components.Case", b =>
@@ -1276,16 +1242,6 @@ namespace ComputerConfiguration.Migrations
             modelBuilder.Entity("ComputerConfiguration.Models.Components.Psu", b =>
                 {
                     b.Navigation("ComputerBuilds");
-                });
-
-            modelBuilder.Entity("ComputerConfiguration.Models.Components.Ram", b =>
-                {
-                    b.Navigation("BuildRams");
-                });
-
-            modelBuilder.Entity("ComputerConfiguration.Models.Components.Storage", b =>
-                {
-                    b.Navigation("BuildStorages");
                 });
 
             modelBuilder.Entity("ComputerConfiguration.Models.Orders.Bonus.PrivilegeLevel", b =>

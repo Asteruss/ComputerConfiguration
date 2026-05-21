@@ -10,6 +10,7 @@ using ComputerConfiguration.Services.Build.Compability;
 using ComputerConfiguration.Services.Components;
 using ComputerConfiguration.Services.Favorites;
 using ComputerConfiguration.Services.Navigation;
+using ComputerConfiguration.Services.Payment;
 using ComputerConfiguration.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,24 +34,26 @@ public partial class App : Application
 
                 services.AddSingleton<NavigationStore>();
                 services.AddSingleton<INavigationTarget>(sp => sp.GetRequiredService<NavigationStore>());
+                services.AddSingleton<INavigationService, NavigationService>();
 
                 services.AddSingleton<IComputerBuildMapper, ComputerBuildMapper>();
                 services.AddSingleton<IComputerBuildDtoBuilder, ComputerBuildDtoBuilder>();
                 services.AddSingleton<IComputerBuildSession, ComputerBuildSession>();
 
 
-                services.AddSingleton<IServiceRepository, InMemoryServiceRepository>();
+                services.AddSingleton<IServiceRepository, DbServiceRepository>();
                 services.AddSingleton<IComponentFilterProvider, ComponentFilterProvider>();
-                services.AddSingleton<IComponentRepository, InMemoryComponentRepository>();
+                services.AddSingleton<IComponentRepository, DBComponentRepository>();
                 services.AddSingleton<IComponentFactory, ComponentFactory>();
 
+
                 // services
-                services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<IAuthService, AuthService>();
                 services.AddSingleton<IAddressService, AddressService>();
                 services.AddSingleton<BonusService>();
                 services.AddSingleton<PricingService>();
                 services.AddSingleton<OrderService>();
+                services.AddSingleton<IPaymentService, FakePaymentService>();
                 services.AddSingleton<ICompatibilityRuleFactory, CompatibilityRuleFactory>();
                 services.AddSingleton(provider =>
                 {
@@ -73,6 +76,7 @@ public partial class App : Application
                 services.AddTransient<ComponentSelectionViewModel>();
                 services.AddTransient<AddressAddingViewModel>();
                 services.AddTransient<AddressListViewModel>();
+                services.AddTransient<OrderViewModel>();
             })
             .Build();
     }

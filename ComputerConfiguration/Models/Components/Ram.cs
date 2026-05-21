@@ -1,22 +1,24 @@
 ﻿using ComputerConfiguration.Models.Build;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComputerConfiguration.Models.Components
+namespace ComputerConfiguration.Models.Components;
+
+public class Ram : ComponentBase
 {
-    public class Ram : ComponentBase
-    {
-        public string MemoryType { get; set; }
-        public int Capacity { get; set; }
-        public int Speed { get; set; }
-        public int ModuleCount { get; set; }
-        public int TotalCapacity => Capacity * ModuleCount;
-        public string Timing { get; set; }
-        public double Voltage { get; set; }
-        public List<ComputerBuild> ComputerBuilds { get; set; }
-        public Ram ShallowCopy() => (Ram)this.MemberwiseClone();
-    }
+    public string MemoryType { get; set; }
+    public int Capacity { get; set; }
+    public int Speed { get; set; }
+    public int ModuleCount { get; set; }
+    public int TotalCapacity => Capacity * ModuleCount;
+    public string Timing { get; set; }
+    public double Voltage { get; set; }
+    [NotMapped]
+    public List<ComputerBuild> ComputerBuilds { get; set; }
+    public List<BuildRam> BuildRams { get; set; }
+    public Ram ShallowCopy() => (Ram)this.MemberwiseClone();
 }
