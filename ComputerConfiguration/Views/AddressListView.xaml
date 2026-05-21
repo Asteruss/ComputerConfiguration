@@ -53,6 +53,7 @@
         </ItemsControl>
         <Button HorizontalAlignment="Left"
                 Content="Добавить адрес"
-                Command="{Binding AddCommand}"/>
+                Command="{Binding AddCommand}"
+                Style="{StaticResource RoundedButtonPrimary}"/>
     </StackPanel>
 </UserControl>

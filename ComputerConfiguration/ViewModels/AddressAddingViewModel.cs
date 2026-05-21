@@ -57,6 +57,11 @@ public class AddressAddingViewModel : ViewModelBase
         _authService = authService;
         _navigationService = navigationService;
     }
+    private RelayCommand _backCommand;
+    public RelayCommand BackCommand
+    {
+        get => _backCommand ??= new(_ => _navigationService.GoBack());
+    }
 
     public AddressAddingViewModel(
         IAddressService addressSerivce,

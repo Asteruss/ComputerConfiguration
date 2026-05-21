@@ -41,8 +41,17 @@
             <TextBox Text="{Binding PostalCode}"/>
         </StackPanel>
 
-        <Button Content="{Binding CommandText}" 
-                Command="{Binding Command}" 
-                CommandParameter="{Binding DataContext, ElementName=stpAddress}"/>
+        <StackPanel HorizontalAlignment="Left"
+                    Orientation="Horizontal">
+            <Button Content="Назад"
+                    Command="{Binding BackCommand}"
+                    Style="{StaticResource RoundedButtonOutline}"/>
+            
+            <Button Content="{Binding CommandText}" 
+                    Command="{Binding Command}" 
+                    CommandParameter="{Binding DataContext, ElementName=stpAddress}"
+                    Style="{StaticResource RoundedButtonPrimary}"/>
+        </StackPanel>
+        
     </StackPanel>
 </UserControl>
