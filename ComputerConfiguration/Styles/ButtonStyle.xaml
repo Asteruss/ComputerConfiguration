@@ -126,11 +126,7 @@
 
     <Style x:Key="RoundedButtonOutline" TargetType="Button" BasedOn="{StaticResource BtnMd}">
         <Setter Property="Background"      Value="White"/>
-        <Setter Property="Foreground">
-            <Setter.Value>
-                <SolidColorBrush Color="{StaticResource TextPrimary}"/>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
         <Setter Property="BorderBrush"     Value="{StaticResource BorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Tag"             Value="8"/>

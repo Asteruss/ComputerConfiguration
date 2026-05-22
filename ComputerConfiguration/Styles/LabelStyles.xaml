@@ -1,0 +1,78 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="LabelBase" TargetType="Label">
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize"   Value="14"/>
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+        <Setter Property="Padding"    Value="0"/>
+    </Style>
+
+    <Style x:Key="LabelHeading" TargetType="Label"
+       BasedOn="{StaticResource LabelBase}">
+        <Setter Property="FontSize"   Value="15"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{StaticResource TextPrimary}"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LabelSuccess" TargetType="Label">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Foreground" Value="{StaticResource Green800Brush}"/>
+        <Setter Property="Padding" Value="10,3"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Label">
+                    <Border Background="{StaticResource Green50Brush}"
+                        BorderBrush="{StaticResource Green600Brush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="{TemplateBinding Padding}">
+                        <ContentPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Красный Label (Нет в наличии / ошибка) — насыщенная граница/текст, светлая заливка -->
+    <Style x:Key="LabelDanger" TargetType="Label">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Foreground" Value="{StaticResource Red800Brush}"/>
+        <Setter Property="Padding" Value="10,3"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Label">
+                    <Border Background="{StaticResource Red50Brush}"
+                        BorderBrush="{StaticResource Red600Brush}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="{TemplateBinding Padding}">
+                        <ContentPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Тег Label (только граница, без заливки и цвета — цвет задаётся снаружи) -->
+    <Style x:Key="LabelTag" TargetType="Label">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Padding" Value="9,2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Label">
+                    <Border Background="Transparent"
+                        BorderBrush="{TemplateBinding Foreground}"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="{TemplateBinding Padding}">
+                        <ContentPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
