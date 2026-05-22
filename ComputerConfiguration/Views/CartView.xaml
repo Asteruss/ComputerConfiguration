@@ -154,7 +154,7 @@
                                 <DataTemplate>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
                                             <ColumnDefinition Width="10*"/>
 
                                         </Grid.ColumnDefinitions>

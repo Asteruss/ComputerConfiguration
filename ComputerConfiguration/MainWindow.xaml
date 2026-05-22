@@ -38,6 +38,9 @@
         <DataTemplate DataType="{x:Type viewModels:OrderViewModel}">
             <views:OrderView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:OrderTableViewModel}">
+            <views:OrderTableView/>
+        </DataTemplate>
         <converters:VisibilityConverter x:Key="visibilityConverter"/>
         <converters:BoolToGridWidthConverter x:Key="boolToGridWidthConverter"/>
         <Style TargetType="Control">
@@ -91,27 +94,38 @@
                     <Popup IsOpen="{Binding IsMenuOpen}"
                            PlacementTarget="{Binding ElementName=btnOpenPopup}"
                            Placement="Bottom" 
-                           StaysOpen="False">
-                        <Border>
+                           StaysOpen="False"
+                           >
+                        <Border Background="Transparent">
                             <StackPanel>
                                 <StackPanel.Resources>
                                     <DataTemplate x:Key="GuestMenu">
                                         <StackPanel>
                                             <Button Content="Зарегистрироваться"
-                                                    Command="{Binding GoToRegisterCommand}"/>
+                                                    Command="{Binding GoToRegisterCommand}"
+                                                    Style="{StaticResource RoundedButtonSecondary}"/>
                                             <Button Content="Войти"
-                                                    Command="{Binding GoToLoginCommand}"/>
+                                                    Command="{Binding GoToLoginCommand}"
+                                                    Style="{StaticResource RoundedButtonSecondary}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                     <DataTemplate x:Key="AccountMenu">
                                         <StackPanel>
-                                            <Button Content="Профиль"/>
+                                            <Button Content="Профиль"
+                                                    Style="{StaticResource RoundedButtonSecondary}"/>
                                             <Button Content="Мои адреса"
-                                                    Command="{Binding GoToAddressListCommand}"/>
-                                            <Button Content="История заказов"/>
-                                            <Button Content="Отслеживание заказов"/>
+                                                    Command="{Binding GoToAddressListCommand}"
+                                                    Style="{StaticResource RoundedButtonSecondary}"/>
+                                            <Button Content="История заказов"
+                                                    Command="{Binding GoToOrdersTableCommand}"
+                                                    Style="{StaticResource RoundedButtonSecondary}"/>
+                                            
+
+                                            <Button Content="Отслеживание заказов"
+                                                    Style="{StaticResource RoundedButtonSecondary}"/>
                                             <Button Content="Выход"
-                                                    Command="{Binding LogoutCommand}"/>
+                                                    Command="{Binding LogoutCommand}"
+                                                    Style="{StaticResource RoundedButtonSecondary}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </StackPanel.Resources>

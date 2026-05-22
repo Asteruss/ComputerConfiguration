@@ -93,6 +93,12 @@ namespace ComputerConfiguration.ViewModels
             _navigationService.NavigateTo<AddressListViewModel>());
         }
 
+        private RelayCommand _goToOrdersTableCommand;
+        public RelayCommand GoToOrdersTableCommand
+        {
+            get => _goToOrdersTableCommand ??= new((obj) =>
+            _navigationService.NavigateTo<OrderTableViewModel>());
+        }
 
         private bool _isMenuOpen = false;
         public bool IsMenuOpen
@@ -146,7 +152,7 @@ namespace ComputerConfiguration.ViewModels
         }
         private async Task _seedAsync(ComputerConfigurationDBContext dbContext)
         {
-            await DatabaseSeeder.SeedAsync(dbContext, @"C:\\Users\\Artem\\Desktop\\вуз\\ООП\\parsed_data");
+            await DatabaseSeeder.SeedAsync(dbContext, @"C:\Users\user\Desktop\ООП\parsed_data");
         }
     }
 }

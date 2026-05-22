@@ -72,7 +72,7 @@ public static class DatabaseSeeder
     private static byte[]? LoadImage(JsonElement el)
     {
         if (!el.TryGetProperty("ImagePath", out var pathProp)) return null;
-        var path = Path.Combine("C:\\Users\\Artem\\Desktop\\вуз\\ООП", pathProp.GetString());
+        var path = Path.Combine("C:\\Users\\user\\Desktop\\ООП", pathProp.GetString());
         if (string.IsNullOrEmpty(path) || !File.Exists(path)) return null;
         return File.ReadAllBytes(path);
     }

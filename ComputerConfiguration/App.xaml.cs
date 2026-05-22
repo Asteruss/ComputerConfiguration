@@ -77,6 +77,7 @@ public partial class App : Application
                 services.AddTransient<AddressAddingViewModel>();
                 services.AddTransient<AddressListViewModel>();
                 services.AddTransient<OrderViewModel>();
+                services.AddTransient<OrderTableViewModel>();
             })
             .Build();
     }

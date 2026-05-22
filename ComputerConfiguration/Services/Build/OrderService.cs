@@ -32,5 +32,5 @@ public class OrderService
 
     public async Task<Order> GetOrderAsync(int orderId, OrderStatus status) =>
         await _dbContext.Orders.Include(o => o.ComputerBuild).Where(o => o.Id == orderId && o.OrderStatus == status).FirstOrDefaultAsync();
-
+    public IEnumerable<Order> GetOrders(int userId) => _dbContext.Orders.Include(o => o.Address).ToList();
 }
