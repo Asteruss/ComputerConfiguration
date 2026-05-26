@@ -25,10 +25,10 @@ namespace ComputerConfiguration.ViewModels
     {
         public NavigationStore NavigationStore { get; }
         private readonly IComponentRepository _catalog;
-        private readonly IComputerBuildDtoBuilder _builder;
+        private readonly IComputerBuildSession _session;
         private readonly INavigationService _navigationService;
         public IAuthService AuthService { get; init; }
-        public ComputerBuildDTO ComputerBuild => _builder.BuildDto();
+        public ComputerBuildDTO ComputerBuild => _session.GetDto();
         #region команды перехода к компонентам
         private RelayCommand _goToCpuCatalogCommand;
         public RelayCommand GoToCpuCatalogCommand
@@ -140,15 +140,20 @@ namespace ComputerConfiguration.ViewModels
         }
         #endregion
         public MainViewModel(INavigationService navigationService, NavigationStore navigationStore, 
-            IComputerBuildDtoBuilder builder, IComponentRepository componets, IAuthService authService, ComputerConfigurationDBContext context)
+            IComputerBuildSession session, IComponentRepository componets, IAuthService authService, ComputerConfigurationDBContext context)
         {
             navigationService.NavigateTo<HomeViewModel>();
             NavigationStore = navigationStore;
             _navigationService = navigationService;
-            _builder = builder;
+            _session = session;
+            _session.DtoChanged += OnDtoChanged;
             _catalog = componets;
             AuthService = authService;
             _ = _seedAsync(context);
+        }
+        private void OnDtoChanged()
+        {
+            OnPropertyChanged(nameof(ComputerBuild));
         }
         private async Task _seedAsync(ComputerConfigurationDBContext dbContext)
         {

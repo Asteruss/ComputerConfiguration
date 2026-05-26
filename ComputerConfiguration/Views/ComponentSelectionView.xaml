@@ -106,11 +106,12 @@
                 <Button          
                     Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                     CommandParameter="{Binding}"
-                    Style="{StaticResource RoundedButtonPrimary}">
+                    Style="{StaticResource RoundedButtonPrimary}"
+                    IsEnabled="{Binding InStock}">
                     <TextBlock>
-        <Run Text="Очистить ("/>
-        <Run Text="{Binding CountSelected}"/>
-        <Run Text=")"/>
+                        <Run Text="Очистить ("/>
+                        <Run Text="{Binding CountSelected}"/>
+                        <Run Text=")"/>
                     </TextBlock>
                 </Button>
 
@@ -128,7 +129,8 @@
                 <Button Content="Выбрать"
                         Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                         CommandParameter="{Binding}"
-                        Style="{StaticResource RoundedButtonPrimary}"/>
+                        Style="{StaticResource RoundedButtonPrimary}"
+                        IsEnabled="{Binding InStock}"/>
 
                 <Button Content="Выбрать как свое"
                         Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -144,7 +146,8 @@
                 <Button Content="Выбрать"
                         Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                         CommandParameter="{Binding}"
-                        Style="{StaticResource RoundedButtonPrimary}"/>
+                        Style="{StaticResource RoundedButtonPrimary}"
+                        IsEnabled="{Binding InStock}"/>
                 <Button Content="Выбрать как свое"
                         Command="{Binding DataContext.SelectFakeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                         CommandParameter="{Binding}" Margin="5,0,0,0"
@@ -308,8 +311,8 @@
                                     </controls:IconButton>
 
                                     <ContentControl Content="{Binding}"
-                                    VerticalAlignment="Bottom"
-                                    Margin="0,4,0,0">
+                                                    VerticalAlignment="Bottom"
+                                                    Margin="0,4,0,0">
                                         <ContentControl.Style>
                                             <Style TargetType="ContentControl">
                                                 <Setter Property="ContentTemplate" Value="{StaticResource buttonSelectOne}"/>

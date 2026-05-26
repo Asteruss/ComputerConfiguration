@@ -143,9 +143,7 @@ public class OrderFacade
         {
             if (br.RamId == 0)
                 throw new InvalidOperationException("RamId не может быть 0");
-            var ram = await _dbContext.Rams.FindAsync(br.RamId);
-            if (ram == null)
-                throw new InvalidOperationException($"Ram с Id {br.RamId} не найден");
+            var ram = await _dbContext.Rams.FindAsync(br.RamId) ?? throw new InvalidOperationException($"Ram с Id {br.RamId} не найден");
             _dbContext.Entry(ram).State = EntityState.Unchanged;
         }
 
@@ -153,9 +151,7 @@ public class OrderFacade
         {
             if (bs.StorageId == 0)
                 throw new InvalidOperationException("StorageId не может быть 0");
-            var storage = await _dbContext.Storages.FindAsync(bs.StorageId);
-            if (storage == null)
-                throw new InvalidOperationException($"Storage с Id {bs.StorageId} не найден");
+            var storage = await _dbContext.Storages.FindAsync(bs.StorageId) ?? throw new InvalidOperationException($"Storage с Id {bs.StorageId} не найден");
             _dbContext.Entry(storage).State = EntityState.Unchanged;
         }
 
@@ -163,9 +159,7 @@ public class OrderFacade
         {
             if (option.Id == 0)
                 throw new InvalidOperationException("Id дополнительной опции не может быть 0");
-            var existingOption = await _dbContext.AdditionalServiceOptions.FindAsync(option.Id);
-            if (existingOption == null)
-                throw new InvalidOperationException($"Опция с Id {option.Id} не найдена");
+            var existingOption = await _dbContext.AdditionalServiceOptions.FindAsync(option.Id) ?? throw new InvalidOperationException($"Опция с Id {option.Id} не найдена");
             _dbContext.Entry(existingOption).State = EntityState.Unchanged;
             if (existingOption.AdditionalService != null && existingOption.AdditionalService.Id > 0)
                 _dbContext.Entry(existingOption.AdditionalService).State = EntityState.Unchanged;
@@ -197,7 +191,7 @@ public class OrderFacade
             return new Error("Order", "Order", "Заказ не найден");
 
         order.OrderStatus = OrderStatus.Accepted;
-
+        await RemoveComponentsAsync(order.Id);
         BonusHistory bonusOP;
         bonusOP = (useBonuses) ? _bonusService.SpendBonuses(user, order) :
                                  _bonusService.EarnBonuses(user, order);
@@ -210,11 +204,73 @@ public class OrderFacade
 
     }
 
+    public async Task<IResult> RemoveComponentsAsync(int orderId)
+    {
+        var order = await _orderService.GetOrderAsync(orderId, OrderStatus.WaitForPayment);
+        if (order == null)
+            return new Error("Order", "Order", "Заказ не найден");
+
+        var build = order.ComputerBuild;
+        if (build == null)
+            return new Error("Order", "build", "Сборка не найдена");
+
+        var singles = new[] { build.CPUId, build.GPUId, build.MotherboardId,
+                          build.CaseId, build.CoolerId, build.PsuId }
+                      .Where(id => id.HasValue)
+                      .Select(id => id!.Value)
+                      .ToList();
+
+        if (singles.Count != 0)
+        {
+            await _dbContext.Cpus.Where(c => singles.Contains(c.Id))
+                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Count, c => c.Count - 1));
+            await _dbContext.Gpus.Where(c => singles.Contains(c.Id))
+                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Count, c => c.Count - 1));
+            await _dbContext.Motherboards.Where(c => singles.Contains(c.Id))
+                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Count, c => c.Count - 1));
+            await _dbContext.Cases.Where(c => singles.Contains(c.Id))
+                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Count, c => c.Count - 1));
+            await _dbContext.Coolers.Where(c => singles.Contains(c.Id))
+                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Count, c => c.Count - 1));
+            await _dbContext.Psus.Where(c => singles.Contains(c.Id))
+                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Count, c => c.Count - 1));
+        }
+
+        var ramGroups = build.BuildRams
+            .GroupBy(br => br.RamId)
+            .Select(g => new { Id = g.Key, Qty = g.Count() })
+            .ToList();
+
+        foreach (var group in ramGroups)
+        {
+            var qty = group.Qty;
+            await _dbContext.Rams
+                .Where(r => r.Id == group.Id)
+                .ExecuteUpdateAsync(s => s.SetProperty(r => r.Count, r => r.Count - qty));
+        }
+
+        var storageGroups = build.BuildStorages
+            .GroupBy(bs => bs.StorageId)
+            .Select(g => new { Id = g.Key, Qty = g.Count() })
+            .ToList();
+
+        foreach (var group in storageGroups)
+        {
+            var qty = group.Qty;
+            await _dbContext.Storages
+                .Where(s => s.Id == group.Id)
+                .ExecuteUpdateAsync(s => s.SetProperty(st => st.Count, st => st.Count - qty));
+        }
+
+        return new Success("Order", "Build", "Все компоненты списаны");
+    }
+
     public async Task<IResult> DeleteOrderAsync(int orderId)
     {
         var order = await _orderService.GetOrderAsync(orderId, OrderStatus.WaitForPayment);
         _dbContext.ComputerBuilds.Remove(order.ComputerBuild);
         _dbContext.Orders.Remove(order);
+        _session.Reset();
         return new Success("Order", "Final", "Заказ удален");
 
     }

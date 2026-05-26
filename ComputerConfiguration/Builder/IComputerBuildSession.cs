@@ -9,6 +9,7 @@ namespace ComputerConfiguration.Builder;
 public interface IComputerBuildSession
 {
     event Action SelectedServicesChanged;
+    event Action? DtoChanged;
 
     void SetCpu(Cpu cpu, ComponentStatus status = ComponentStatus.Selected);
     void RemoveCpu();

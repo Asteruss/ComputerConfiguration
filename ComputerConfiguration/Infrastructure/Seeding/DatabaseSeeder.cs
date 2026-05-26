@@ -101,7 +101,7 @@ public static class DatabaseSeeder
         comp.Manufacturer = S(el, "Manufacturer");
         comp.BasePrice = D(el, "BasePrice");
         comp.Rating = D(el, "Rating");
-        comp.InStock = B(el, "InStock");
+        comp.Count = I(el, "Count");
         comp.Description = S(el, "Description");
         comp.ImageData = LoadImage(el);
         comp.Tags = Tags(el);

@@ -12,6 +12,7 @@ public class ComputerBuildSession : IComputerBuildSession
 {
     private readonly IComputerBuildDtoBuilder _builder;
     private readonly IComputerBuildMapper _mapper;
+    public event Action? DtoChanged;
     private ComputerBuildDTO CurrentDto => _builder.BuildDto();
     public ComputerBuildSession(IComputerBuildDtoBuilder builder, IComputerBuildMapper mapper)
     {
@@ -214,7 +215,7 @@ public class ComputerBuildSession : IComputerBuildSession
             .Where(o => o.AdditionalServiceId == service.Id)
             .ToList();
 
-        if (!toRemove.Any()) return;
+        if (toRemove.Count == 0) return;
 
         foreach (var opt in toRemove)
             CurrentDto.SelectedAdditionalServices.Remove(opt);
@@ -238,5 +239,6 @@ public class ComputerBuildSession : IComputerBuildSession
     public void Reset()
     {
         _builder.Reset();
+        DtoChanged?.Invoke();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ComputerConfiguration.Models.Enums;
+using ComputerConfiguration.Utilities;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
@@ -14,31 +15,28 @@ public abstract class ComponentBase : ComponentDTO, IComponent
     public string Manufacturer { get; set; }
     public double BasePrice { get; set; }
     public double Rating { get; set; }
-    public bool InStock { get; set; }
+    [NotMapped]
+    public bool InStock => Count > 0;
+    private int _count;
+    public int Count
+    {
+        get => _count;
+        set
+        {
+            if (_count == value) return;
+            _count = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(InStock));
+        }
+    }
     public string Description { get; set; }
     public byte[] ImageData { get; set; }
     public ComponentCategory ComponentCategory { get; set; }
     public List<string> Tags { get; set; } = new();
-    [NotMapped]
 
-    private ImageSource _imageSource;
     [NotMapped]
     public ImageSource ImageSource
     {
-        get
-        {
-            if (_imageSource == null && ImageData != null && ImageData.Length > 0)
-            {
-                using var stream = new MemoryStream(ImageData);
-                var bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.StreamSource = stream;
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.EndInit();
-                bitmap.Freeze(); 
-                _imageSource = bitmap;
-            }
-            return _imageSource;
-        }
+        get => ImageHelper.ByteToImage(ImageData);
     }
 }

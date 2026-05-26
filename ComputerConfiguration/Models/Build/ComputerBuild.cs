@@ -27,6 +27,7 @@ namespace ComputerConfiguration.Models.Build
         public List<BuildRam> BuildRams { get; set; } = new();
         public List<BuildStorage> BuildStorages { get; set; } = new();
         public List<AdditionalServiceOption>? AdditionalServices { get; set; } = new();
+        public List<Order>? Orders { get; set; } = new();
         public int? OrderId { get; set; }
     }
 }

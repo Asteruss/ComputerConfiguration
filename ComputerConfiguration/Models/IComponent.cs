@@ -10,7 +10,7 @@ public interface IComponent
     double BasePrice { get; set; }
     double Rating { get; set; }
     List<string> Tags { get; set; }
-    bool InStock { get; set; }
+    int Count { get; set; }
     byte[] ImageData { get; set; }
     ComponentCategory ComponentCategory { get; set; }
 
