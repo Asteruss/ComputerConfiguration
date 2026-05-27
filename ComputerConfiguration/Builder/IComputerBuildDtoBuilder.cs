@@ -12,8 +12,8 @@ public interface IComputerBuildDtoBuilder
     IComputerBuildDtoBuilder WithCase(Case caseComponent);
     IComputerBuildDtoBuilder WithCooler(Cooler cooler);
     IComputerBuildDtoBuilder WithPsu(Psu psu);
-    IComputerBuildDtoBuilder AddRam(Ram ram);
-    IComputerBuildDtoBuilder AddStorage(Storage storage);
+    IComputerBuildDtoBuilder AddRam(Ram ram, Ram ramReal);
+    IComputerBuildDtoBuilder AddStorage(Storage storage, Storage storageReal);
     IComputerBuildDtoBuilder AddAdditionalService(AdditionalServiceOption option);
     ComputerBuildDTO BuildDto();
 }

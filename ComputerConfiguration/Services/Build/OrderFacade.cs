@@ -4,8 +4,9 @@ using ComputerConfiguration.DTO;
 using ComputerConfiguration.Models;
 using ComputerConfiguration.Models.Authentication;
 using ComputerConfiguration.Models.Build;
+using ComputerConfiguration.Models.Components;
 using ComputerConfiguration.Models.Enums;
-using ComputerConfiguration.Models.Orders;
+using ComputerConfiguration.Extensions;
 using ComputerConfiguration.Models.Orders.Bonus;
 using ComputerConfiguration.Models.UI;
 using ComputerConfiguration.Services.Authentication;
@@ -39,38 +40,18 @@ public class OrderFacade
         var comp = _session.GetDto();
         return [comp.Cpu, comp.Gpu, comp.Psu, comp.Cooler, comp.Case, comp.Motherboard, .. comp.Rams.Select(br => br.RamHelper), .. comp.Storages.Select(br => br.StorageHelper)];
     }
-    public List<ComponentBase> GetComponentsNotNull() => GetComponents().Where(c => c != null).ToList();
-    public List<ComponentCartDTO> GetComponentsDTO()
+    public List<ComponentBase> GetComponentsUnqiue()
     {
         var comp = _session.GetDto();
-        var res = new List<ComponentCartDTO>();
-
-        if (comp.Cpu != null)
-            res.Add(new ComponentCartDTO("Процессор", comp.Cpu));
-        if (comp.Gpu != null)
-            res.Add(new ComponentCartDTO("Видеокарта", comp.Gpu));
-        if (comp.Motherboard != null)
-            res.Add(new ComponentCartDTO("Материнская плата", comp.Motherboard));
-        if (comp.Case != null)
-            res.Add(new ComponentCartDTO("Корпус", comp.Case));
-        if (comp.Cooler != null)
-            res.Add(new ComponentCartDTO("Охлаждение", comp.Cooler));
-        if (comp.Psu != null)
-            res.Add(new ComponentCartDTO("Блок питания", comp.Psu));
-
-        if (comp.Rams != null && comp.Rams.Any())
-        {
-            foreach (var ram in comp.Rams)
-                res.Add(new ComponentCartDTO("Оперативная память", ram.RamHelper));
-        }
-        if (comp.Storages != null && comp.Storages.Any())
-        {
-            foreach (var storage in comp.Storages)
-                res.Add(new ComponentCartDTO("Накопитель", storage.StorageHelper));
-        }
-
-        return res;
+        return [comp.Cpu, comp.Gpu, comp.Psu, comp.Cooler, comp.Case, comp.Motherboard,
+            .. comp.Rams.Select(br => br.RamHelper).DistinctBy(r => r.Id),
+            .. comp.Storages.Select(br => br.StorageHelper).DistinctBy(r => r.Id)];
     }
+    public List<ComponentBase> GetComponentsNotNull() => [.. GetComponents().Where(c => c != null)];
+    public List<ComponentBase> GetComponentsUnqiueNotNull() => [.. GetComponentsUnqiue().Where(c => c != null)];
+    public List<ComponentCartDTO> GetComponentsDTO() =>
+        [.. GetComponentsNotNull().Select(c => new ComponentCartDTO(c.ComponentCategory.ToDescriptionString(), c))];
+    
 
     private double GetPrice()
     {
@@ -89,7 +70,7 @@ public class OrderFacade
     public int GetBonuses(bool useBonuses)
     {
         if (!_authService.IsAuthenticated) return 0;
-        return useBonuses ? _bonusService.GetMaxBonusToSpend(_authService.CurrentUser!, GetPrice()):
+        return useBonuses ? _bonusService.GetMaxBonusToSpend(_authService.CurrentUser!, GetPrice()) :
                             _bonusService.GetMaxBonusToEarn(_authService.CurrentUser!.PrivilegeLevel!, GetPrice());
 
     }
@@ -199,71 +180,68 @@ public class OrderFacade
         await _dbContext.BonusHistory.AddAsync(bonusOP);
         //_bonusService.ChangePrivilegeLevel(user, _dbContext.PrivilegeLevels, _orderService.GetOrderCostsBy(userid));
         await _dbContext.SaveChangesAsync();
+        _session.Reset();
 
         return new Success("Order", "Final", "Заказ успешно создан");
 
     }
-
     public async Task<IResult> RemoveComponentsAsync(int orderId)
     {
         var order = await _orderService.GetOrderAsync(orderId, OrderStatus.WaitForPayment);
         if (order == null)
             return new Error("Order", "Order", "Заказ не найден");
 
-        var build = order.ComputerBuild;
-        if (build == null)
-            return new Error("Order", "build", "Сборка не найдена");
+        var components = GetComponentsUnqiueNotNull();
+        foreach (var component in components)
+            await UpdateComponentCount(component);
 
-        var singles = new[] { build.CPUId, build.GPUId, build.MotherboardId,
-                          build.CaseId, build.CoolerId, build.PsuId }
-                      .Where(id => id.HasValue)
-                      .Select(id => id!.Value)
-                      .ToList();
-
-        if (singles.Count != 0)
-        {
-            await _dbContext.Cpus.Where(c => singles.Contains(c.Id))
-                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Count, c => c.Count - 1));
-            await _dbContext.Gpus.Where(c => singles.Contains(c.Id))
-                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Count, c => c.Count - 1));
-            await _dbContext.Motherboards.Where(c => singles.Contains(c.Id))
-                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Count, c => c.Count - 1));
-            await _dbContext.Cases.Where(c => singles.Contains(c.Id))
-                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Count, c => c.Count - 1));
-            await _dbContext.Coolers.Where(c => singles.Contains(c.Id))
-                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Count, c => c.Count - 1));
-            await _dbContext.Psus.Where(c => singles.Contains(c.Id))
-                .ExecuteUpdateAsync(s => s.SetProperty(c => c.Count, c => c.Count - 1));
-        }
-
-        var ramGroups = build.BuildRams
-            .GroupBy(br => br.RamId)
-            .Select(g => new { Id = g.Key, Qty = g.Count() })
-            .ToList();
-
-        foreach (var group in ramGroups)
-        {
-            var qty = group.Qty;
-            await _dbContext.Rams
-                .Where(r => r.Id == group.Id)
-                .ExecuteUpdateAsync(s => s.SetProperty(r => r.Count, r => r.Count - qty));
-        }
-
-        var storageGroups = build.BuildStorages
-            .GroupBy(bs => bs.StorageId)
-            .Select(g => new { Id = g.Key, Qty = g.Count() })
-            .ToList();
-
-        foreach (var group in storageGroups)
-        {
-            var qty = group.Qty;
-            await _dbContext.Storages
-                .Where(s => s.Id == group.Id)
-                .ExecuteUpdateAsync(s => s.SetProperty(st => st.Count, st => st.Count - qty));
-        }
+        await _dbContext.SaveChangesAsync();
 
         return new Success("Order", "Build", "Все компоненты списаны");
     }
+
+    private async Task UpdateComponentCount(ComponentBase component)
+    {
+        var id = component.Id;
+        var count = component.Count;
+
+        switch (component)
+        {
+            case Ram:
+                await _dbContext.Rams.Where(r => r.Id == id)
+                    .ExecuteUpdateAsync(s => s.SetProperty(r => r.Count, count));
+                break;
+            case Storage:
+                await _dbContext.Storages.Where(r => r.Id == id)
+                    .ExecuteUpdateAsync(s => s.SetProperty(r => r.Count, count));
+                break;
+            case Cpu:
+                await _dbContext.Cpus.Where(r => r.Id == id)
+                    .ExecuteUpdateAsync(s => s.SetProperty(r => r.Count, count));
+                break;
+            case Gpu:
+                await _dbContext.Gpus.Where(r => r.Id == id)
+                    .ExecuteUpdateAsync(s => s.SetProperty(r => r.Count, count));
+                break;
+            case Motherboard:
+                await _dbContext.Motherboards.Where(r => r.Id == id)
+                    .ExecuteUpdateAsync(s => s.SetProperty(r => r.Count, count));
+                break;
+            case Case:
+                await _dbContext.Cases.Where(r => r.Id == id)
+                    .ExecuteUpdateAsync(s => s.SetProperty(r => r.Count, count));
+                break;
+            case Cooler:
+                await _dbContext.Coolers.Where(r => r.Id == id)
+                    .ExecuteUpdateAsync(s => s.SetProperty(r => r.Count, count));
+                break;
+            case Psu:
+                await _dbContext.Psus.Where(r => r.Id == id)
+                    .ExecuteUpdateAsync(s => s.SetProperty(r => r.Count, count));
+                break;
+        }
+    }
+
 
     public async Task<IResult> DeleteOrderAsync(int orderId)
     {

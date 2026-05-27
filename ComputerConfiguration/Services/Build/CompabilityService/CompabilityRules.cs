@@ -58,7 +58,7 @@ public class RamMotherboardTypeRule : ICompatibilityRule
         foreach (var ram in build.Rams)
         {
             if (ram.RamHelper.MemoryType != build.Motherboard.MemoryType)
-                return new(CompatibilityRuleEnum.Error, $"Тип памяти RAM '{ram.Ram.MemoryType}' не поддерживается материнской платой (требуется '{build.Motherboard.MemoryType}')");
+                return new(CompatibilityRuleEnum.Error, $"Тип памяти RAM '{ram.RamHelper.MemoryType}' не поддерживается материнской платой (требуется '{build.Motherboard.MemoryType}')");
         }
         return new();
     }

@@ -106,8 +106,7 @@
                 <Button          
                     Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                     CommandParameter="{Binding}"
-                    Style="{StaticResource RoundedButtonPrimary}"
-                    IsEnabled="{Binding InStock}">
+                    Style="{StaticResource RoundedButtonPrimary}">
                     <TextBlock>
                         <Run Text="Очистить ("/>
                         <Run Text="{Binding CountSelected}"/>
@@ -120,9 +119,9 @@
                     CommandParameter="{Binding}"
                     Style="{StaticResource RoundedButtonSecondary}">
                     <TextBlock>
-        <Run Text="Очистить свои ("/>
-        <Run Text="{Binding CountFakeSelected}"/>
-        <Run Text=")"/>
+                        <Run Text="Очистить свои ("/>
+                        <Run Text="{Binding CountFakeSelected}"/>
+                        <Run Text=")"/>
                     </TextBlock>
                 </Button>
 

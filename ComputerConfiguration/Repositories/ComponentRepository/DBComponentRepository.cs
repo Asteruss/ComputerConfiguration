@@ -11,13 +11,13 @@ public class DBComponentRepository : IComponentRepository
     {
         _db = dbContext;
     }
-    public IEnumerable<Cpu> GetCpus() => [.. _db.Cpus];
-    public IEnumerable<Gpu> GetGpus() => [.. _db.Gpus];
-    public IEnumerable<Motherboard> GetMotherboards() => [.. _db.Motherboards];
-    public IEnumerable<Ram> GetRam() => [.. _db.Rams];
-    public IEnumerable<Psu> GetPsu() => [.. _db.Psus];
-    public IEnumerable<Cooler> GetCoolers() => [.. _db.Coolers.Include(c => c.SocketSupport)];
-    public IEnumerable<Case> GetCases() => [.. _db.Cases];
-    public IEnumerable<Storage> GetStorages() => [.. _db.Storages];
+    public IEnumerable<Cpu> GetCpus() => [.. _db.Cpus.AsNoTracking()];
+    public IEnumerable<Gpu> GetGpus() => [.. _db.Gpus.AsNoTracking()];
+    public IEnumerable<Motherboard> GetMotherboards() => [.. _db.Motherboards.AsNoTracking()];
+    public IEnumerable<Ram> GetRam() => [.. _db.Rams.AsNoTracking()];
+    public IEnumerable<Psu> GetPsu() => [.. _db.Psus.AsNoTracking()];
+    public IEnumerable<Cooler> GetCoolers() => [.. _db.Coolers.Include(c => c.SocketSupport).AsNoTracking()];
+    public IEnumerable<Case> GetCases() => [.. _db.Cases.AsNoTracking()];
+    public IEnumerable<Storage> GetStorages() => [.. _db.Storages.AsNoTracking()];
 
 }

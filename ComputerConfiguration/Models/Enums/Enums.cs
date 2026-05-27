@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,13 +56,21 @@ namespace ComputerConfiguration.Models.Enums
 
     public enum ComponentCategory
     {
+        [Description("Процессор")]
         CPU,
+        [Description("Материнская плата")]
         Motherboard,
+        [Description("Оперативная память")]
         RAM,
+        [Description("Видеокарта")]
         GPU,
+        [Description("Накопитель")]
         Storage,
+        [Description("Блок питания")]
         PSU,
+        [Description("Корпус")]
         Case,
+        [Description("Охлаждение")]
         Cooler
     }
     public enum OptionType

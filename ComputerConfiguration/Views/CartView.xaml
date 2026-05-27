@@ -91,7 +91,7 @@
                                             <Image Grid.Row="0"
                                                    Grid.RowSpan="3"
                                                    Grid.Column="0"
-                                                   Source="{Binding Image, Converter={StaticResource ByteArrayToImageConverter}}"
+                                                   Source="{Binding Image}"
                                                    Width="40"
                                                    Height="40"/>
 

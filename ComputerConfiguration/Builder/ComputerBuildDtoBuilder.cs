@@ -52,24 +52,24 @@ public class ComputerBuildDtoBuilder : IComputerBuildDtoBuilder
         return this;
     }
 
-    public IComputerBuildDtoBuilder AddRam(Ram ram)
+    public IComputerBuildDtoBuilder AddRam(Ram ram, Ram ramReal)
     {
         _dto.Rams.Add(new BuildRam
         {
             RamId = ram.Id,
             ComponentStatus = ram.ComponentStatus,
-            RamHelper = ram
+            RamHelper = ramReal
         });
         return this;
     }
 
-    public IComputerBuildDtoBuilder AddStorage(Storage storage)
+    public IComputerBuildDtoBuilder AddStorage(Storage storage, Storage storageReal)
     {
         _dto.Storages.Add(new BuildStorage
         {
             StorageId = storage.Id,
             ComponentStatus = storage.ComponentStatus,
-            StorageHelper = storage
+            StorageHelper = storageReal
         });
         return this;
     }

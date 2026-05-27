@@ -1,6 +1,7 @@
 ﻿using ComputerConfiguration.Converters;
 using ComputerConfiguration.DTO;
 using ComputerConfiguration.Mappers;
+using ComputerConfiguration.Models;
 using ComputerConfiguration.Models.Build;
 using ComputerConfiguration.Models.Components;
 using ComputerConfiguration.Models.Enums;
@@ -25,8 +26,9 @@ public class ComputerBuildSession : IComputerBuildSession
     public void SetCpu(Cpu cpu, ComponentStatus status = ComponentStatus.Selected)
     {
         if (CurrentDto.Cpu != null)
-            CurrentDto.Cpu.ComponentStatus = ComponentStatus.NotSelected;
+            RemoveCpu();
 
+        cpu.Count--;
         cpu.ComponentStatus = status;
         _builder.WithCpu(cpu);
     }
@@ -34,6 +36,7 @@ public class ComputerBuildSession : IComputerBuildSession
     public void RemoveCpu()
     {
         if (CurrentDto.Cpu == null) return;
+        CurrentDto.Cpu.Count++;
         CurrentDto.Cpu.ComponentStatus = ComponentStatus.NotSelected;
         _builder.WithCpu(null!);
     }
@@ -43,6 +46,7 @@ public class ComputerBuildSession : IComputerBuildSession
         if (CurrentDto.Gpu != null)
             CurrentDto.Gpu.ComponentStatus = ComponentStatus.NotSelected;
 
+        gpu.Count--;
         gpu.ComponentStatus = status;
         _builder.WithGpu(gpu);
     }
@@ -50,6 +54,7 @@ public class ComputerBuildSession : IComputerBuildSession
     public void RemoveGpu()
     {
         if (CurrentDto.Gpu == null) return;
+        CurrentDto.Gpu.Count++;
         CurrentDto.Gpu.ComponentStatus = ComponentStatus.NotSelected;
         _builder.WithGpu(null!);
     }
@@ -59,6 +64,7 @@ public class ComputerBuildSession : IComputerBuildSession
         if (CurrentDto.Motherboard != null)
             CurrentDto.Motherboard.ComponentStatus = ComponentStatus.NotSelected;
 
+        mb.Count--;
         mb.ComponentStatus = status;
         _builder.WithMotherboard(mb);
     }
@@ -66,6 +72,7 @@ public class ComputerBuildSession : IComputerBuildSession
     public void RemoveMotherboard()
     {
         if (CurrentDto.Motherboard == null) return;
+        CurrentDto.Motherboard.Count++;
         CurrentDto.Motherboard.ComponentStatus = ComponentStatus.NotSelected;
         _builder.WithMotherboard(null!);
     }
@@ -75,6 +82,7 @@ public class ComputerBuildSession : IComputerBuildSession
         if (CurrentDto.Case != null)
             CurrentDto.Case.ComponentStatus = ComponentStatus.NotSelected;
 
+        caseComponent.Count--;
         caseComponent.ComponentStatus = status;
         _builder.WithCase(caseComponent);
     }
@@ -82,6 +90,7 @@ public class ComputerBuildSession : IComputerBuildSession
     public void RemoveCase()
     {
         if (CurrentDto.Case == null) return;
+        CurrentDto.Case.Count++;
         CurrentDto.Case.ComponentStatus = ComponentStatus.NotSelected;
         _builder.WithCase(null!);
     }
@@ -91,6 +100,7 @@ public class ComputerBuildSession : IComputerBuildSession
         if (CurrentDto.Cooler != null)
             CurrentDto.Cooler.ComponentStatus = ComponentStatus.NotSelected;
 
+        cooler.Count--;
         cooler.ComponentStatus = status;
         _builder.WithCooler(cooler);
     }
@@ -98,6 +108,7 @@ public class ComputerBuildSession : IComputerBuildSession
     public void RemoveCooler()
     {
         if (CurrentDto.Cooler == null) return;
+        CurrentDto.Cooler.Count++;
         CurrentDto.Cooler.ComponentStatus = ComponentStatus.NotSelected;
         _builder.WithCooler(null!);
     }
@@ -107,6 +118,7 @@ public class ComputerBuildSession : IComputerBuildSession
         if (CurrentDto.Psu != null)
             CurrentDto.Psu.ComponentStatus = ComponentStatus.NotSelected;
 
+        psu.Count--;
         psu.ComponentStatus = status;
         _builder.WithPsu(psu);
     }
@@ -114,22 +126,24 @@ public class ComputerBuildSession : IComputerBuildSession
     public void RemovePsu()
     {
         if (CurrentDto.Psu == null) return;
+        CurrentDto.Psu.Count++;
         CurrentDto.Psu.ComponentStatus = ComponentStatus.NotSelected;
         _builder.WithPsu(null!);
     }
 
     public void AddRam(Ram ram, ComponentStatus status = ComponentStatus.SelectedMany)
     {
+        if (status == ComponentStatus.SelectedMany)
+            ram.Count--;
         Ram copy = ram.ShallowCopy();
         copy.ComponentStatus = status;
         ram.ComponentStatus = status;
-
         if (status == ComponentStatus.SelectedMany)
             ram.CountSelected++;
         else if (status == ComponentStatus.SelectedManyAsFake)
             ram.CountFakeSelected++;
 
-        _builder.AddRam(copy);
+        _builder.AddRam(copy, ram);
     }
 
     public void RemoveRam(BuildRam ram)
@@ -151,13 +165,18 @@ public class ComputerBuildSession : IComputerBuildSession
             ram.ComponentStatus = ComponentStatus.NotSelected;
 
         if (status == ComponentStatus.SelectedMany)
+        {
+            ram.Count += ram.CountSelected;
             ram.CountSelected = 0;
+        }
         else if (status == ComponentStatus.SelectedManyAsFake)
             ram.CountFakeSelected = 0;
     }
 
     public void AddStorage(Storage storage, ComponentStatus status = ComponentStatus.SelectedMany)
     {
+        if (status == ComponentStatus.SelectedMany)
+            storage.Count--;
         var copy = storage.ShallowCopy();
         copy.ComponentStatus = status;
         storage.ComponentStatus = status;
@@ -167,7 +186,7 @@ public class ComputerBuildSession : IComputerBuildSession
         else if (status == ComponentStatus.SelectedManyAsFake)
             storage.CountFakeSelected++;
 
-        _builder.AddStorage(copy);
+        _builder.AddStorage(copy, storage);
     }
 
     public void RemoveStorage(BuildStorage storage)
@@ -189,7 +208,10 @@ public class ComputerBuildSession : IComputerBuildSession
             storage.ComponentStatus = ComponentStatus.NotSelected;
 
         if (status == ComponentStatus.SelectedMany)
+        {
+            storage.Count += storage.CountSelected;
             storage.CountSelected = 0;
+        }
         else if (status == ComponentStatus.SelectedManyAsFake)
             storage.CountFakeSelected = 0;
     }
@@ -240,5 +262,5 @@ public class ComputerBuildSession : IComputerBuildSession
     {
         _builder.Reset();
         DtoChanged?.Invoke();
-    }
+    }  
 }
